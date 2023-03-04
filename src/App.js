@@ -20,7 +20,6 @@ import Joinas from './components/authenticatioin/Joinas';
 import SingleJob from './components/homePage/categories/SingleJob';
 import Apply from './components/homePage/categories/Apply';
 import { useState } from 'react';
-import { ModeNight, WbSunny } from '@mui/icons-material';
 
 
 
@@ -31,7 +30,7 @@ function App() {
   }
   return (
     <div className= {theme === 'white' ? 'App' : 'dark'} >
-    <Button onClick={handleClick} style={{position:'absolute',zIndex:'999', bottom:"0%", right:'0%', backgroundColor: theme === 'white' ? 'white' : 'black',  color: theme === 'white' ? 'black' : 'white' }}>{theme === 'white'?<WbSunny/>: <ModeNight/>}</Button>
+    {/* <Button onClick={handleClick} style={{position:'absolute',zIndex:'999', bottom:"0%", right:'0%', backgroundColor: theme === 'white' ? 'white' : 'black',  color: theme === 'white' ? 'black' : 'white' }}>{theme === 'white'?<WbSunny/>: <ModeNight/>}</Button> */}
         <Routes>
           <Route path='/jobs' element={<><Mui /><Footer/>  </>} />
           <Route path='/post' element={<> <Post /><Footer/>  </>} theme={theme} />
