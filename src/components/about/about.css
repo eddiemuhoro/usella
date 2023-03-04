@@ -1,0 +1,106 @@
+.about-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;   
+}
+.about-container p{
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.6px;
+    color: #2a323d;
+}
+
+.about-image{
+    width: 50%;
+    height: 100%;
+    margin: 20px;
+}
+
+.about-image img{
+    width: 100%;
+    height: 80%;
+    border-radius: 5px;
+}
+.jobsy-overview{
+    background-image: url('https://cdn3.f-cdn.com/build/css/images/about-us/overview-company-overview.jpg');
+}
+
+
+@media screen and (max-width: 500px){
+    .about-container{
+        flex-direction: column-reverse;
+    }
+    section{
+        width: 80%;
+    }
+    .about-image{
+        width: 100%;
+    }
+}
+    
+
+/* TEAM STYLES */
+.paper-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+}
+.paper-container img{
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.paper-container img:hover{
+    transform: scale(1.1);
+    transition: .2s ease-in-out;
+    opacity: 0.9;
+    box-shadow:  0 0 10px #4f79b3;
+}
+
+.paper-container h1{
+    font-size: 1.5rem;
+    font-weight: 500;
+    letter-spacing: 0.6px;
+    margin-bottom: 0;
+    font-weight: bolder;
+}
+
+.paper-container p{
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.6px;
+    color: #2a323d;
+   
+}
+
+ .social-icons{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 0;    
+    padding-left: 0;
+  }
+ .material-icons svg{
+    color: #2a323d;
+  }
+  .social-icons > li{
+    list-style: none;
+    cursor: pointer;
+    color: #2a323d;
+}
+
+.social-icons > li:hover{
+    transform: scale(1.2);
+    transition: .2s ease-in-out;
+    color: #4f79b3;
+}
+
+.paper-container .member-position{
+    font-weight: bolder;
+}
