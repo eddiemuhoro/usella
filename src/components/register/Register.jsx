@@ -1,7 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import './register.css';
+import { toast, ToastContainer } from 'react-toastify'
+import { register, reset } from '../../react-redux/features/auth/authSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 function Register() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -15,10 +21,53 @@ function Register() {
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log(formData);
-    // add logic to submit form data to backend
+  const { firstName, lastName, email, password, confirmPassword } = formData;
+
+  const { user, isError, isLoading, isSuccess, message }= useSelector (
+    (state)=> state.auth
+  )
+
+  useEffect((dispatch)=>{
+    if(isSuccess || user){
+      toast.success(message)
+      navigate('/')
+      window.location.reload()
+      dispatch(reset())
+    }
+    if(isError){
+      alert('Enter valid credentials👀 ')
+      navigate('/')
+      window.location.reload()
+      dispatch(reset())
+    }
+  }, [user, isSuccess, isError , message, navigate])
+
+
+  const handleSubmit = (e) => {
+    
+    e.preventDefault()
+
+    if ((password !== confirmPassword )) {
+      toast.error("🦄 Passwords don't match!");
+ 
+    } else if((!firstName || !email || !password || !confirmPassword)){
+      toast.error("🦄 Please fill all the fields!");
+    }else {
+      const userData = {
+        firstName,
+        lastName,
+        email,
+        password,
+      }
+      console.log(userData)
+
+      dispatch(register(userData))
+    }
+    //send data to backend
+
+
+
+    
   };
 
   return (
@@ -84,6 +133,8 @@ function Register() {
         </div>
         <button type="submit">Register</button>
       </form>
+      <p>Already have an account? <Link to='/'>Login</Link></p>
+
     </div>
   );
 }
