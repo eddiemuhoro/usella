@@ -68,7 +68,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      height: 80px;
+      height: auto;
       width: 100%;
       max-width: 1200px;
     }
@@ -104,6 +104,11 @@
       transition: all 0.5s ease;
       z-index: 1;
       width: 90%;
+      height: 70vh;
+    }
+
+    .nav-menu.active p{
+      margin: 0;
     }
   
     .nav-item {
