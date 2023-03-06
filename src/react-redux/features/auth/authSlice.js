@@ -25,26 +25,8 @@ export const register = createAsyncThunk('/register', async(user, thunkAPI)=>{
     }
 })
 
-export const registerEmployer = createAsyncThunk('/registerEmployer', async(employer, thunkAPI)=>{
-    try {
-        return await authService.registerEmployer(employer)
-    } catch (error) {
-        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
 
-        return thunkAPI.rejectWithValue(message);
-    }
-}
-)
 
-export const loginEmployer = createAsyncThunk('/loginEmployer', async(employer, thunkAPI)=>{
-    try {
-        return await authService.loginEmployer(employer);
-    } catch (error) {
-         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
-
-        return thunkAPI.rejectWithValue(message);
-    }
-})
 
 export const login = createAsyncThunk('/login', async(user, thunkAPI)=>{
     try {
@@ -69,15 +51,7 @@ export const logout = createAsyncThunk('/logout', (user, thunkAPI)=>{
     }
 })
 
-export const logoutEmployer = createAsyncThunk('/logout', (employer, thunkAPI)=>{
-    try {
-        return  authService.logoutEmployer(employer);
-    } catch (error) {
-         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
 
-        return thunkAPI.rejectWithValue(message);
-    }
-})
 
 export const authSlice = createSlice({
     name:'auth',
@@ -111,26 +85,7 @@ export const authSlice = createSlice({
             state.message = action.payload;
             state.user = null;
         })
-        builder.addCase(registerEmployer.pending, (state) => {
-            state.isError = false;
-            state.isLoading = true;
-            state.isSuccess = false;
-            state.message = '';
-        })
-        builder.addCase(registerEmployer.fulfilled, (state, action)=>{
-            state.isError= false;
-            state.isSuccess = true;
-            state.isLoading = false;
-            state.message = action.payload.message;
-            state.employer= action.payload;
-        })
-        builder.addCase(registerEmployer.rejected, (state, action) => {
-            state.isError = true;
-            state.isLoading = false;
-            state.isSuccess = false;
-            state.message = action.payload;
-            state.employer = null;
-        })
+       
         builder.addCase(login.pending, (state) => {
             state.isError = false;
             state.isLoading = true;
@@ -152,27 +107,6 @@ export const authSlice = createSlice({
             state.message = action.payload
         })
 
-        builder.addCase(loginEmployer.pending, (state) => {
-            state.isError = false;
-            state.isLoading = true;
-            state.isSuccess = false;
-            state.message = '';
-        })
-        builder.addCase(loginEmployer.fulfilled, (state, action) => {
-            state.isError = false;
-            state.isLoading = false;
-            //if login is successful, set user to the payload and redirect to dashboard
-            state.isSuccess = true;
-            state.message = action.payload.message;
-            state.employer = action.payload;
-        })
-        builder.addCase(loginEmployer.rejected, (state, action)=>{
-            state.isError = true
-
-            state.isLoading= false
-            state.isSuccess = false
-            state.message = action.payload
-        })
         builder.addCase(logout.fulfilled, (state) => {
             state.user = null;
         })

@@ -5,7 +5,7 @@
     margin: 50px auto;
     padding: 30px;
     border-radius: 10px;
-    background-color: #000000d7;
+    background-color: #0c0c0c;
     width: 500px;
   }
   
@@ -24,7 +24,7 @@
   
   label {
     margin-bottom: 10px;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
   }
   
@@ -32,7 +32,7 @@
   input[type="email"],
   input[type="password"] {
     padding: 10px;
-    font-size: 16px;
+    font-size: 15px;
     border-radius: 5px;
     transition: border-color 0.2s ease-in-out;
     width: 100%;
@@ -40,3 +40,29 @@
   
   }
   
+  .register-form-container button{
+    padding: 10px;
+    font-size: 15px;
+    border-radius: 5px;
+    transition: border-color 0.2s ease-in-out;
+    width: 100%;
+    outline: none;
+    background-color: #000000d7;
+    color: #f5f5f5;
+    border: 1px solid #ffffff8c;
+    width: 100%;
+  }
+
+  .register-form-container a{
+    color: #85bcc8;
+    text-decoration: underline;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+
+  @media (max-width: 768px) {
+    .register-form-container {
+      width: 80%;
+    }
+
+  }
