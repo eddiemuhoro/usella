@@ -1,0 +1,133 @@
+.navbar {
+    background: #0c0c0c;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+  }
+  
+  .navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 24px;
+  }
+  
+  .navbar-logo {
+    justify-self: flex-start;
+    cursor: pointer;
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    margin-left: 24px;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  
+  .nav-menu {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    text-align: center;
+  }
+  
+  .nav-item {
+    height: 80px;
+    border-bottom: 2px solid transparent;
+  }
+  
+  .nav-item:hover {
+    border-bottom: 2px solid #4b59f7;
+  }
+  
+  .nav-links {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    height: 100%;
+  }
+  
+  .fa-shopping-cart {
+    margin-left: 10px;
+  }
+  
+  .menu-icon {
+    display: none;
+  }
+  
+  @media screen and (max-width: 960px) {
+    .navbar-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 80px;
+      width: 100%;
+      max-width: 1200px;
+    }
+  
+    .menu-icon {
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 0;
+      transform: translate(-100%, 60%);
+      font-size: 1.8rem;
+      cursor: pointer;
+    }
+  
+    .nav-menu {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: 80px;
+      left: -120%;
+      opacity: 1;
+      transition: all 0.5s ease;
+      width: 100%;
+      margin: 0;
+    }
+  
+    .nav-menu.active {
+      background: #000000;
+      left: 0;
+      opacity: 1;
+      transition: all 0.5s ease;
+      z-index: 1;
+      width: 90%;
+    }
+  
+    .nav-item {
+      height: 60px;
+      width: 100%;
+    }
+  
+    .nav-links {
+      text-align: center;
+      padding: 2rem;
+        height: auto;
+    }
+  
+  
+  
+    .navbar-logo {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: translate(25%, 50%);
+    }
+  
+    .fa-times {
+      color: #000;
+    }
+  }
+  
