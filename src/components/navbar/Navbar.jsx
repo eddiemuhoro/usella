@@ -4,10 +4,11 @@ import "./Navbar.css";
 import {AiOutlineShoppingCart} from 'react-icons/ai';
 import {AiOutlineMenu} from 'react-icons/ai';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout, reset } from "../../react-redux/features/auth/authSlice";
-
+import {CgProfile } from 'react-icons/cg';
 function Navbar() {
+  const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [click, setClick] = useState(false);
@@ -60,11 +61,16 @@ function Navbar() {
               <AiOutlineShoppingCart />
             </Link>
           </li>
-          <li className="nav-item">
-            <Link onClick={onLogout} className="nav-links" >
-              <LogoutRoundedIcon />
-            </Link>
-          </li>
+          {
+            user ? (
+              <li className="nav-item">
+                <Link  className="nav-links" >
+                  <CgProfile /><p style={{marginLeft:'9px'}}>{user && user.firstName}</p>
+                </Link>
+              </li>
+            ):''
+          }
+          
         </ul>
       </div>
     </nav>
