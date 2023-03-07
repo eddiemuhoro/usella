@@ -70,3 +70,16 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 # jobsy2
 # dshop
+
+# schedule
+7/04
+-Home page
+-
+8/04
+-Posting page
+-Wishlist page
+9/04
+-Contact page
+-Cart page
+10/
+-Inbox page
