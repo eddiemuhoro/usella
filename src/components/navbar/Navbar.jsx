@@ -68,7 +68,14 @@ function Navbar() {
                   <CgProfile /><p style={{marginLeft:'9px'}}>{user && user.firstName}</p>
                 </NavLink>
               </li>
-            ):''
+            ):
+            (
+              <li className="nav-item">
+                <NavLink to="/login" className="nav-links" onClick={closeMobileMenu}>
+                  Login
+                </NavLink>
+              </li>
+            )
           }
           
         </ul>
