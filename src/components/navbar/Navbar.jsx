@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import {AiOutlineShoppingCart} from 'react-icons/ai';
 import {AiOutlineMenu} from 'react-icons/ai';
@@ -27,9 +27,9 @@ function Navbar() {
   return (
     <nav className="navbar">
       <div className="navbar-container">
-        <Link to="/" className="navbar-logo" onClick={closeMobileMenu}>
+        <NavLink to="/" className="navbar-logo" onClick={closeMobileMenu}>
           MyShop
-        </Link>
+        </NavLink>
 
         <div className="menu-icon" onClick={handleClick}>
           <AiOutlineMenu />
@@ -37,36 +37,36 @@ function Navbar() {
 
         <ul className={click ? "nav-menu active" : "nav-menu"}>
           <li className="nav-item">
-            <Link to="/" className="nav-links" onClick={closeMobileMenu}>
+            <NavLink to="/" className="nav-links" onClick={closeMobileMenu}>
               Home
-            </Link>
+            </NavLink>
           </li>
           <li className="nav-item">
-            <Link to="/products" className="nav-links" onClick={closeMobileMenu}>
+            <NavLink to="/products" className="nav-links" onClick={closeMobileMenu}>
               Products
-            </Link>
+            </NavLink>
           </li>
           <li className="nav-item">
-            <Link to="/about" className="nav-links" onClick={closeMobileMenu}>
+            <NavLink to="/about" className="nav-links" onClick={closeMobileMenu}>
               About
-            </Link>
+            </NavLink>
           </li>
           <li className="nav-item">
-            <Link to="/contact" className="nav-links" onClick={closeMobileMenu}>
+            <NavLink to="/contact" className="nav-links" onClick={closeMobileMenu}>
               Contact
-            </Link>
+            </NavLink>
           </li>
           <li className="nav-item">
-            <Link to="/cart" className="nav-links" onClick={closeMobileMenu}>
+            <NavLink to="/cart" className="nav-links" onClick={closeMobileMenu}>
               <AiOutlineShoppingCart />
-            </Link>
+            </NavLink>
           </li>
           {
             user ? (
               <li className="nav-item">
-                <Link  className="nav-links" >
+                <NavLink to='/profile' onClick={closeMobileMenu}  className="nav-links" >
                   <CgProfile /><p style={{marginLeft:'9px'}}>{user && user.firstName}</p>
-                </Link>
+                </NavLink>
               </li>
             ):''
           }
