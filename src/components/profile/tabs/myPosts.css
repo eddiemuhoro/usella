@@ -1,0 +1,11 @@
+
+.post-items{
+    width: 100%;
+    height: 100%;
+    padding: 20px 0;
+}
+
+.post-items a{
+    text-decoration: none;
+    color: #4b59f7;
+}
