@@ -1,4 +1,6 @@
-
+*{
+  box-sizing: border-box;
+}
 body{
   background: radial-gradient(circle at 24.1% 68.8%, rgb(22, 22, 22) 0%, rgb(0, 0, 0) 99.4%);
   background-size: cover;
@@ -24,10 +26,15 @@ a{
   color: #f5f5f5;
 }
 
-input{
+input, textarea, select{
   border-color: #000000;
   border-bottom: 1px solid #ffffff2c;
   background-color: #00000000;
+  color: #f5f5f5;
+}
+
+option{
+  background-color: #000000;
   color: #f5f5f5;
 }
 

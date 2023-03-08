@@ -81,5 +81,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 9/04
 -Contact page
 -Cart page
-10/
+10/04
 -Inbox page
+11/04
+-Auth

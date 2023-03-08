@@ -4,6 +4,7 @@ import './App.css'
 import Hero from './components/home/Hero';
 import Navbar from './components/navbar/Navbar';
 import Products from './components/products/Products';
+import Post from './components/profile/post/Post';
 import Profile from './components/profile/Profile';
 import Login from './components/register/Login';
 import Register from './components/register/Register';
@@ -17,6 +18,7 @@ function App () {
         <Route path='/' element={<Hero/>} />
         <Route path='/products' element={<Products/>} />
         <Route path='/profile' element={<Profile />} />
+        <Route path='/post' element={<Post />} />
         <Route path='*' element={<>404 - Not found</>} />
       </Routes>
     </div>
