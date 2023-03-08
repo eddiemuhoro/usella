@@ -5,6 +5,12 @@
 
 }
 
+.myProducts{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+}
+
 
 .product{
     margin: 20px;
@@ -65,7 +71,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 20px;
+    margin-top: 10px;
+}
+
+.product-btns p{
+ 
+    margin: 0;
 }
 
 
