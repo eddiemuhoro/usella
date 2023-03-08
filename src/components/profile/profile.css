@@ -1,6 +1,23 @@
 .profile-container {
     padding: 20px;
     margin: 0 auto;
+    display: flex;
+  }
+
+  .profile-container >section{
+    border: 1px solid #d9dadf64;
+    padding: 20px;
+  }
+
+  /*pick the first section using nth-child */
+  .profile-container >section:nth-child(1){
+    width: 30%;
+  }
+
+  /*pick the second section using nth-child */
+
+  .profile-container >section:nth-child(2){
+    width: 70%;
   }
   
   .profile-header {
@@ -62,4 +79,22 @@
     padding: 5px;
     border-radius: 5px;
     cursor: pointer;
+  }
+
+
+
+  @media screen and (max-width: 768px) {
+    .profile-container {
+      flex-direction: column;
+    }
+  
+    .profile-container >section:nth-child(1){
+      width: 100%;
+    }
+  
+    .profile-container >section:nth-child(2){
+      width: 100%;
+    }
+  
+    
   }
