@@ -17,7 +17,7 @@ const MyOrders = () => {
   
   return (
     <div>
-         <section className="products">
+         <section className="products myProducts">
         {
           products.map(product => (
             <div className="product">
