@@ -77,6 +77,22 @@ function Navbar() {
               </li>
             )
           }
+          {
+            user ? (
+              <li className="nav-item">
+                <NavLink to='/login' onClick={onLogout}  className="nav-links" >
+                  <LogoutRoundedIcon /><p style={{marginLeft:'9px'}}>Logout</p>
+                </NavLink>
+              </li>
+            ):
+            (
+              <li className="nav-item">
+                <NavLink to="/register" className="nav-links" onClick={closeMobileMenu}>
+                  Register
+                </NavLink>
+              </li>
+            )
+          }
           
         </ul>
       </div>
