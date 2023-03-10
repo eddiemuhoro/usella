@@ -4,14 +4,18 @@ import { BsCart3, BsHeart } from 'react-icons/bs'
 import { AiFillDelete } from 'react-icons/ai'
 import axios from 'axios'
 import { useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { AiFillEdit } from 'react-icons/ai'
+import './myPosts.css'
 
 const MyPosts = () => {
   const params = useParams()
     const [products, setProducts] = useState([])
     const user = useSelector(state => state.auth.user)
+
     const seller = user.id
+
+    console.log(seller)
 
   
     //fetxh from redux store
@@ -26,7 +30,7 @@ const MyPosts = () => {
   //delete product with a confirmation message
   const handleDelete = async (id, name) => {
     if (window.confirm(`Are you sure you want to delete ${name}?`)) {
-      await axios.delete(`http://localhost:9000/products/${id}`)
+      await axios.delete(`http://localhost:6000/products/${id}`)
     }
   }
 
@@ -57,7 +61,10 @@ const MyPosts = () => {
 
         }
 
+        
+
       </section>
+      <Link style={{margin:'20px'}} to='/post' className='add-post'>Add a product</Link>
     </div>
   )
 }
