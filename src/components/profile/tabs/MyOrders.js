@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { BsCart3, BsHeart } from 'react-icons/bs'
 import axios from 'axios'
+import Wishlist from '../../products/Wishlist'
 const MyOrders = () => {
     const [products, setProducts] = useState([])
     //fetxh from redux store
@@ -30,10 +31,8 @@ const MyOrders = () => {
               </div>
               <div className="product-btns">
                 <p className="info-price">${product.price}</p>
-                <p><BsCart3 /></p>
               </div>
               <div className='favorite'>
-                <BsHeart />
               </div>
             </div>
           )
