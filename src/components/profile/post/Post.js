@@ -34,7 +34,7 @@ const Post = () => {
             name: post.name,
             description: post.description,
             sellerId: (user.id),
-            price: post.price,
+            price:  parseInt(post.price),
             category: post.category,
             image: imageString,
           }
@@ -61,6 +61,7 @@ const Post = () => {
                 <div className='form-group'>
                     <label htmlFor='price'>Price</label>
                     <input type='number' name='price' id='price' value={post.price} onChange={e => setPost({...post, price:e.target.value})} />
+                    
                 </div>
                 <div className='form-group'>
                     <label htmlFor='category'>Category</label>

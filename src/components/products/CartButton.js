@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { BsCart3, BsFillCartCheckFill, BsHeart, BsHeartFill } from 'react-icons/bs'
 import { useSelector } from 'react-redux'
 
-const Cart = ({productId, name, price, description,  image}) => {
+const CartButton = ({productId, name, price, description,  image}) => {
     const user = useSelector(state => state.auth.user)
     const [cart, setCart] = useState([])
 
@@ -14,7 +14,8 @@ const Cart = ({productId, name, price, description,  image}) => {
           name: name,
           price: price,
           description: description,
-          image: image
+          image: image,
+          quantity: 1
 
        })
      }
@@ -53,4 +54,4 @@ const Cart = ({productId, name, price, description,  image}) => {
   )
 }
 
-export default Cart
+export default CartButton
