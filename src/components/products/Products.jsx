@@ -3,11 +3,12 @@ import './products.css'
 import { BsCart3, BsHeart, BsHeartFill } from 'react-icons/bs'
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
-import { useParams } from 'react-router-dom'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import Wishlist from './Wishlist'
 import Loader from '../loader/Loader'
 import CartButton from './CartButton'
 const Products = () => {
+  const navigate = useNavigate()
   //get id of product
   const { id } = useParams()
   const user = useSelector(state => state.auth.user)
@@ -25,6 +26,12 @@ const Products = () => {
     fetchProducts()
     .finally(() => setLoading(false))
   }, [])
+
+  const handleLogin = () => {
+   if (window.confirm('You need to login to add to wishlist'))
+    navigate('/login') 
+  }
+    
 
 
 
@@ -47,11 +54,25 @@ const Products = () => {
           </div>
           <div className="product-btns">
             <p className="info-price">${product.price}</p>
-            <CartButton productId={product.id}  name={product.name} price={product.price} description={product.description} image={product.image} />
+            {
+              user ? (
+                <CartButton productId={product.id}  name={product.name} price={product.price} description={product.description} image={product.image} />
+              ) : (
+                <BsCart3 onClick={handleLogin} />
+              )
+
+            }
           </div>
           <div className='favorite'>
             {/* DISPLAY WISHLIST ID */}
-            <Wishlist productId={product.id}  name={product.name} price={product.price} description={product.description} image={product.image} />
+            {
+              user ? (
+                <Wishlist productId={product.id}  name={product.name} price={product.price} description={product.description} image={product.image} />
+              ) : (
+                <BsHeart onClick={handleLogin} />
+              )
+                
+            }
           </div>
         </div>
       )
