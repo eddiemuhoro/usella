@@ -20,45 +20,24 @@ const Cart = () => {
       setLoading(false)
     }
     fetchWishlist()
-  }, [items])
+  }, [])
 
 
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: 'Product 1',
-      price: 10.99,
-      image: 'https://via.placeholder.com/150',
-      quantity: 2,
-    },
-    {
-      id: 2,
-      name: 'Product 2',
-      price: 24.99,
-      image: 'https://via.placeholder.com/150',
-      quantity: 1,
-    },
-    {
-      id: 3,
-      name: 'Product 3',
-      price: 17.99,
-      image: 'https://via.placeholder.com/150',
-      quantity: 3,
-    },
-  ]);
+ 
 
   const handleQuantityChange = (itemId, newQuantity) => {
-    const updatedItems = cartItems.map(item => {
+    const updatedItems = items.map(item => {
       if (item.id === itemId) {
         return {
           ...item,
           quantity: newQuantity,
         };
       }
+      console.log(item)
       return item;
     });
-    setCartItems(updatedItems);
-    axios.put(`http://localhost:9000/products/${itemId}/add`, {quantity: newQuantity})
+    setItems(updatedItems);
+    axios.put(`http://localhost:9000/products/cart/${itemId}`, {quantity: newQuantity})
   };
   const totalPrice = items.reduce((total, item) => total + item.price * item.quantity, 0);
 
