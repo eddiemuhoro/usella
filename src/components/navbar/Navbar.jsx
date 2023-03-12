@@ -7,6 +7,7 @@ import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import { useDispatch, useSelector } from "react-redux";
 import { logout, reset } from "../../react-redux/features/auth/authSlice";
 import {CgProfile } from 'react-icons/cg';
+import {FiHelpCircle} from 'react-icons/fi';
 function Navbar() {
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
@@ -46,14 +47,10 @@ function Navbar() {
               Products
             </NavLink>
           </li>
-          <li className="nav-item">
-            <NavLink to="/about" className="nav-links" onClick={closeMobileMenu}>
-              About
-            </NavLink>
-          </li>
+          
           <li className="nav-item">
             <NavLink to="/contact" className="nav-links" onClick={closeMobileMenu}>
-              Contact
+              Help<FiHelpCircle style = {{marginLeft:'5px'}}/>
             </NavLink>
           </li>
           <li className="nav-item">
@@ -79,11 +76,7 @@ function Navbar() {
           }
           {
             user ? (
-              <li className="nav-item">
-                <NavLink to='/login' onClick={onLogout}  className="nav-links" >
-                  <LogoutRoundedIcon /><p style={{marginLeft:'9px'}}>Logout</p>
-                </NavLink>
-              </li>
+              ' '
             ):
             (
               <li className="nav-item">
