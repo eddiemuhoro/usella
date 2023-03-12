@@ -1,6 +1,7 @@
 
 import { Route, Routes } from 'react-router-dom';
 import './App.css'
+import Help from './components/help/Help';
 import Hero from './components/home/Hero';
 import Navbar from './components/navbar/Navbar';
 import Cart from './components/products/cart/Cart';
@@ -21,6 +22,7 @@ function App () {
         <Route path='/profile' element={<Profile />} />
         <Route path='/post' element={<Post />} />
         <Route path='/cart' element={<Cart />} />
+        <Route path='/help' element={<Help />} />
         <Route path='*' element={<>404 - Not found</>} />
       </Routes>
     </div>

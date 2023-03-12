@@ -49,7 +49,7 @@ function Navbar() {
           </li>
           
           <li className="nav-item">
-            <NavLink to="/contact" className="nav-links" onClick={closeMobileMenu}>
+            <NavLink to="/help" className="nav-links" onClick={closeMobileMenu}>
               Help<FiHelpCircle style = {{marginLeft:'5px'}}/>
             </NavLink>
           </li>

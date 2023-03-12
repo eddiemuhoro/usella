@@ -23,7 +23,7 @@ const MyPosts = () => {
     //fetxh from redux store
     useEffect(() => {
       const fetchProducts = async () => {
-        const { data } = await axios.get(`http://localhost:9000/products/${seller}`)
+        const { data } = await axios.get(`https://odd-slip-ant.cyclic.app/products/${seller}`)
         setProducts(data)
       }
       fetchProducts()

@@ -39,11 +39,11 @@ const Post = () => {
             image: imageString,
           }
           console.log(newPost)
-          await axios.post('http://localhost:9000/products', newPost)
-
+          await axios.post('https://odd-slip-ant.cyclic.app/products', newPost)
     }
+
+
     
-   
   return (
     <div className='post-container'>
         

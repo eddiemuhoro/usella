@@ -4,7 +4,7 @@ import { BsCart3, BsHeart, BsHeartFill } from 'react-icons/bs'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Loader from '../../loader/Loader'
-import Wishlist from '../../products/Wishlist'
+import Wishlist from '../../products/WishlistButton'
 
 const MyWishList = () => {
   const user = useSelector(state => state.auth.user)
@@ -15,7 +15,7 @@ const MyWishList = () => {
   useEffect(() => {
     setLoading(true)
     const fetchWishlist = async () => {
-      const { data } = await axios.get(`http://localhost:9000/products/wishlist/user/${user.id}`)
+      const { data } = await axios.get(`https://odd-slip-ant.cyclic.app/products/wishlist/user/${user.id}`)
       setItems(data)
       setLoading(false)
     }

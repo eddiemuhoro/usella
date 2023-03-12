@@ -4,7 +4,7 @@ import { BsCart3, BsHeart, BsHeartFill } from 'react-icons/bs'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Loader from '../../loader/Loader'
-import Wishlist from '../../products/Wishlist'
+import Wishlist from '../WishlistButton'
 import './cart.css'
 const Cart = () => {
   const user = useSelector(state => state.auth.user)
@@ -15,7 +15,7 @@ const Cart = () => {
   useEffect(() => {
     setLoading(true)
     const fetchWishlist = async () => {
-      const { data } = await axios.get(`http://localhost:9000/products/cart/user/${user.id}`)
+      const { data } = await axios.get(`https://odd-slip-ant.cyclic.app/products/cart/user/${user.id}`)
       setItems(data)
       setLoading(false)
     }
@@ -37,7 +37,7 @@ const Cart = () => {
       return item;
     });
     setItems(updatedItems);
-    axios.put(`http://localhost:9000/products/cart/${itemId}`, {quantity: newQuantity})
+    axios.put(`https://odd-slip-ant.cyclic.app/products/cart/${itemId}`, {quantity: newQuantity})
   };
   const totalPrice = items.reduce((total, item) => total + item.price * item.quantity, 0);
 

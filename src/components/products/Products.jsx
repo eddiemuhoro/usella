@@ -4,7 +4,7 @@ import { BsCart3, BsHeart, BsHeartFill } from 'react-icons/bs'
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
-import Wishlist from './Wishlist'
+import Wishlist from './WishlistButton'
 import Loader from '../loader/Loader'
 import CartButton from './CartButton'
 const Products = () => {
@@ -15,11 +15,13 @@ const Products = () => {
   const dispach = useDispatch()
   const [products, setProducts] = useState([])
   const [loading , setLoading] = useState(false)
+
+  
   //fetxh from redux store
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true)
-      const { data } = await axios.get(`http://localhost:9000/products/`)
+      const { data } = await axios.get(`https://odd-slip-ant.cyclic.app/products/`)
       setProducts(data)
       .finally(() => setLoading(false))
     }

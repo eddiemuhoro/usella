@@ -91,7 +91,6 @@ const Profile = () => {
                 </section>
             </section>
 
-
         </div>
     );
 };

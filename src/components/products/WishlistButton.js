@@ -28,7 +28,7 @@ const Wishlist = ({productId, name, price, description,  image}) => {
      }
    
      const handleRemoveFavorite = async () => {
-       await axios.delete(`http://localhost:9000/products/wishlist/${productId}`)
+       await axios.delete(`https://odd-slip-ant.cyclic.app/products/wishlist/${productId}`)
         .then(res => {
           console.log(res)
           console.log(res.data)
@@ -38,7 +38,7 @@ const Wishlist = ({productId, name, price, description,  image}) => {
 
     useEffect(() => {
         const fetchWishlist = async () => {
-          const { data } = await axios.get(`http://localhost:9000/products/wishlist/${productId}`)
+          const { data } = await axios.get(`https://odd-slip-ant.cyclic.app/products/wishlist/${productId}`)
           setWishlist(data)
         }
         fetchWishlist()

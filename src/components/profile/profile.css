@@ -63,7 +63,10 @@
 
   .profile-nav .active{
     background-color: rgba(255, 255, 255, 0.727);
-    color: black;
+  }
+
+  .profile-nav .active p{
+    color: #000;
   }
 
   .profile-nav >div{

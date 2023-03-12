@@ -21,7 +21,7 @@ const CartButton = ({productId, name, price, description,  image}) => {
      }
    
      const handleCartRemove = async () => {
-       await axios.delete(`http://localhost:9000/products/cart/${productId}`)
+       await axios.delete(`https://odd-slip-ant.cyclic.app/products/cart/${productId}`)
         .then(res => {
           console.log(res)
           console.log(res.data)
@@ -32,7 +32,7 @@ const CartButton = ({productId, name, price, description,  image}) => {
 
     useEffect(() => {
         const fetchWishlist = async () => {
-          const { data } = await axios.get(`http://localhost:9000/products/cart/${productId}`)
+          const { data } = await axios.get(`https://odd-slip-ant.cyclic.app/products/cart/${productId}`)
           setCart(data)
         }
         fetchWishlist()

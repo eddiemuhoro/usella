@@ -2,13 +2,13 @@
 import React, { useEffect, useState } from 'react'
 import { BsCart3, BsHeart } from 'react-icons/bs'
 import axios from 'axios'
-import Wishlist from '../../products/Wishlist'
+import Wishlist from '../../products/WishlistButton'
 const MyOrders = () => {
     const [products, setProducts] = useState([])
     //fetxh from redux store
     useEffect(() => {
       const fetchProducts = async () => {
-        const { data } = await axios.get('http://localhost:9000/products')
+        const { data } = await axios.get('https://odd-slip-ant.cyclic.app/products')
         setProducts(data)
       }
       fetchProducts()
