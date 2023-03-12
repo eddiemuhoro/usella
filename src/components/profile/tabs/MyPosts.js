@@ -3,13 +3,15 @@ import React, { useEffect, useState } from 'react'
 import { BsCart3, BsHeart } from 'react-icons/bs'
 import { AiFillDelete } from 'react-icons/ai'
 import axios from 'axios'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
 import { AiFillEdit } from 'react-icons/ai'
 import './myPosts.css'
+import { deleteProduct } from '../../../react-redux/features/products/productSlice'
 
 const MyPosts = () => {
   const params = useParams()
+  const dispatch = useDispatch()
     const [products, setProducts] = useState([])
     const user = useSelector(state => state.auth.user)
 
@@ -28,13 +30,12 @@ const MyPosts = () => {
     }, [products])
 
   //delete product with a confirmation message
-  const handleDelete = async (id, name) => {
+  const handleDelete =  (id, name) => {
     if (window.confirm(`Are you sure you want to delete ${name}?`)) {
-      await axios.delete(`http://localhost:9000/products/${id}`)
+      dispatch(deleteProduct(id))
     }
   }
 
-  
   return (
     <div>
          <section className="products myProducts">
@@ -59,9 +60,6 @@ const MyPosts = () => {
             )
           )
         }
-
-        
-
       </section>
       <Link style={{margin:'20px'}} to='/post' className='add-post'>Add a product</Link>
     </div>
