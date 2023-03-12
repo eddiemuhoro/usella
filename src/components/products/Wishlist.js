@@ -5,9 +5,12 @@ import { useSelector } from 'react-redux'
 
 const Wishlist = ({productId, name, price, description,  image}) => {
     const user = useSelector(state => state.auth.user)
+    //useMemo to prevent infinite loop in useEffect below where dependency is wishlist
     const [wishlist, setWishlist] = useState([])
+    const [loading , setLoading] = useState(false)
 
     const handleFavoriteClick = async () => {
+      setLoading(true)
         await axios.post('http://localhost:9000/products/wishlist', {
          productId: productId,
          userId: user.id,
@@ -15,8 +18,13 @@ const Wishlist = ({productId, name, price, description,  image}) => {
           price: price,
           description: description,
           image: image
-
        })
+        .then(res => {
+          console.log(res)
+          console.log(res.data)
+        }
+        )
+        setLoading(false)
      }
    
      const handleRemoveFavorite = async () => {
@@ -27,7 +35,6 @@ const Wishlist = ({productId, name, price, description,  image}) => {
         }
         )
      }
-   
 
     useEffect(() => {
         const fetchWishlist = async () => {
@@ -35,13 +42,14 @@ const Wishlist = ({productId, name, price, description,  image}) => {
           setWishlist(data)
         }
         fetchWishlist()
-      }, [user.id])
+      }, [])
     
     
   return (
     <div>
       {/* CHANGE BUTTON IF USER'S PRODUCT IS IN WISHLIST */}
       {
+       
         wishlist.length === 0 || wishlist[0].userId !== user.id ? (
           <BsHeart onClick={handleFavoriteClick}/>
         ) : (
