@@ -22,6 +22,14 @@ const Cart = () => {
     fetchWishlist()
   }, [])
 
+  const handleCartRemove = async (productId) => {
+    await axios.delete(`http://localhost:9000/products/cart/${productId}`)
+     .then(res => {
+       console.log(res)
+       console.log(res.data)
+     }
+     )
+  }
 
  
 
@@ -56,6 +64,7 @@ const Cart = () => {
               <button onClick={() => handleQuantityChange(item.id, item.quantity + 1)}>+</button>
             </div>
           </div>
+          <button onClick={()=>handleCartRemove(item.productId)}>Remove</button>
         </div>
       ))}
       <div className="total-price">

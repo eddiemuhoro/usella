@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux'
 const CartButton = ({productId, name, price, description,  image}) => {
     const user = useSelector(state => state.auth.user)
     const [cart, setCart] = useState([])
+    const [test , setTest] = useState(false)
 
     const handleCart = async () => {
         await axios.post('http://localhost:9000/products/cart', {
@@ -42,13 +43,13 @@ const CartButton = ({productId, name, price, description,  image}) => {
   return (
     <div>
       {/* CHANGE BUTTON IF USER'S PRODUCT IS IN WISHLIST */}
-      {
+     {
         cart.length === 0 || cart[0].userId !== user.id ? (
           <BsCart3 onClick={handleCart}/>
         ) : (
           <BsFillCartCheckFill color='blue' onClick={handleCartRemove} />
         )
-      }
+     }
         
     </div>
   )

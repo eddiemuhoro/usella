@@ -84,6 +84,7 @@
 
 
   @media screen and (max-width: 500px) {
+    
     .hero-text, .hero-btn{
         width: 80%;
         margin: 0 auto;

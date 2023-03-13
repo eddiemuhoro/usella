@@ -3,10 +3,12 @@ import './products.css'
 import { BsCart3, BsHeart, BsHeartFill } from 'react-icons/bs'
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
-import { Navigate, useNavigate, useParams } from 'react-router-dom'
+import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
 import Wishlist from './WishlistButton'
 import Loader from '../loader/Loader'
 import CartButton from './CartButton'
+import Popup from 'reactjs-popup'
+import { getProduct } from '../../react-redux/features/products/productSlice'
 const Products = () => {
   const navigate = useNavigate()
   //get id of product
@@ -17,16 +19,15 @@ const Products = () => {
   const [loading , setLoading] = useState(false)
 
   
-  //fetxh from redux store
-  useEffect(() => {
-    const fetchProducts = async () => {
-      setLoading(true)
-      const { data } = await axios.get(`https://odd-slip-ant.cyclic.app/products/`)
-      setProducts(data)
-      .finally(() => setLoading(false))
-    }
-    fetchProducts()
-    .finally(() => setLoading(false))
+  //fetxh from redux store using dispatch
+  useEffect( () => {
+    setLoading(true)
+     dispach(getProduct())
+      .then(res => {
+        setProducts(res.payload)
+        setLoading(false)
+      }
+      )
   }, [])
 
   const handleLogin = () => {
@@ -46,6 +47,7 @@ const Products = () => {
     
     {
       products.map(product => (
+        <Link key={product.id} to={`/products/${product.id}`}>
         <div className="product">
           <div className="product-img">
             <img src={product.image} alt="product" />
@@ -76,7 +78,9 @@ const Products = () => {
                 
             }
           </div>
+         
         </div>
+        </Link>
       )
       )
     }

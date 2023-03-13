@@ -27,7 +27,7 @@ const MyPosts = () => {
         setProducts(data)
       }
       fetchProducts()
-    }, [products])
+    }, [])
 
   //delete product with a confirmation message
   const handleDelete =  (id, name) => {
@@ -48,6 +48,7 @@ const MyPosts = () => {
                   <div className="product-info">
                     <p className="info-name">{product.name}</p>
                     <p className="info-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.</p>
+                    
                   </div>
                   <div className="product-btns">
                     <p className="info-price">${product.price}</p>
@@ -56,6 +57,7 @@ const MyPosts = () => {
                   <div className='favorite'>
                     <AiFillEdit style={{color:'4b59f7'}} />
                   </div>
+                  
               </div>
             )
           )

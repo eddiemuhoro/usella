@@ -3,8 +3,10 @@ import React, { useEffect, useState } from 'react'
 import { BsCart3, BsHeart, BsHeartFill } from 'react-icons/bs'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import Popup from 'reactjs-popup'
 import Loader from '../../loader/Loader'
 import Wishlist from '../../products/WishlistButton'
+
 
 const MyWishList = () => {
   const user = useSelector(state => state.auth.user)
@@ -77,6 +79,7 @@ const MyWishList = () => {
                                 )
                               }
                             </div>
+                          
                           </div>
                         ) : (
                           <div>

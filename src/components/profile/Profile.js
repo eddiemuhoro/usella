@@ -53,7 +53,7 @@ const Profile = () => {
     return (
         <div className="profile-container">
             <section className='profile-info'>
-                <div className="profile-header">Profile</div>
+                {/* <div className="profile-header">Profile</div>
                 <div className="profile-details">
                     <div className="profile-avatar">
                         <img src={user.avatar} alt={user.name} />
@@ -63,7 +63,7 @@ const Profile = () => {
                         <p className="profile-email">{user.email}</p>
                         <p className="profile-phone">{user.phone}</p>
                     </div>
-                </div>
+                </div> */}
             </section>
             <section className='profile-contents'>
                 <section className='profile-nav'>

@@ -39,8 +39,42 @@ async(_, thunkAPI)=>{
 )
 
 
-//get employer info
-// 
+export const getProductById = createAsyncThunk('products/get',
+async(productId, thunkAPI)=>{
+  try {
+    return await productService.getProductById(productId)
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+}
+)
+
+//add to cart
+export const addToCart = createAsyncThunk('products/addToCart',
+async(cartData, thunkAPI)=>{
+  try {
+    return await productService.addToCart(cartData)
+    
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+}
+)
+
+//get cart item by product id
+export const getCart = createAsyncThunk('products/getCart',
+async(productId, thunkAPI)=>{
+  try {
+    return await productService.getCart(productId)
+  }
+  catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+}
+)
 
 export const deleteProduct = createAsyncThunk(
     'products/delete',
@@ -63,7 +97,6 @@ export const deleteProduct = createAsyncThunk(
     'products/delete',
     async (id,productData, thunkAPI) => {
       try {
- 
         return await productService.updateProduct(id,productData)
       } catch (error) {
         const message =
