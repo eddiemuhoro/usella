@@ -9,7 +9,7 @@ import Wishlist from '../../products/WishlistButton'
 
 
 const MyWishList = () => {
-  const user = useSelector(state => state.auth.user)
+  const user = useSelector(state => state.auth.you)
   const [items, setItems] = useState([])
   const [loading , setLoading] = useState(false)
 

@@ -9,7 +9,7 @@ import { logout, reset } from "../../react-redux/features/auth/authSlice";
 import {CgProfile } from 'react-icons/cg';
 import {FiHelpCircle} from 'react-icons/fi';
 function Navbar() {
-  const user = useSelector((state) => state.auth.user);
+  const you = useSelector((state) => state.auth.you);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [click, setClick] = useState(false);
@@ -42,6 +42,7 @@ function Navbar() {
               Home
             </NavLink>
           </li>
+          
           <li className="nav-item">
             <NavLink to="/products" className="nav-links" onClick={closeMobileMenu}>
               Products
@@ -59,10 +60,10 @@ function Navbar() {
             </NavLink>
           </li>
           {
-            user ? (
+            you ? (
               <li className="nav-item">
                 <NavLink to='/profile' onClick={closeMobileMenu}  className="nav-links" >
-                  <CgProfile /><p style={{marginLeft:'9px'}}>{user && user.firstName}</p>
+                  <CgProfile /><p style={{marginLeft:'9px'}}>{you && you.firstName}</p>
                 </NavLink>
               </li>
             ):
@@ -75,7 +76,7 @@ function Navbar() {
             )
           }
           {
-            user ? (
+            you ? (
               ' '
             ):
             (

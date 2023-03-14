@@ -4,7 +4,7 @@ import { BsHeart, BsHeartFill } from 'react-icons/bs'
 import { useSelector } from 'react-redux'
 
 const Wishlist = ({productId, name, price, description,  image}) => {
-    const user = useSelector(state => state.auth.user)
+    const user = useSelector(state => state.auth.you)
     //useMemo to prevent infinite loop in useEffect below where dependency is wishlist
     const [wishlist, setWishlist] = useState([])
     const [loading , setLoading] = useState(false)
@@ -38,11 +38,13 @@ const Wishlist = ({productId, name, price, description,  image}) => {
 
     useEffect(() => {
         const fetchWishlist = async () => {
-          const { data } = await axios.get(`https://odd-slip-ant.cyclic.app/products/wishlist/${productId}`)
+          const { data } = await axios.get(`http://localhost:9000/products/wishlist/${productId}`)
           setWishlist(data)
         }
         fetchWishlist()
       }, [])
+
+     
     
     
   return (

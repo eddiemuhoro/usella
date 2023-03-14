@@ -20,13 +20,13 @@ function Login() {
 
 
   const {  email, password } = formData
-  const { user, isError, isLoading, isSuccess, message }= useSelector (
+  const { you, isError, isLoading, isSuccess, message }= useSelector (
     (state)=> state.auth
   )
 
 
   useEffect((dispatch)=>{
-    if(isSuccess || user){
+    if(isSuccess || you){
       toast.success(message)
       navigate('/')
       window.location.reload()
@@ -39,7 +39,7 @@ function Login() {
       window.location.reload()
       dispatch(reset())
     }
-  }, [user, isSuccess, isError , message, navigate])
+  }, [you, isSuccess, isError , message, navigate])
 
 
 

@@ -13,7 +13,7 @@ const MyPosts = () => {
   const params = useParams()
   const dispatch = useDispatch()
     const [products, setProducts] = useState([])
-    const user = useSelector(state => state.auth.user)
+    const user = useSelector(state => state.auth.you)
 
     const seller = user.id
 

@@ -13,7 +13,7 @@ const Products = () => {
   const navigate = useNavigate()
   //get id of product
   const { id } = useParams()
-  const user = useSelector(state => state.auth.user)
+  const you = useSelector(state => state.auth.you)
   const dispach = useDispatch()
   const [products, setProducts] = useState([])
   const [loading , setLoading] = useState(false)
@@ -29,6 +29,8 @@ const Products = () => {
       }
       )
   }, [])
+
+  console.log(products);
 
   const handleLogin = () => {
    if (window.confirm('You need to login to add to wishlist'))
@@ -59,7 +61,7 @@ const Products = () => {
           <div className="product-btns">
             <p className="info-price">${product.price}</p>
             {
-              user ? (
+              you ? (
                 <CartButton productId={product.id}  name={product.name} price={product.price} description={product.description} image={product.image} />
               ) : (
                 <BsCart3 onClick={handleLogin} />
@@ -70,7 +72,7 @@ const Products = () => {
           <div className='favorite'>
             {/* DISPLAY WISHLIST ID */}
             {
-              user ? (
+              you ? (
                 <Wishlist productId={product.id}  name={product.name} price={product.price} description={product.description} image={product.image} />
               ) : (
                 <BsHeart onClick={handleLogin} />

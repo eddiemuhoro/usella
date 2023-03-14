@@ -7,7 +7,7 @@ import Loader from '../../loader/Loader'
 import Wishlist from '../WishlistButton'
 import './cart.css'
 const Cart = () => {
-  const user = useSelector(state => state.auth.user)
+  const user = useSelector(state => state.auth.you)
   const [items, setItems] = useState([])
   const [loading , setLoading] = useState(false)
 
@@ -35,6 +35,7 @@ const Cart = () => {
 
   const handleQuantityChange = (itemId, newQuantity) => {
     const updatedItems = items.map(item => {
+      if (newQuantity === 0) return item;
       if (item.id === itemId) {
         return {
           ...item,
@@ -52,6 +53,9 @@ const Cart = () => {
   return (
     <div className="cart-page">
       <h1>Your Cart</h1>
+      {
+        loading && <Loader />
+      }
       {items.map(item => (
         <div key={item.id} className="cart-item">
           <img src={item.image} alt={item.name} />

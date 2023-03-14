@@ -4,7 +4,7 @@ import { BsCart3, BsFillCartCheckFill, BsHeart, BsHeartFill } from 'react-icons/
 import { useSelector } from 'react-redux'
 
 const CartButton = ({productId, name, price, description,  image}) => {
-    const user = useSelector(state => state.auth.user)
+    const user = useSelector(state => state.auth.you)
     const [cart, setCart] = useState([])
     const [test , setTest] = useState(false)
 
@@ -33,7 +33,7 @@ const CartButton = ({productId, name, price, description,  image}) => {
 
     useEffect(() => {
         const fetchWishlist = async () => {
-          const { data } = await axios.get(`https://odd-slip-ant.cyclic.app/products/cart/${productId}`)
+          const { data } = await axios.get(`http://localhost:9000/products/cart/${productId}`)
           setCart(data)
         }
         fetchWishlist()
@@ -42,7 +42,7 @@ const CartButton = ({productId, name, price, description,  image}) => {
     
   return (
     <div>
-      {/* CHANGE BUTTON IF USER'S PRODUCT IS IN WISHLIST */}
+      {/* CHANGE BUTTON IF you'S PRODUCT IS IN WISHLIST */}
      {
         cart.length === 0 || cart[0].userId !== user.id ? (
           <BsCart3 onClick={handleCart}/>

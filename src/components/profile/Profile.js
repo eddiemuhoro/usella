@@ -56,12 +56,12 @@ const Profile = () => {
                 {/* <div className="profile-header">Profile</div>
                 <div className="profile-details">
                     <div className="profile-avatar">
-                        <img src={user.avatar} alt={user.name} />
+                        <img src={you.avatar} alt={you.name} />
                     </div>
                     <div className="profile-info">
-                        <h3 className="profile-name">{user.name}</h3>
-                        <p className="profile-email">{user.email}</p>
-                        <p className="profile-phone">{user.phone}</p>
+                        <h3 className="profile-name">{you.name}</h3>
+                        <p className="profile-email">{you.email}</p>
+                        <p className="profile-phone">{you.phone}</p>
                     </div>
                 </div> */}
             </section>

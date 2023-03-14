@@ -23,12 +23,12 @@ function Register() {
 
   const { firstName, lastName, email, password, confirmPassword } = formData;
 
-  const { user, isError, isLoading, isSuccess, message }= useSelector (
+  const { you, isError, isLoading, isSuccess, message }= useSelector (
     (state)=> state.auth
   )
 
   useEffect((dispatch)=>{
-    if(isSuccess || user){
+    if(isSuccess || you){
       toast.success(message)
       navigate('/')
       window.location.reload()
@@ -40,7 +40,7 @@ function Register() {
       window.location.reload()
       dispatch(reset())
     }
-  }, [user, isSuccess, isError , message, navigate])
+  }, [you, isSuccess, isError , message, navigate])
 
 
   const handleSubmit = (e) => {

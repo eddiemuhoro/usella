@@ -1,8 +1,10 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import { BsHeart, BsHeartFill } from 'react-icons/bs';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { getProductById } from '../../react-redux/features/products/productSlice';
+import Wishlist from './WishlistButton';
 
 
 const SingleProduct = () => {
@@ -10,7 +12,7 @@ const SingleProduct = () => {
   //save update state in local storage
  const [update , setUpdate] = useState(false)
 
-  const user = useSelector(state => state.auth.user)
+  const user = useSelector(state => state.auth.you)
   const params = useParams()
   const { id } = params
   const [color, setColor] = useState('#000000'); // initial color is black
@@ -43,6 +45,7 @@ useEffect(() => {
   }
   )
 }, [dispatch, id])
+
 
 const handleCart = async () => {
   const cartData ={
@@ -78,8 +81,8 @@ const handleCart = async () => {
         fetchCart()
       }, [])
 
-      console.log(update);
-    
+    //fetch wishlist based on product id fetched 
+  
   return (
     <div>
     <div className='single-product-container'>
@@ -89,7 +92,7 @@ const handleCart = async () => {
             <img src="https://images.unsplash.com/photo-1676809767144-d24ba6178421?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80" alt="product" />
           </div>
           <div className='product-content' >
-                <h1 className="info-name">{products.name}</h1>
+                <h1 className="info-name">{products.id}</h1>
               
                 <p className="info-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.</p>
                 <div>
@@ -102,14 +105,26 @@ const handleCart = async () => {
                 
                 {/* CONDITIONAL RENDERING */}
                 {
-                  (cart.length === 0 || cart[0].userId !== user.id) && !update  ? (
+                  (cart.length === 0 || cart[0].youId !== user.id) && !update  ? (
                     <button onClick={handleCart}>Add to cart</button>
                   ) : (
                     <Link to='/cart' ><button>Already added to cart</button></Link>
                   )
                 }
               </div>
-          </div>
+              <div className='favorite'>
+                  {/* DISPLAY WISHLISsT ID */}
+                  {
+                      user ? (
+                        <Wishlist productId={id}  name={products.name} price={products.price} description={products.description} image={products.image} />
+                      ) : (
+                        <BsHeart />
+                      )
+
+                  }
+                </div>
+             </div>
+         
       </section>
       }
         
@@ -118,7 +133,9 @@ const handleCart = async () => {
           <p style={{textDecoration:'underline'}}>Other products posted by henry[8]</p>
         </section>
     </div>
-    <h2>Similar products</h2>   
+     <section>
+        <h2>Related Products</h2>
+     </section>
     </div>
   )
 }
