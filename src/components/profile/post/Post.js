@@ -7,12 +7,13 @@ import { useSelector } from 'react-redux';
 import './post.css'
 const Post = () => {
     const reader = new window.FileReader();
-    const user = useSelector(state => state.auth.user);
+    const user = useSelector(state => state.auth.you);
     const [imageString, setImageString] = useState('');
     const [post, setPost] = useState({
         name: '',
         description: '',
         price: 0,
+        quantity: 1,
         category: '',
         sellerId: user.id,
     });
@@ -35,6 +36,7 @@ const Post = () => {
             description: post.description,
             sellerId: (user.id),
             price:  parseInt(post.price),
+            quantity: parseInt(post.quantity),
             category: post.category,
             image: imageString,
           }
@@ -63,6 +65,13 @@ const Post = () => {
                     <input type='number' name='price' id='price' value={post.price} onChange={e => setPost({...post, price:e.target.value})} />
                     
                 </div>
+
+                <div className='form-group'>
+                    <label htmlFor='price'>Price</label>
+                    <input type='number' name='price' id='price' value={post.quantity} onChange={e => setPost({...post, quantity:e.target.value})} />
+                    
+                </div>
+
                 <div className='form-group'>
                     <label htmlFor='category'>Category</label>
                     <select name='category' id='category' onChange={e => setPost({...post, category:e.target.value})}>

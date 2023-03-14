@@ -25,7 +25,7 @@ const MyWishList = () => {
   }, [user.id])
 
   const handleRemoveFavorite = async (id) => {
-    await axios.delete(`http://localhost:9000/products/wishlist/${id}`)
+    await axios.delete(`https://odd-slip-ant.cyclic.app/products/wishlist/${id}`)
     .then(res => {
       console.log(res)
       console.log(res.data)

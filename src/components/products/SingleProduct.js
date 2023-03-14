@@ -1,13 +1,15 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { BsHeart, BsHeartFill } from 'react-icons/bs';
+import { BsCart3, BsHeart, BsHeartFill } from 'react-icons/bs';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
-import { getProductById } from '../../react-redux/features/products/productSlice';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { addToCart, getProductByCategory, getProductById } from '../../react-redux/features/products/productSlice';
+import CartButton from './CartButton';
 import Wishlist from './WishlistButton';
 
 
 const SingleProduct = () => {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   //save update state in local storage
  const [update , setUpdate] = useState(false)
@@ -38,16 +40,9 @@ const SingleProduct = () => {
   const [products, setclickedProduct] = useState([])
 
 
-useEffect(() => {
-  dispatch(getProductById(id))
-  .then(res => {
-    setclickedProduct(res.payload)
-  }
-  )
-}, [dispatch, id])
 
 
-const handleCart = async () => {
+const handleCart =  () => {
   const cartData ={
     productId: products.id,
     userId: user.id,
@@ -58,30 +53,49 @@ const handleCart = async () => {
     quantity: 1
   }
   setUpdate(!update)
-  await axios.post('http://localhost:9000/products/cart', 
-    cartData
+    dispatch(addToCart(cartData))
+    .then(res => {
+      console.log(res)
+    }
        )
       }
 
-      const handleCartRemove = async () => {
-        await axios.delete(`http://localhost:9000/products/cart/${id}`)
-         .then(res => {
-           console.log(res)
-           console.log(res.data)
-         }
-         )
-      }
 
       const [cart, setCart] = useState([])
       useEffect(() => {
-        const fetchCart = async () => {
-          const { data } = await axios.get(`https://odd-slip-ant.cyclic.app/products/cart/${id}`)
-          setCart(data)
+        dispatch(getProductById(id))
+        .then(res => {
+          setclickedProduct(res.payload)
         }
-        fetchCart()
+        )
       }, [])
 
-    //fetch wishlist based on product id fetched 
+      const [category , setCategory] = useState([ ])
+      useEffect(() => {
+        dispatch(getProductByCategory(products.category))
+        .then(res => {
+          setCategory(res.payload)
+        }
+        )
+      }, [dispatch, products.category])
+
+      const cutDescription = (description) => {
+        if (description.length > 50) {
+          return description.substring(0, 50) + '...'
+        }else if(description.length < 50) {
+          return description
+        }
+      }
+
+      //habdle loading after 1 second
+      const handleReload = () => {
+        setTimeout(() => {
+          window.location.reload()
+        }, 1000);
+      }
+
+
+ 
   
   return (
     <div>
@@ -89,10 +103,10 @@ const handleCart = async () => {
       {
           <section className='product-info'>
           <div>
-            <img src="https://images.unsplash.com/photo-1676809767144-d24ba6178421?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80" alt="product" />
+            <img src={products.image} alt="product" />
           </div>
           <div className='product-content' >
-                <h1 className="info-name">{products.id}</h1>
+                <h1 className="info-name">{products.name}</h1>
               
                 <p className="info-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.</p>
                 <div>
@@ -105,7 +119,7 @@ const handleCart = async () => {
                 
                 {/* CONDITIONAL RENDERING */}
                 {
-                  (cart.length === 0 || cart[0].youId !== user.id) && !update  ? (
+                  (cart.length === 0 || cart[0].userId !== user.id) && !update  ? (
                     <button onClick={handleCart}>Add to cart</button>
                   ) : (
                     <Link to='/cart' ><button>Already added to cart</button></Link>
@@ -133,9 +147,51 @@ const handleCart = async () => {
           <p style={{textDecoration:'underline'}}>Other products posted by henry[8]</p>
         </section>
     </div>
-     <section>
-        <h2>Related Products</h2>
-     </section>
+
+    <section className="products">
+    
+    {
+      category.map(product => (
+        <Link key={product.id} onClick={handleReload} to={`/products/${product.id}`}>
+        <div className="product">
+          <div className="product-img">
+            <img src={product.image} alt="product" />
+          </div>
+          <div className="product-info">
+            <p className="info-name">{product.name}</p>
+            <p className="info-description">{cutDescription(product.description)}</p>
+          </div>
+          <div className="product-btns">
+            <p className="info-price">${product.price}</p>
+            {
+              user ? (
+                <CartButton productId={product.id}  name={product.name} price={product.price} description={product.description} image={product.image} />
+              ) : (
+                <BsCart3  />
+              )
+
+            }
+          </div>
+          <div className='favorite'>
+            {/* DISPLAY WISHLIST ID */}
+            {
+              user ? (
+                <Wishlist productId={product.id}  name={product.name} price={product.price} description={product.description} image={product.image} />
+              ) : (
+                <BsHeart />
+              )
+                
+            }
+          </div>
+         
+        </div>
+        </Link>
+      )
+      )
+    }
+
+  </section>
+    
     </div>
   )
 }

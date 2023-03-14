@@ -1,43 +1,27 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { BsCart3, BsFillCartCheckFill, BsHeart, BsHeartFill } from 'react-icons/bs'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { addToCart, getCart } from '../../react-redux/features/products/productSlice'
 
 const CartButton = ({productId, name, price, description,  image}) => {
+  const dispatch = useDispatch()
     const user = useSelector(state => state.auth.you)
     const [cart, setCart] = useState([])
     const [test , setTest] = useState(false)
+    const [update , setUpdate] = useState(false)
 
-    const handleCart = async () => {
-        await axios.post('http://localhost:9000/products/cart', {
-         productId: productId,
-         userId: user.id,
-          name: name,
-          price: price,
-          description: description,
-          image: image,
-          quantity: 1
-
-       })
-     }
-   
-     const handleCartRemove = async () => {
-       await axios.delete(`https://odd-slip-ant.cyclic.app/products/cart/${productId}`)
-        .then(res => {
-          console.log(res)
-          console.log(res.data)
-        }
-        )
-     }
-   
+     
 
     useEffect(() => {
-        const fetchWishlist = async () => {
-          const { data } = await axios.get(`http://localhost:9000/products/cart/${productId}`)
-          setCart(data)
+        dispatch(getCart(productId))
+        .then(res => {
+          setCart(res.payload)
         }
-        fetchWishlist()
-      }, [productId])
+        )
+    }, [dispatch, productId])
+
+      console.log(cart)
     
     
   return (
@@ -45,9 +29,9 @@ const CartButton = ({productId, name, price, description,  image}) => {
       {/* CHANGE BUTTON IF you'S PRODUCT IS IN WISHLIST */}
      {
         cart.length === 0 || cart[0].userId !== user.id ? (
-          <BsCart3 onClick={handleCart}/>
+          <BsCart3 />
         ) : (
-          <BsFillCartCheckFill color='blue' onClick={handleCartRemove} />
+          <BsFillCartCheckFill color='blue'  />
         )
      }
         

@@ -50,6 +50,19 @@ async(productId, thunkAPI)=>{
 }
 )
 
+//get product by user id
+export const getProductByUser = createAsyncThunk('products/get',
+async(userId, thunkAPI)=>{
+  try {
+    return await productService.getProductByUser(userId)
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+    
+  }
+)
+
 //add to cart
 export const addToCart = createAsyncThunk('products/addToCart',
 async(cartData, thunkAPI)=>{
@@ -70,6 +83,57 @@ async(productId, thunkAPI)=>{
     return await productService.getCart(productId)
   }
   catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+}
+)
+
+//get cart item by user id
+export const getCartByUser = createAsyncThunk('products/getCartByUser',
+async(userId, thunkAPI)=>{
+  try {
+    return await productService.getCartByUser(userId)
+  }
+  catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+}
+)
+
+//remove item from cart by product id
+export const deleteCart = createAsyncThunk('products/deleteCart',
+async(productId, thunkAPI)=>{
+  try {
+    return await productService.deleteCart(productId)
+  }
+  catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+}
+)
+
+//update cart item quantity
+export const updateCart = createAsyncThunk('products/updateCart',
+async(cartData, thunkAPI)=>{
+  try {
+    return await productService.updateCart(cartData)
+  }
+  catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+}
+)
+
+//get product by category
+export const getProductByCategory = createAsyncThunk('products/get',
+async(category, thunkAPI)=>{
+  try {
+    return await productService.getProductByCategory(category)
+  } catch (error) {
     const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
     return thunkAPI.rejectWithValue(message);
   }

@@ -30,6 +30,18 @@ const Products = () => {
       )
   }, [])
 
+  //cut the description to 50 characters or less
+  const cutDescription = (description) => {
+    if (description.length > 50) {
+      return description.substring(0, 50) + '...'
+    }else if(description.length < 50) {
+      return description
+    }
+  }
+
+     
+
+
   console.log(products);
 
   const handleLogin = () => {
@@ -56,7 +68,7 @@ const Products = () => {
           </div>
           <div className="product-info">
             <p className="info-name">{product.name}</p>
-            <p className="info-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.</p>
+            <p className="info-description">{cutDescription(product.description)}</p>
           </div>
           <div className="product-btns">
             <p className="info-price">${product.price}</p>

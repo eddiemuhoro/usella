@@ -1,34 +1,32 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { BsCart3, BsHeart, BsHeartFill } from 'react-icons/bs'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { deleteCart, getCartByUser } from '../../../react-redux/features/products/productSlice'
 import Loader from '../../loader/Loader'
 import Wishlist from '../WishlistButton'
 import './cart.css'
 const Cart = () => {
+  const dispatch = useDispatch()
   const user = useSelector(state => state.auth.you)
   const [items, setItems] = useState([])
   const [loading , setLoading] = useState(false)
 
-  const [wishlist , setWishlist] = useState([])
   useEffect(() => {
     setLoading(true)
-    const fetchWishlist = async () => {
-      const { data } = await axios.get(`https://odd-slip-ant.cyclic.app/products/cart/user/${user.id}`)
-      setItems(data)
+    dispatch(getCartByUser(user.id))
+    .then(res => {
+      setItems(res.payload)
       setLoading(false)
     }
-    fetchWishlist()
+    )
+
   }, [])
 
-  const handleCartRemove = async (productId) => {
-    await axios.delete(`http://localhost:9000/products/cart/${productId}`)
-     .then(res => {
-       console.log(res)
-       console.log(res.data)
-     }
-     )
+  const handleCartRemove =  (productId) => {
+     dispatch(deleteCart(productId))
+      
   }
 
  
