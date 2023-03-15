@@ -19,7 +19,14 @@
     border-radius: 10px;
     height: 400px;
     background-color: #0a0a0a;
-    position: relative;
+    position: relative;   
+    transition: .3s ;
+
+}
+
+.product:hover{
+    scale: 1.02;
+    transition: .3s ;
 }
 
 .favorite{

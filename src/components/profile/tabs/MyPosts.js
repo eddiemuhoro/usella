@@ -29,6 +29,7 @@ const MyPosts = () => {
       fetchProducts()
     }, [])
 
+    
   //delete product with a confirmation message
   const handleDelete =  (id, name) => {
     if (window.confirm(`Are you sure you want to delete ${name}?`)) {
