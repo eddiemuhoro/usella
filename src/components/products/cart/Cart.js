@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import React, { useEffect, useState } from 'react'
 import { BsCart3, BsHeart, BsHeartFill } from 'react-icons/bs'
 import { useDispatch, useSelector } from 'react-redux'
@@ -48,6 +49,7 @@ const Cart = () => {
   };
   const totalPrice = items.reduce((total, item) => total + item.price * item.quantity, 0);
 
+
   return (
     <div className="cart-page">
       <h1>Your Cart</h1>
@@ -72,6 +74,29 @@ const Cart = () => {
       <div className="total-price">
         <p>Total Price:</p>
         <p>{`$${totalPrice.toFixed(2)}`}</p>
+      </div>
+      <div>
+      <PayPalScriptProvider options={{ "client-id": "test" }}>
+            <PayPalButtons style={{ layout: "horizontal" }} 
+            createOrder={(data, actions) => {
+              
+              return actions.order.create({
+                  purchase_units: [
+                      {
+                          amount: {
+                              value: 20,
+                          },
+                      },
+                  ],
+              });
+          }}
+          onApprove={(data, actions) => {
+              return actions.order.capture().then((details) => {
+                  const name = details.payer.name.given_name;
+                  alert(`Transaction completed by ${name}`);
+              });
+          }}/>
+        </PayPalScriptProvider>
       </div>
     </div>
   )

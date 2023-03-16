@@ -11,7 +11,7 @@ const Wishlist = ({productId, name, price, description,  image}) => {
 
     const handleFavoriteClick = async () => {
       setLoading(true)
-        await axios.post('http://localhost:9000/products/wishlist', {
+        await axios.post('https://odd-slip-ant.cyclic.app/products/wishlist', {
          productId: productId,
          userId: user.id,
           name: name,
@@ -38,7 +38,7 @@ const Wishlist = ({productId, name, price, description,  image}) => {
 
     useEffect(() => {
         const fetchWishlist = async () => {
-          const { data } = await axios.get(`http://localhost:9000/products/wishlist/${productId}`)
+          const { data } = await axios.get(`https://odd-slip-ant.cyclic.app/products/wishlist/${productId}`)
           setWishlist(data)
         }
         fetchWishlist()
