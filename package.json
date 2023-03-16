@@ -31,6 +31,7 @@
     "react-toastify": "^9.1.1",
     "react-whatsapp": "^0.3.0",
     "reactjs-popup": "^2.0.5",
+    "remove": "^0.1.5",
     "status": "^0.0.13",
     "styled-components": "^5.3.6",
     "web-vitals": "^2.1.4"

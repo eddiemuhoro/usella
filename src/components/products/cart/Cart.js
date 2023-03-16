@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+// import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import React, { useEffect, useState } from 'react'
 import { BsCart3, BsHeart, BsHeartFill } from 'react-icons/bs'
 import { useDispatch, useSelector } from 'react-redux'
@@ -8,6 +8,7 @@ import { deleteCart, getCartByUser } from '../../../react-redux/features/product
 import Loader from '../../loader/Loader'
 import Wishlist from '../WishlistButton'
 import './cart.css'
+import Paypal from './Paypal'
 const Cart = () => {
   const dispatch = useDispatch()
   const user = useSelector(state => state.auth.you)
@@ -50,6 +51,10 @@ const Cart = () => {
   const totalPrice = items.reduce((total, item) => total + item.price * item.quantity, 0);
 
 
+  //CHECKOUT BUTTON
+  const [checkout, setCheckout] = useState(false)
+
+
   return (
     <div className="cart-page">
       <h1>Your Cart</h1>
@@ -76,7 +81,20 @@ const Cart = () => {
         <p>{`$${totalPrice.toFixed(2)}`}</p>
       </div>
       <div>
-      <PayPalScriptProvider options={{ "client-id": "test" }}>
+      {checkout ? (
+        <Paypal />
+      ) : (
+        <button
+          onClick={() => {
+            setCheckout(true);
+          }}
+        >
+          Checkout
+        </button>
+      )}
+         
+        <div/>
+      {/* <PayPalScriptProvider options={{ "client-id": "test" }}>
             <PayPalButtons style={{ layout: "horizontal" }} 
             createOrder={(data, actions) => {
               
@@ -96,7 +114,7 @@ const Cart = () => {
                   alert(`Transaction completed by ${name}`);
               });
           }}/>
-        </PayPalScriptProvider>
+        </PayPalScriptProvider> */}
       </div>
     </div>
   )

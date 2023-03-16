@@ -63,3 +63,8 @@ button{
   cursor: pointer;
   transition: all 0.3s ease;
 }
+
+
+.paypal-button-env-sandbox{
+  display: none;
+}
