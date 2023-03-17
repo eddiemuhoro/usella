@@ -43,7 +43,7 @@ const MyPosts = () => {
     <div>
          <section className="products myProducts">
           {
-            products.length === 0 ? (
+            !products ? (
               <div className="no-products">
                 <h1>You have no products</h1>
                 <Link to='/post' style={{textDecoration:'underline'}}>Add a product</Link>
