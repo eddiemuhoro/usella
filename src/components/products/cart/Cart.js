@@ -119,7 +119,24 @@ const Cart = () => {
           {/* Money to be paid */}
           <p>Amount to be paid: {totalPrice}</p>
           {/*mpesa pay button*/}
-          <button>Pay</button>
+            {
+              checkout ? (
+
+                <p style={{color:'#17516a', width:'40%', }}>
+                       Check a message on your phone to complete the payment
+                </p>
+              ) : (
+                <button
+                  onClick={() => {
+                    setCheckout(true);
+                  }
+                  }
+                >
+                  Pay
+                </button>
+              )
+
+            }
           </form>
 
 
