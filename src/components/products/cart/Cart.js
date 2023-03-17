@@ -10,6 +10,7 @@ import Wishlist from '../WishlistButton'
 import './cart.css'
 import Paypal from './Paypal'
 const Cart = () => {
+  const [phone , setPhone] = useState('')
   const dispatch = useDispatch()
   const user = useSelector(state => state.auth.you)
   const [items, setItems] = useState([])
@@ -51,8 +52,24 @@ const Cart = () => {
   const totalPrice = items.reduce((total, item) => total + item.price * item.quantity, 0);
 
 
+  //mpesa payment
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const data = {
+      phone: phone,
+      amount: totalPrice
+    }
+    axios.post('https://odd-slip-ant.cyclic.app/daraja', data)
+    .then(res => {
+      console.log(data)
+
+    })
+  }
+
+
   //CHECKOUT BUTTON
   const [checkout, setCheckout] = useState(false)
+
 
 
   return (
@@ -81,7 +98,7 @@ const Cart = () => {
         <p>{`$${totalPrice.toFixed(2)}`}</p>
       </div>
       <div>
-      {checkout ? (
+      {/* {checkout ? (
         <Paypal />
       ) : (
         <button
@@ -91,9 +108,22 @@ const Cart = () => {
         >
           Checkout
         </button>
-      )}
+      )} */}
          
         <div/>
+        <div style={{marginTop:'20px'}}  className='mpesa-pay'>
+          {/*mpesa number input*/}
+          <h3>Pay via Mpesa</h3>
+          <form onSubmit={handleSubmit}>
+          <input type='number' placeholder='Enter your phone number' value={phone} onChange={(e)=>setPhone(e.target.value)}/>
+          {/* Money to be paid */}
+          <p>Amount to be paid: {totalPrice}</p>
+          {/*mpesa pay button*/}
+          <button>Pay</button>
+          </form>
+
+
+        </div>
       {/* <PayPalScriptProvider options={{ "client-id": "test" }}>
             <PayPalButtons style={{ layout: "horizontal" }} 
             createOrder={(data, actions) => {
