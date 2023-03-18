@@ -59,9 +59,9 @@ const Cart = () => {
       phone: phone,
       amount: totalPrice
     }
-    axios.post('https://odd-slip-ant.cyclic.app/daraja', data)
+    axios.post(' https://odd-slip-ant.cyclic.app/daraja', data)
     .then(res => {
-      console.log(data)
+      console.log(res.data)
 
     })
   }
@@ -120,7 +120,7 @@ const Cart = () => {
           <p>Amount to be paid: {totalPrice}</p>
           {/*mpesa pay button*/}
             {
-              checkout ? (
+              !checkout && checkout ? (
 
                 <p style={{color:'#17516a', width:'40%', }}>
                        Check a message on your phone to complete the payment
