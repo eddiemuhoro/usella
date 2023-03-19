@@ -33,11 +33,12 @@ const getProductByCategory = async(category)=>{
 
 //get product by user id
 const getProductByUser = async(userId)=>{
-  const response = await axios.get(API_URL + 'products/user/' + userId,
+  const response = await axios.get(API_URL + 'products/seller/' + userId,
   )
 //data response
   return response.data  
 }
+
 
 const deleteProduct = async (productId) => {
 
@@ -83,6 +84,27 @@ const deleteProduct = async (productId) => {
     return response.data
   }
 
+  //GET ORDERS BY USER ID
+  const getOrdersByUser = async (userId) => {
+    const response = await axios.get(API_URL + 'products/orders/user/' + userId)
+    return response.data
+  }
+
+  //DELETE ORDER BY ORDER ID
+  const deleteOrder = async (orderId) => {
+    const response = await axios.delete(API_URL + 'products/orders/' + orderId)
+    return response.data
+  }
+
+
+
+  //UPDATE PRODUCT QUANTITY AFTER ORDER
+  const updateProductQuantity = async (productId, newQuantity) => {
+    const response = await axios.put(API_URL + 'products/orders/' + productId, newQuantity)
+    return response.data
+  }
+
+
 
  
   
@@ -98,6 +120,9 @@ const productService={
     getProductById,
     getProductByCategory,
     getProduct,
-    updateProduct
+    updateProduct,
+    getOrdersByUser,
+    deleteOrder,
+    updateProductQuantity
 }
 export default productService
