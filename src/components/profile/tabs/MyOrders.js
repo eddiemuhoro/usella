@@ -21,7 +21,7 @@ const MyOrders = () => {
         setLoading(false)
       }
       )
-      setLoading(false)
+      
     }, [dispatch, user.id])
     console.log(products)
 
@@ -71,7 +71,7 @@ const MyOrders = () => {
           {
              products.length === 0 && 
               <div className="no-products">
-                <h1>You have no products in your wishlist</h1>
+                <h1>You have no orders</h1>
                 <Link to='/products' style={{textDecoration:'underline'}}>Go to products</Link>
               </div>
           }
