@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
 import { AiFillEdit } from 'react-icons/ai'
 import './myPosts.css'
-import { deleteProduct } from '../../../react-redux/features/products/productSlice'
+import { deleteProduct, getProductByUser } from '../../../react-redux/features/products/productSlice'
 
 const MyPosts = () => {
   const params = useParams()
@@ -22,14 +22,18 @@ const MyPosts = () => {
   
     //fetxh from redux store
     useEffect(() => {
-      const fetchProducts = async () => {
-        const { data } = await axios.get(`http://localhost:9000/products/${seller}`)
-        setProducts(data)
-      }
-      fetchProducts()
-    }, [])
+      dispatch(getProductByUser(seller))
+      .then(res => {
+        setProducts(res.payload)
+      })
+      // const fetchProducts = async () => {
+      //   const { data } = await axios.get(`http://localhost:9000/products/seller/${seller}`)
+      //   setProducts(data)
+      // }
+      // fetchProducts()
+    }, [dispatch, seller])
 
-
+    console.log(products)
 
     
   //delete product with a confirmation message
