@@ -3,9 +3,11 @@ import axios from 'axios'
 import { toast } from 'react-toastify';
 import FileBase from 'react-file-base64'
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import './post.css'
+import { createproduct } from '../../../react-redux/features/products/productSlice';
 const Post = () => {
+    const dispatch = useDispatch();
     const reader = new window.FileReader();
     const user = useSelector(state => state.auth.you);
     const [imageString, setImageString] = useState('');
@@ -16,6 +18,7 @@ const Post = () => {
         quantity: 1,
         category: '',
         sellerId: user.id,
+        sellerName: user.fisrtName,
     });
 
     const handleImageUpload = (event) => {
@@ -35,13 +38,14 @@ const Post = () => {
             name: post.name,
             description: post.description,
             sellerId: (user.id),
+            sellerName: (user.firstName),
             price:  parseInt(post.price),
             quantity: parseInt(post.quantity),
             category: post.category,
             image: imageString,
           }
           console.log(newPost)
-          await axios.post('https://odd-slip-ant.cyclic.app/products', newPost)
+          dispatch(createproduct(newPost))
     }
 
 
@@ -67,7 +71,7 @@ const Post = () => {
                 </div>
 
                 <div className='form-group'>
-                    <label htmlFor='price'>Price</label>
+                    <label htmlFor='price'>Quantity</label>
                     <input type='number' name='price' id='price' value={post.quantity} onChange={e => setPost({...post, quantity:e.target.value})} />
                     
                 </div>
