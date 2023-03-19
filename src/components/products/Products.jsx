@@ -71,7 +71,7 @@ const Products = () => {
             <p className="info-description">{cutDescription(product.description)}</p>
           </div>
           <div className="product-btns">
-            <p className="info-price">${product.price}</p>
+            <p className="info-price">${product.quantity}</p>
             {
               you ? (
                 <CartButton productId={product.id}  name={product.name} price={product.price} description={product.description} image={product.image} />

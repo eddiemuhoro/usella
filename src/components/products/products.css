@@ -94,6 +94,7 @@
     width: 100%;
     justify-content: center;
     position: relative;
+    margin: 20px 0;
 }
 .single-product-container > section{
     padding: 20px;
