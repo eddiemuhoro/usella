@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { BsCart3, BsHeart, BsHeartFill } from 'react-icons/bs'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { deleteCart, getCartByUser } from '../../../react-redux/features/products/productSlice'
+import { deleteCart, deleteProduct, getCartByUser } from '../../../react-redux/features/products/productSlice'
 import Loader from '../../loader/Loader'
 import Wishlist from '../WishlistButton'
 import './cart.css'
@@ -15,6 +15,10 @@ const Cart = () => {
   const user = useSelector(state => state.auth.you)
   const [items, setItems] = useState([])
   const [loading , setLoading] = useState(false)
+  const [delivery , setDelivery] = useState('')
+  
+  //show delivery on console
+   console.log(delivery)
 
   useEffect(() => {
     setLoading(true)
@@ -23,13 +27,11 @@ const Cart = () => {
       setItems(res.payload)
       setLoading(false)
     }
-    )
-
+  )
   }, [])
 
   const handleCartRemove =  (productId) => {
-     dispatch(deleteCart(productId))
-      
+     dispatch(deleteCart(productId))  
   }
 
  
@@ -62,8 +64,58 @@ const Cart = () => {
     axios.post(' https://odd-slip-ant.cyclic.app/daraja', data)
     .then(res => {
       console.log(res.data)
-
     })
+    .catch(err => {
+      console.log(err)
+    }
+)
+  
+  
+    //add purchased items to orders
+    items.map(item => {
+      axios.post('https://odd-slip-ant.cyclic.app/products/orders', {
+        userId: user.id,
+        productId: item.productId,
+        name: item.name,
+        image: item.image,
+        price: item.price,
+        quantity: item.quantity,
+        delivery:   delivery,
+      })
+      .then(res => {
+        console.log(res)
+      }
+      )
+    }
+    )
+
+    //update product quantity to 0 after order is placed
+    items.map(item => {
+      axios.put(`https://odd-slip-ant.cyclic.app/products/orders/${item.productId}`, {
+        quantity: 0
+      })
+      .then(res => {
+        console.log(res)
+      }
+      )
+    }
+    )
+
+
+      // delete purchased items from cart
+      // items.map(item => {
+      //   dispatch(deleteCart(item.productId))
+
+      // }
+      // )
+      setTimeout(() => {
+        items.map (item => {
+          dispatch(deleteCart(item.productId))
+        }
+        )
+      }, 5000);
+
+   
   }
 
 
@@ -111,11 +163,19 @@ const Cart = () => {
       )} */}
          
         <div/>
-        <div style={{marginTop:'20px'}}  className='mpesa-pay'>
+       
+        <div style={{marginTop:'20px'}}  className='payment'>
           {/*mpesa number input*/}
-          <h3>Pay via Mpesa</h3>
+          
           <form onSubmit={handleSubmit}>
+          <h3>Pay via Mpesa</h3>
           <input type='number' placeholder='Enter your phone number' value={phone} onChange={(e)=>setPhone(e.target.value)}/>
+          <h3>Choose delivery point</h3>
+          <select name="delivery" id="delivery" onChange={(e)=>setDelivery(e.target.value)}>
+              <option value="Kiwa Shop" >Choose delivery point</option>
+              <option value="Jemwa Shop">Jemwa Shop</option>
+              <option value="Kiwa Shop">Kiwa Shop</option>
+          </select>
           {/* Money to be paid */}
           <p>Amount to be paid: {totalPrice}</p>
           {/*mpesa pay button*/}
@@ -129,6 +189,7 @@ const Cart = () => {
                 <button
                   onClick={() => {
                     setCheckout(true);
+                    
                   }
                   }
                 >
@@ -139,7 +200,10 @@ const Cart = () => {
             }
           </form>
 
-
+          <section className='paypal-pay'>
+            <h3>Pay via Paypal</h3>
+            <Paypal />
+          </section>
         </div>
       {/* <PayPalScriptProvider options={{ "client-id": "test" }}>
             <PayPalButtons style={{ layout: "horizontal" }} 

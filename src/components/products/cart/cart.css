@@ -68,6 +68,15 @@
     margin: 0;
   }
 
+  .payment{
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .paypal-pay{
+    width: 50%;
+  }
+
   @media (max-width:600px) {
     .cart-item{
       align-items: flex-end;
