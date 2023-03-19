@@ -174,6 +174,48 @@ export const deleteProduct = createAsyncThunk(
     }
   )
 
+  //GET ORDER BY USER ID
+export const getOrderByUser = createAsyncThunk('products/get',
+async(userId, thunkAPI)=>{
+  try {
+    return await productService.getOrdersByUser(userId)
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+    
+  }
+)
+
+//delete order by order id
+export const deleteOrder = createAsyncThunk('products/delete',
+async(orderId, thunkAPI)=>{
+  try {
+    return await productService.deleteOrder(orderId)
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+    
+  }
+)
+
+//UPDATE PRODUCT'S QUANTITY AFTER ORDER
+export const updateProductQuantity = createAsyncThunk('products/update',
+async(productData, thunkAPI)=>{
+  try {
+    return await productService.updateProductQuantity(productData)
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+    
+  }
+)
+
+
+
+//EXTRA REDUCERS
 export const productSlice= createSlice({
     name: 'product',
     initialState,
