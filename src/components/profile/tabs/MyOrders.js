@@ -56,7 +56,7 @@ const MyOrders = () => {
                     <div className="order-quantity">
                       <p className="order-quantity">Quantity: {product.quantity}</p>
                     </div>
-                    <div classname="shipped">
+                    <div className="shipped">
                       <p className="shipped">Delivery in 5 hours</p>
                       <Link to ='/products' className="order-btn" style={{textDecoration:"underline"}}>{product.delivery}</Link>
                     </div>
