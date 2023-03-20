@@ -200,10 +200,7 @@ const Cart = () => {
             }
           </form>
 
-          <section className='paypal-pay'>
-            <h3>Pay via Paypal</h3>
-            <Paypal />
-          </section>
+         
         </div>
       {/* <PayPalScriptProvider options={{ "client-id": "test" }}>
             <PayPalButtons style={{ layout: "horizontal" }} 
