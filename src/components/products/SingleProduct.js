@@ -146,7 +146,7 @@ const handleCart =  () => {
               
                 <p className="info-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.</p>
                 <div>
-                <h2 className="info-price">${products.price}</h2>
+                <h2 className="info-price">Ksh {products.price}</h2>
               </div>
               <div className='warning'>
                 <p style={{color, transition: 'color 2s ease-in-out' }}>{products.quantity} items left</p>
