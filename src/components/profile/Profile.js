@@ -4,7 +4,10 @@ import './profile.css';
 import MyInbox from './tabs/MyInbox';
 import MyWishList from './tabs/MyWishList';
 import MyPosts from './tabs/MyPosts';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { AiOutlineLogout } from 'react-icons/ai';
+import { useNavigate } from 'react-router-dom';
+import { logout, reset } from '../../react-redux/features/auth/authSlice';
 
 const details = {
     name: 'John Doe',
@@ -15,6 +18,8 @@ const details = {
 
 
 const Profile = () => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const user = useSelector(state => state.auth.you)
     const [orders, setOrders] = useState(true)
     const [inbox, setInbox] = useState(false)
@@ -51,6 +56,16 @@ const Profile = () => {
         setPosts(true)
     }
 
+    const handleLogout = () => {
+        //confirm logout
+        if (window.confirm('Are you sure you want to logout?')) {
+            dispatch(logout())
+            dispatch(reset())
+            navigate('/login')
+
+        }        
+    }
+
 
     return (
         <div className="profile-container">
@@ -65,6 +80,11 @@ const Profile = () => {
                         <p className="profile-email">{user.email}</p>
                         <p className="profile-phone">{details.phone}</p>
                     </div>
+
+                    <div className= 'logout-btn'>
+                        <AiOutlineLogout title='logout' onClick={handleLogout} />
+                    </div>
+                    
                 </div>
             </section>
             <section className='profile-contents'>
