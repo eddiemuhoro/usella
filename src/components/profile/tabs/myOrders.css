@@ -38,3 +38,20 @@
     align-items: center;
 }
 
+.right{
+    text-align: right;
+}
+
+.order-time{
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    width: 150px;
+    height: 25px;
+    text-align: right;
+}
+
+.order-time p{
+    font-size: 10px;
+    font-weight: 400;
+}

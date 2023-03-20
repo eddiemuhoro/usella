@@ -61,6 +61,10 @@ const MyOrders = () => {
                       <Link to ='/products' className="order-btn" style={{textDecoration:"underline"}}>{product.delivery}</Link>
                     </div>
                   </section>
+
+                  <div className='order-time'>
+                    <p className="order-time"> {new Date(product.createdAt).toLocaleString()}</p>
+                  </div>
                 
                 </div>
               )
@@ -77,7 +81,7 @@ const MyOrders = () => {
           }
       
 
-      </section>
+      message      </section>
     </div>
   )
 }
