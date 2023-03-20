@@ -156,6 +156,7 @@ const handleCart =  () => {
                 {/* CONDITIONAL RENDERING */}
                
                 {/* IF QUANTITY IS 0, DISABLE ADD TO CART BUTTON */}
+                
                 {
                   products.quantity === 0 ?  (<button title='out of stock' disabled>Add to cart</button>):
                   (
@@ -222,7 +223,7 @@ const handleCart =  () => {
             <p className="info-description">{cutDescription(product.description)}</p>
           </div>
           <div className="product-btns">
-            <p className="info-price">${product.price}</p>
+            <p className="info-price">Ksh {product.price}</p>
             {
               user ? (
                 <CartButton productId={product.id}  name={product.name} price={product.price} description={product.description} image={product.image} />
