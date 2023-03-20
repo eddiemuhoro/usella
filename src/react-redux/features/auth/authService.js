@@ -27,16 +27,12 @@ const logout = ()=>{
     localStorage.removeItem('you');
 }
 
-const logoutEmployer = ()=>{
-    localStorage.removeItem('employer');
-}
 
 
 const authService ={
     login,
     register,
     logout,
-    logoutEmployer,
 
 }
 
