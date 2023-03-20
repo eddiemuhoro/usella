@@ -54,11 +54,19 @@ function Navbar() {
               Help<FiHelpCircle style = {{marginLeft:'5px'}}/>
             </NavLink>
           </li>
-          <li className="nav-item">
-            <NavLink to="/cart" className="nav-links" onClick={closeMobileMenu}>
-              <AiOutlineShoppingCart />
-            </NavLink>
-          </li>
+          
+            {
+              you ? (
+                <li className="nav-item">
+              <NavLink to="/cart" className="nav-links" onClick={closeMobileMenu}>
+                  <AiOutlineShoppingCart />
+              </NavLink>
+            </li>
+              ):(
+                ''
+              )
+            }
+            
           {
             you ? (
               <li className="nav-item">
