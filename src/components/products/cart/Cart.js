@@ -3,13 +3,13 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { BsCart3, BsHeart, BsHeartFill } from 'react-icons/bs'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { deleteCart, deleteProduct, getCartByUser } from '../../../react-redux/features/products/productSlice'
 import Loader from '../../loader/Loader'
-import Wishlist from '../WishlistButton'
 import './cart.css'
 import Paypal from './Paypal'
 const Cart = () => {
+  const navigate = useNavigate()
   const [phone , setPhone] = useState('')
   const dispatch = useDispatch()
   const user = useSelector(state => state.auth.you)
@@ -52,6 +52,7 @@ const Cart = () => {
     axios.put(`https://odd-slip-ant.cyclic.app/products/cart/${itemId}`, {quantity: newQuantity})
   };
   const totalPrice = items.reduce((total, item) => total + item.price * item.quantity, 0);
+  const [checkout, setCheckout] = useState(false)
 
 
   //mpesa payment
@@ -84,10 +85,17 @@ const Cart = () => {
       })
       .then(res => {
         console.log(res)
+        navigate('/profile')
       }
       )
     }
-    )
+  )
+
+    //set setCheckout to true FOR 10 seconds then set it to false
+    setCheckout(true)
+    setTimeout(() => {
+      setCheckout(false)
+    }, 60000);
 
     //update product quantity to 0 after order is placed
     items.map(item => {
@@ -120,8 +128,22 @@ const Cart = () => {
 
 
   //CHECKOUT BUTTON
-  const [checkout, setCheckout] = useState(false)
 
+    //check if product is in order
+    const [inOrder, setInOrder] = useState(false)
+    useEffect(() => {
+     dispatch(getCartByUser(user.id))
+      .then(res => {
+        res.data.map(item => {
+          if(item.userId === user.id) {
+            setInOrder(true)
+            }
+          }
+        )
+      }
+      )
+    }, [dispatch, user.id])
+    console.log(inOrder)
 
 
   return (
@@ -180,23 +202,26 @@ const Cart = () => {
           <p>Amount to be paid: {totalPrice}</p>
           {/*mpesa pay button*/}
             {
-              !checkout && checkout ? (
+              checkout ? (
 
                 <p style={{color:'#17516a', width:'40%', }}>
                        Check a message on your phone to complete the payment
                 </p>
               ) : (
                 <button
-                  onClick={() => {
-                    setCheckout(true);
-                    
-                  }
-                  }
+                 
                 >
                   Pay
                 </button>
               )
 
+            }
+            {
+              inOrder && (
+                <p style={{color:'#17516a', width:'40%', }}>
+                        You have already placed an order
+                </p>
+              )
             }
           </form>
 

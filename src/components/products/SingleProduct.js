@@ -3,9 +3,10 @@ import React, { useEffect, useState } from 'react'
 import { BsCart3, BsHeart, BsHeartFill } from 'react-icons/bs';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { addToCart, getCart, getProductByCategory, getProductById, getProductByUser } from '../../react-redux/features/products/productSlice';
+import Wishlist from '../profile/tabs/WishlistButton';
 import CartButton from './CartButton';
-import Wishlist from './WishlistButton';
 
 
 const SingleProduct = () => {
@@ -53,6 +54,7 @@ const handleCart =  () => {
     dispatch(addToCart(cartData))
     .then(res => {
       console.log(res)
+      toast.success('Product added to cart')
     }
   )
 }

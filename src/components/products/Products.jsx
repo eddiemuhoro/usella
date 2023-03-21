@@ -4,12 +4,14 @@ import { BsCart3, BsHeart, BsHeartFill } from 'react-icons/bs'
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
-import Wishlist from './WishlistButton'
 import Loader from '../loader/Loader'
 import CartButton from './CartButton'
 import Popup from 'reactjs-popup'
 import { getProduct } from '../../react-redux/features/products/productSlice'
+import Wishlist from '../profile/tabs/WishlistButton'
 const Products = () => {
+
+  
   const navigate = useNavigate()
   //get id of product
   const { id } = useParams()
@@ -60,17 +62,19 @@ const Products = () => {
     <section className="products">
     {
       products.map(product => (
-        <Link key={product.id} to={`/products/${product.id}`}>
+       
         <div className="product">
           <div className="product-img">
             <img src={product.image} alt="product" />
           </div>
+          <Link key={product.id} to={`/products/${product.id}`}>
           <div className="product-info">
             <p className="info-name">{product.name}</p>
             <p className="info-description">{cutDescription(product.description)}</p>
           </div>
+          </Link>
           <div className="product-btns">
-            <p className="info-price">Ksh {product.price.toLocaleString('en-US')}</p>
+            <p className="info-price">Ksh {product.quantity.toLocaleString('en-US')}</p>
             {
               you ? (
                 <CartButton productId={product.id}  name={product.name} price={product.price} description={product.description} image={product.image} />
@@ -93,7 +97,7 @@ const Products = () => {
           </div>
          
         </div>
-        </Link>
+    
       )
       )
     }

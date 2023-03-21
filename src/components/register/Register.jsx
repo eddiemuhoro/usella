@@ -6,6 +6,12 @@ import { register, reset } from '../../react-redux/features/auth/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 function Register() {
+
+
+
+
+
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -64,10 +70,6 @@ function Register() {
       dispatch(register(userData))
     }
     //send data to backend
-
-
-
-    
   };
 
   return (

@@ -5,11 +5,12 @@ import { Link } from 'react-router-dom'
 import './myOrders.css'
 import Loader from '../../loader/Loader'
 import { deleteOrder, getOrderByUser } from '../../../react-redux/features/products/productSlice'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import {GiCancel} from 'react-icons/gi'
 const MyOrders = () => {
   const dispatch = useDispatch()
-  const user = JSON.parse(localStorage.getItem('user'))
+  const user = useSelector(state => state.auth.you)
+  console.log(user)
     const [products, setProducts] = useState([])
     const [loading , setLoading] = useState(false)
     //fetxh from redux store
@@ -22,7 +23,7 @@ const MyOrders = () => {
       }
       )
       
-    }, [dispatch, user.id])
+    }, [dispatch])
     console.log(products)
 
 
@@ -63,7 +64,7 @@ const MyOrders = () => {
                   </section>
 
                   <div className='order-time'>
-                    <p className="order-time"> {new Date(product.createdAt).toLocaleString()}</p>
+                    <p className="order-time"> <span>{new Date(product.createdAt).toLocaleString()}</span></p>
                   </div>
                 
                 </div>

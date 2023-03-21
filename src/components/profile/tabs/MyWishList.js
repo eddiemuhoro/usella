@@ -5,33 +5,38 @@ import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Popup from 'reactjs-popup'
 import Loader from '../../loader/Loader'
-import Wishlist from '../../products/WishlistButton'
+import Wishlist from './WishlistButton'
 
 
 const MyWishList = () => {
   const user = useSelector(state => state.auth.you)
   const [items, setItems] = useState([])
   const [loading , setLoading] = useState(false)
-
-  const [wishlist , setWishlist] = useState([])
+  //state to update useEffect after delete
+  const [update, setUpdate] = useState(false)
+  
   useEffect(() => {
     setLoading(true)
     const fetchWishlist = async () => {
       const { data } = await axios.get(`https://odd-slip-ant.cyclic.app/products/wishlist/user/${user.id}`)
       setItems(data)
       setLoading(false)
+      //set update to false after fetching wishlist
+      setUpdate(false)
     }
     fetchWishlist()
-  }, [user.id])
+  }, [update, user.id])
 
   const handleRemoveFavorite = async (id) => {
     await axios.delete(`https://odd-slip-ant.cyclic.app/products/wishlist/${id}`)
     .then(res => {
       console.log(res)
       console.log(res.data)
+      alert('removed from wishlist')
+      //set update to true after removing from wishlist
+      setUpdate(true)
     }
     )
-   
   }
 
 
@@ -71,13 +76,10 @@ const MyWishList = () => {
                               <p><BsCart3 /></p>
                             </div>
                             <div className='favorite'>
-                              {
-                                wishlist.length === 0 || wishlist[0].userId !== user.id ? (
-                                  <BsHeartFill color='red' onClick={()=>handleRemoveFavorite(product.id)} />
-                                ) : (
-                                  <BsHeart />
-                                )
-                              }
+                            {
+                              <BsHeartFill color='red' onClick={()=>handleRemoveFavorite(product.productId)} />
+                
+                               }
                             </div>
                           
                           </div>

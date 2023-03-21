@@ -19,29 +19,39 @@ const MyPosts = () => {
 
     console.log(seller)
 
+    //state to update the fetched products using useEffect
+    const [update, setUpdate] = useState(false)
   
+      //delete product with a confirmation message
+  const handleDelete =  (id, name) => {
+    if (window.confirm(`Are you sure you want to delete ${name}?`)) {
+      dispatch(deleteProduct(id))
+      .then(res => {
+        setUpdate(true)
+      }
+      )
+    }
+  }
+
     //fetxh from redux store
     useEffect(() => {
       dispatch(getProductByUser(seller))
       .then(res => {
         setProducts(res.payload)
+        setUpdate(false)
       })
+
       // const fetchProducts = async () => {
       //   const { data } = await axios.get(`http://localhost:9000/products/seller/${seller}`)
       //   setProducts(data)
       // }
       // fetchProducts()
-    }, [dispatch, seller])
+    }, [update, dispatch, seller])
 
     console.log(products)
 
     
-  //delete product with a confirmation message
-  const handleDelete =  (id, name) => {
-    if (window.confirm(`Are you sure you want to delete ${name}?`)) {
-      dispatch(deleteProduct(id))
-    }
-  }
+
 
   return (
     <div>

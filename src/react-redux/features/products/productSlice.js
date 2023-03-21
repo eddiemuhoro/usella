@@ -187,6 +187,19 @@ async(userId, thunkAPI)=>{
   }
 )
 
+//get order by order id
+export const getOrderByOrderId = createAsyncThunk('products/get',
+async(orderId, thunkAPI)=>{
+  try {
+    return await productService.getOrderByOrderId(orderId)
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+    
+  }
+)
+
 //delete order by order id
 export const deleteOrder = createAsyncThunk('products/delete',
 async(orderId, thunkAPI)=>{
