@@ -39,6 +39,7 @@ const SingleProduct = () => {
   const [products, setclickedProduct] = useState([])
 
 const handleCart =  () => {
+  
   const cartData ={
     productId: products.id,
     userId: user.id,
@@ -53,8 +54,8 @@ const handleCart =  () => {
     .then(res => {
       console.log(res)
     }
-       )
-      }
+  )
+}
 
 
       const [cart, setCart] = useState([])
@@ -64,7 +65,7 @@ const handleCart =  () => {
         .then(res => {
           setCart(res.payload)
         }
-        )
+      )
     }, [dispatch, products.id])
 
 
@@ -76,7 +77,7 @@ const handleCart =  () => {
           setclickedProduct(res.payload)
         }
         )
-      }, [])
+      }, [dispatch, id])
 
       const [category , setCategory] = useState([ ])
       useEffect(() => {
@@ -94,7 +95,7 @@ const handleCart =  () => {
       useEffect(() => {
         setLoading(true)
         dispatch(getProductByUser(products.sellerId))
-        .then(res => {
+        .then(res => { 
           setSellerProducts(res.payload)
           setLoading(false)
         })
@@ -156,18 +157,25 @@ const handleCart =  () => {
                 {/* CONDITIONAL RENDERING */}
                
                 {/* IF QUANTITY IS 0, DISABLE ADD TO CART BUTTON */}
+                {
+                  user ? (
+                    products.quantity === 0 ?  (<button title='out of stock' disabled>Add to cart</button>):
+                    (
+                      
+                        (cart.length === 0 || cart[0].userId !== user.id) && !update  ? (
+                          <button onClick={handleCart}>Add to cart</button>
+                        ) : (
+                          <Link to='/cart' ><button>Already added to cart</button></Link>
+                        )
+                      
+                    )
+                  ):(
+                    <button onClick={handleCart}>Log in to add to cart</button>
+                  )
+                }
                 
                 {
-                  products.quantity === 0 ?  (<button title='out of stock' disabled>Add to cart</button>):
-                  (
-                    
-                      (cart.length === 0 || cart[0].userId !== user.id) && !update  ? (
-                        <button onClick={handleCart}>Add to cart</button>
-                      ) : (
-                        <Link to='/cart' ><button>Already added to cart</button></Link>
-                      )
-                    
-                  )
+                 
                 }
 
              

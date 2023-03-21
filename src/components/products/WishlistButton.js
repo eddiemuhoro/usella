@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { BsHeart, BsHeartFill } from 'react-icons/bs'
 import { useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
 
 const Wishlist = ({productId, name, price, description,  image}) => {
     const user = useSelector(state => state.auth.you)
@@ -24,6 +25,7 @@ const Wishlist = ({productId, name, price, description,  image}) => {
           console.log(res.data)
         }
         )
+        toast.success('job posted')
         setLoading(false)
      }
    

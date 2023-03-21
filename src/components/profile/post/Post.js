@@ -8,6 +8,7 @@ import './post.css'
 import { createproduct } from '../../../react-redux/features/products/productSlice';
 const Post = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const reader = new window.FileReader();
     const user = useSelector(state => state.auth.you);
     const [imageString, setImageString] = useState('');
@@ -46,6 +47,10 @@ const Post = () => {
           }
           console.log(newPost)
           dispatch(createproduct(newPost))
+          //navigate to products
+          toast.success('product posted')
+
+          navigate('/products')
     }
 
 
