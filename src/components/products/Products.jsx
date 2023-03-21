@@ -95,10 +95,8 @@ const Products = () => {
                 
             }
           </div>
-         
         </div>
-    
-      )
+       )
       )
     }
 
