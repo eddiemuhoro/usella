@@ -1,8 +1,8 @@
 import axios from 'axios';
-import React, { useEffect, useState, useNavigate } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BsCart3, BsHeart, BsHeartFill } from 'react-icons/bs';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link,  useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { addToCart, getCart, getProductByCategory, getProductById, getProductByUser } from '../../react-redux/features/products/productSlice';
 import CartButton from './CartButton';
 import Wishlist from './WishlistButton';

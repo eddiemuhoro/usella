@@ -1,4 +1,4 @@
-import React, {useNavigate, useState} from 'react'
+import React, { useState} from 'react'
 import axios from 'axios'
 import { toast } from 'react-toastify';
 import FileBase from 'react-file-base64'
@@ -6,6 +6,7 @@ import FileBase from 'react-file-base64'
 import { useDispatch, useSelector } from 'react-redux';
 import './post.css'
 import { createproduct } from '../../../react-redux/features/products/productSlice';
+import { useNavigate } from 'react-router-dom';
 const Post = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
