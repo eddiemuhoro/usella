@@ -80,7 +80,7 @@ const MyPosts = () => {
           }
         
       </section>
-      <Link to='/post' style={{textDecoration:'underline'}}>Add a product</Link>
+      <Link to='/post' style={{textDecoration:'underline'}}>Sell</Link>
     </div>
   )
 }
