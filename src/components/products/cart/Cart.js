@@ -16,7 +16,7 @@ const Cart = () => {
   const [items, setItems] = useState([])
   const [loading , setLoading] = useState(false)
   const [delivery , setDelivery] = useState('')
-  
+  const [update, setUpdate] = useState(false)
   //show delivery on console
    console.log(delivery)
 
@@ -26,12 +26,16 @@ const Cart = () => {
     .then(res => {
       setItems(res.payload)
       setLoading(false)
+      setUpdate(false)
     }
   )
-  }, [])
+  }, [update, dispatch, user.id])
 
   const handleCartRemove =  (productId) => {
      dispatch(deleteCart(productId))  
+     .then((res)=>{
+      setUpdate(true)
+     })
   }
 
  
