@@ -48,10 +48,16 @@ const Post = () => {
           }
           console.log(newPost)
           dispatch(createproduct(newPost))
-          //navigate to products
-          toast.success('product posted')
+          .then(() => {
+            toast.success('Product created successfully');
+            navigate('/products');
+            })
+            .catch((err) => {
+                toast.error(err.message);
+            });
 
-          navigate('/products')
+          //navigate to products
+         
     }
 
 
