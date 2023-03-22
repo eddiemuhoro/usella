@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "outDir": "./dist/",
+    "rootDir": "./src/",
+    "strict": true,
+    "lib": ["ESNext"],
+    "esModuleInterop": true,
+    "target": "ESNext",
+    "allowImportingTsExtensions": true,
+    "noEmit" :true,
+    "moduleResolution": "nodenext"
+
+  }
+}
