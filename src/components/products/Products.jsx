@@ -74,7 +74,7 @@ const Products = () => {
           </div>
           </Link>
           <div className="product-btns">
-            <p className="info-price">Ksh {product.quantity.toLocaleString('en-US')}</p>
+            <p className="info-price">Ksh {product.price.toLocaleString('en-US')}</p>
             {
               you ? (
                 <CartButton productId={product.id}  name={product.name} price={product.price} description={product.description} image={product.image} />
