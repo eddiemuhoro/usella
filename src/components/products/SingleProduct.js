@@ -161,7 +161,7 @@ const handleCart =  () => {
                 {/* IF QUANTITY IS 0, DISABLE ADD TO CART BUTTON */}
                 {
                   user ? (
-                    products.quantity === 0 ?  (<button title='out of stock' disabled>Add to cart</button>):
+                    products.quantity === 0 ?  (<button title='out of stock' disabled style={{cursor:'not-allowed'}}>Add to cart</button>):
                     (
                       
                         (cart.length === 0 || cart[0].userId !== user.id) && !update  ? (
