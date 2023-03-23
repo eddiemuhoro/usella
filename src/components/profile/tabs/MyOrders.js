@@ -8,6 +8,7 @@ import { deleteOrder, getOrderByUser } from '../../../react-redux/features/produ
 import { useDispatch, useSelector } from 'react-redux'
 import {GiCancel} from 'react-icons/gi'
 const MyOrders = () => {
+
   const dispatch = useDispatch()
   const user = useSelector(state => state.auth.you)
   console.log(user)
@@ -22,7 +23,6 @@ const MyOrders = () => {
         setLoading(false)
       }
       )
-      
     }, [dispatch])
     console.log(products)
 
@@ -40,12 +40,12 @@ const MyOrders = () => {
             ) : 
           
             (
-              products.map(product => (
-                <div className="order">
+              products.map((product, index) => (
+                <div className="order" key={index}>
                   <section className='left'>
 
                     <div className="order-img">
-                      <img src="https://images.unsplash.com/photo-1676809767144-d24ba6178421?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80" alt="product" />
+                      <img src={product.image} alt="product" />
                     </div>
                     <div className="order-info">
                       <p className="order-name">{product.name}</p>
@@ -59,7 +59,7 @@ const MyOrders = () => {
                     </div>
                     <div className="shipped">
                       <p className="shipped">Delivery in 5 hours</p>
-                      <Link to ='/products' className="order-btn" style={{textDecoration:"underline"}}>{product.delivery}</Link>
+                      <a style={{textDecoration:'underline'}} href='https://goo.gl/maps/QG262ZmkzkVFFf5y9' target='_blank' rel="noreferrer">{product.delivery}</a>
                     </div>
                   </section>
 
@@ -68,10 +68,9 @@ const MyOrders = () => {
                   </div>
                 
                 </div>
-              )
+               )
               )
             )
-
           }
           {
              products.length === 0 && 
@@ -82,7 +81,7 @@ const MyOrders = () => {
           }
       
 
-      message      </section>
+            </section>
     </div>
   )
 }
