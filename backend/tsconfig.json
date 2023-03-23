@@ -7,9 +7,11 @@
     "lib": ["ESNext"],
     "esModuleInterop": true,
     "target": "ESNext",
-    "allowImportingTsExtensions": true,
+    // "allowImportingTsExtensions": true,
     "noEmit" :true,
-    "moduleResolution": "nodenext"
+    "moduleResolution": "nodenext",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
 
   }
 }
