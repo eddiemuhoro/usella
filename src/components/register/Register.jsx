@@ -4,11 +4,64 @@ import './register.css';
 import { toast, ToastContainer } from 'react-toastify'
 import { register, reset } from '../../react-redux/features/auth/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
-
+import jwt_decode from 'jwt-decode';
+import axios from 'axios';
 function Register() {
+  let userObject = {}
+  const [user, setUser] = useState({});
+  // 719668832114-ieqsiradroo9m4tb6584acqhcr80siet.apps.googleusercontent.com
+  // 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
+  const handleCallbackResponse = (response) => {
+      console.log("response", response.credential)
+       userObject = jwt_decode(response.credential)
+      console.log("userObject", userObject)
+      setUser(userObject)
+      //console log name and email
+      console.log(userObject.name)
+
+      //store userObject's name and email in local storage
+      localStorage.setItem('google', JSON.stringify(userObject))
+      //navigate to home page
+
+      //send request to backend to create a new user with name, email and password
+      handleRegister()
+
+  }
+
+  //send request to backend to create a new user with name, email and password
+  const handleRegister =  () => {
+    const userData = {
+      firstName: userObject.given_name,
+      lastName: userObject.family_name,
+      email: userObject.email,
+      password: userObject.sub,
+      profilePic: userObject.picture
+    }
+    console.log(userData)
+    dispatch(register(userData))
+
+  }
 
 
+useEffect(()=>{
+  /* global google */
+  google.accounts.id.initialize({
+    client_id: '719668832114-ieqsiradroo9m4tb6584acqhcr80siet.apps.googleusercontent.com',
+    callback: handleCallbackResponse,
+  })
 
+  google.accounts.id.renderButton(
+    document.getElementById('signInDiv'),
+    {
+      theme: 'filled_blue',
+      width: 250,
+      height: 50,
+      longtitle: true,
+      type: 'standard',
+      text: 'standard',
+    }
+  )
+}, [])
 
 
 
@@ -74,6 +127,7 @@ function Register() {
 
   return (
     <div className="register-form-container">
+      
       <h2>Register</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
@@ -135,6 +189,9 @@ function Register() {
         </div>
         <button type="submit">Register</button>
       </form>
+      <h4>Sign up with Google</h4>
+      <div id="signInDiv"></div>
+
       <p>Already have an account? <Link to='/'>Login</Link></p>
 
     </div>

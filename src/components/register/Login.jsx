@@ -2,10 +2,71 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { login, reset } from '../../react-redux/features/auth/authSlice';
+import { login, register, reset } from '../../react-redux/features/auth/authSlice';
+import jwt_decode from 'jwt-decode';
 import './register.css';
 
 function Login() {
+
+  let userObject = {}
+  const [user, setUser] = useState({});
+  // 719668832114-ieqsiradroo9m4tb6584acqhcr80siet.apps.googleusercontent.com
+  // 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
+  const handleCallbackResponse = (response) => {
+      console.log("response", response.credential)
+       userObject = jwt_decode(response.credential)
+      console.log("userObject", userObject)
+      setUser(userObject)
+      //console log name and email
+      console.log(userObject.name)
+
+      //store userObject's name and email in local storage
+      localStorage.setItem('google', JSON.stringify(userObject))
+      //navigate to home page
+
+      //send request to backend to create a new user with name, email and password
+      handleRegister()
+
+  }
+
+  //send request to backend to create a new user with name, email and password
+  const handleRegister =  () => {
+    const userData = {
+     
+      email: userObject.email,
+      password: userObject.sub,
+   
+    }
+    console.log(userData)
+    dispatch(login(userData))
+
+  }
+
+
+useEffect(()=>{
+  /* global google */
+  google.accounts.id.initialize({
+    client_id: '719668832114-ieqsiradroo9m4tb6584acqhcr80siet.apps.googleusercontent.com',
+    callback: handleCallbackResponse,
+  })
+
+  google.accounts.id.renderButton(
+    document.getElementById('signInDiv'),
+    {
+      theme: 'filled_blue',
+      width: 250,
+      height: 50,
+      longtitle: true,
+      type: 'standard',
+      text: 'standard',
+    }
+  )
+}, [])
+
+
+
+
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -88,6 +149,10 @@ function Login() {
         </div>
         
         <button type="submit">Register</button>
+        <br />
+        <h4>Sign in with Google</h4>
+        <br />
+        <div id="signInDiv"></div>
       </form>
       <p>Don't have an account? <Link to='/register'>Register</Link></p>
     </div>

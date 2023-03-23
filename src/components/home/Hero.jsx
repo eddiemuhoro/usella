@@ -16,6 +16,7 @@ const Hero = () => {
                         <span> <Link to='products'>Shop Now</Link></span>
                       </button>
                 </div>
+                
             </div>
         </section>
     </div>
