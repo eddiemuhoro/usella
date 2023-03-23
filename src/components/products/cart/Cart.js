@@ -62,6 +62,13 @@ const Cart = () => {
   //mpesa payment
   const handleSubmit = (e) => {
     e.preventDefault()
+    //check if phone number is entered
+    
+    //check if delivery point is selected.if not alert user
+    if(delivery === ''){
+      alert('Please select a delivery point')
+      return
+    }
     const data = {
       phone: phone,
       amount: totalPrice
@@ -77,6 +84,9 @@ const Cart = () => {
   
   
     //add purchased items to orders
+    //check if delivery point is selected.if not alert user
+ 
+
     items.map(item => {
       axios.post('https://odd-slip-ant.cyclic.app/products/orders', {
         userId: user.id,
