@@ -17,7 +17,8 @@ model user {
   phone    String    @unique
   password String
   location String
-  profile  profile[]
+  profile  profile?
+  product  product[]
 }
 
 model profile {
@@ -26,6 +27,39 @@ model profile {
   bio         String @default("")
   profile_pic String @default("")
   cover_pic   String @default("")
-  followers   Int   @default(0)
-  following   Int  @default(0)
+  followers   Int    @default(0)
+  following   Int    @default(0)
+}
+
+model product {
+  id          String   @id @default(cuid())
+  name        String
+  quantity    Int
+  category    Category @default(OTHERS)
+  price       Int
+  location    String
+  description String
+  images      String[] @default([])
+  seller_id   String
+  seller      user     @relation(fields: [seller_id], references: [id])
+  reviews     String[]
+  rating      Int      @default(0)
+  sold        Boolean  @default(false)
+  status      Status   @default(AVAILABLE)
+}
+
+enum Category {
+  ELECTRONICS
+  FASHION
+  HOME
+  GROCERY
+  BEAUTY
+  SPORTS
+  BOOKS
+  OTHERS
+}
+
+enum Status {
+  AVAILABLE
+  SOLD
 }
