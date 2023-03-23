@@ -53,7 +53,6 @@ useEffect(()=>{
   google.accounts.id.renderButton(
     document.getElementById('signInDiv'),
     {
-      theme: 'filled_blue',
       width: 250,
       height: 50,
       longtitle: true,
