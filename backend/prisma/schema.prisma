@@ -19,6 +19,7 @@ model user {
   location String
   profile  profile?
   product  product[]
+  review   review[]
 }
 
 model profile {
@@ -32,20 +33,32 @@ model profile {
 }
 
 model product {
-  id          String   @id @default(cuid())
-  name        String
-  quantity    Int
-  category    Category @default(OTHERS)
-  price       Int
-  location    String
-  description String
-  images      String[] @default([])
-  seller_id   String
-  seller      user     @relation(fields: [seller_id], references: [id])
-  reviews     String[]
-  rating      Int      @default(0)
-  sold        Boolean  @default(false)
-  status      Status   @default(AVAILABLE)
+  id           String   @id @default(cuid())
+  name         String
+  quantity     Int
+  category     Category @default(OTHERS)
+  price        Int
+  location     String
+  description  String
+  images       String[] @default([])
+  seller_id    String
+  sender_email String
+  sender_phone String
+  seller       user     @relation(fields: [seller_id], references: [id])
+  rating       Int      @default(0)
+  sold         Boolean  @default(false)
+  status       Status   @default(AVAILABLE)
+  review       review[]
+}
+
+model review {
+  id         String  @id @default(cuid())
+  product    product @relation(fields: [product_id], references: [id])
+  product_id String
+  user       user    @relation(fields: [user_id], references: [id])
+  user_id    String
+  rating     Int
+  comment    String
 }
 
 enum Category {
