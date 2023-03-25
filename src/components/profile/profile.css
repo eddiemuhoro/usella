@@ -31,6 +31,7 @@
   }
   
   .profile-avatar img {
+    object-fit: cover;
     width: 100px;
     height: 100px;
     border-radius: 50%;
@@ -41,6 +42,10 @@
     display: flex;
     flex-direction: column;
     position: relative;
+  }
+
+  .profile-info p{
+    margin: 3px 0;
   }
   
   .profile-name {
@@ -89,9 +94,136 @@
     position: absolute;
     right: 20px;
     top: 20px;
+    font-size: 20px;
+    cursor: pointer;
   }
 
-  
+  .edit-btn{
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+/* POPUP CSS   */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(5px);
+  z-index: 1;
+}
+
+.popup {
+  background-color: rgb(23, 22, 22);
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+  font-size: 16px;
+  max-width: 500px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+
+.popup h2 {
+  margin-top: 0;
+}
+.image-section {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.current-image {
+  max-width: 150px;
+  margin-right: 20px;
+}
+
+.no-image {
+  color: #999;
+}
+
+.change-image-btn {
+  display: block;
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 3px;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.change-image-btn:hover {
+  background-color: #3e8e41;
+}
+
+#image-upload {
+  display: none;
+}
+
+.btn-section {
+  display: flex;
+  justify-content: flex-end;
+}
+
+
+.popup label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.popup textarea,
+.popup input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.popup button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 3px;
+  border: none;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.popup button:hover {
+  background-color: #3e8e41;
+}
+
+.popup button[type="submit"] {
+  background-color: #008cba;
+}
+
+.popup button[type="submit"]:hover {
+  background-color: #0078a0;
+}
+
+.popup button:last-of-type {
+  background-color: #f44336;
+}
+
+.popup button:last-of-type:hover {
+  background-color: #d32f2f;
+}
+
+.close-btn{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
 
 
   @media screen and (max-width: 768px) {

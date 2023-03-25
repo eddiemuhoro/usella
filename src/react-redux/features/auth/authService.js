@@ -1,10 +1,11 @@
 import axios from 'axios'
 
-const API_URL = 'https://odd-slip-ant.cyclic.app/';
+const API_URL = 'http://localhost:9000/';
 
 const register = async(userData)=>{
     const response = await axios.post(API_URL + 'register', userData)
     if(response.data){
+        localStorage.removeItem('you');
         localStorage.setItem('you', JSON.stringify(response.data));
     }
     return response.data
@@ -21,6 +22,20 @@ const login = async (userData)=>{
     return response.data;
 }
 
+//GET PROFILE DETAILS
+const getProfile = async (id)=>{
+    const response = await axios.get(API_URL + 'profile/' + id)
+    return response.data;
+}
+
+//UPDATE PROFILE DETAILS
+const updateProfile = async (id, userData)=>{
+    const response = await axios.put(API_URL + 'profile/' + id, userData)
+    return response.data;
+}
+
+
+
 const logout = ()=>{
     //get item from local storage
     
@@ -33,6 +48,7 @@ const authService ={
     login,
     register,
     logout,
+    getProfile
 
 }
 

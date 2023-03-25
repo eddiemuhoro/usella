@@ -10,6 +10,8 @@ function Register() {
   let userObject = {}
   const [user, setUser] = useState({});
   // 719668832114-ieqsiradroo9m4tb6584acqhcr80siet.apps.googleusercontent.com
+  //published key
+  //117852649508-n6pl5fek07k9co4pfqpihgtq7rotv09d.apps.googleusercontent.com
   // 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
   const handleCallbackResponse = (response) => {
       console.log("response", response.credential)
@@ -18,11 +20,9 @@ function Register() {
       setUser(userObject)
       //console log name and email
       console.log(userObject.name)
-
       //store userObject's name and email in local storage
       localStorage.setItem('google', JSON.stringify(userObject))
       //navigate to home page
-
       //send request to backend to create a new user with name, email and password
       handleRegister()
 
@@ -39,14 +39,13 @@ function Register() {
     }
     console.log(userData)
     dispatch(register(userData))
-
   }
 
 
 useEffect(()=>{
   /* global google */
   google.accounts.id.initialize({
-    client_id: '117852649508-n6pl5fek07k9co4pfqpihgtq7rotv09d.apps.googleusercontent.com',
+    client_id: '719668832114-ieqsiradroo9m4tb6584acqhcr80siet.apps.googleusercontent.com',
     callback: handleCallbackResponse,
   })
 
@@ -59,7 +58,9 @@ useEffect(()=>{
       type: 'standard',
       text: 'standard',
     }
-  )
+  );
+
+  google.accounts.id.prompt()
 }, [])
 
 
@@ -94,7 +95,7 @@ useEffect(()=>{
     }
     if(isError){
       alert('Enter valid credentials👀 ')
-      navigate('/')
+      navigate('/login')
       window.location.reload()
       dispatch(reset())
     }
@@ -191,7 +192,7 @@ useEffect(()=>{
       <h4>Sign up with Google</h4>
       <div id="signInDiv"></div>
 
-      <p>Already have an account? <Link to='/'>Login</Link></p>
+      <p>Already have an account? <Link to='/login'>Login</Link></p>
 
     </div>
   );

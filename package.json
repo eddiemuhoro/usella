@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@cloudinary/react": "^1.11.2",
+    "@cloudinary/url-gen": "^1.9.2",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@mui/icons-material": "^5.10.16",
@@ -17,6 +19,7 @@
     "and": "^0.0.3",
     "axios": "^1.2.1",
     "base-64": "^1.0.0",
+    "firebase": "^9.18.0",
     "git": "^0.1.5",
     "jwt-decode": "^3.1.2",
     "moment": "^2.29.4",

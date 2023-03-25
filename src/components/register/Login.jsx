@@ -19,10 +19,8 @@ function Login() {
       setUser(userObject)
       //console log name and email
       console.log(userObject.name)
-
       //store userObject's name and email in local storage
       localStorage.setItem('google', JSON.stringify(userObject))
-      //navigate to home page
 
       //send request to backend to create a new user with name, email and password
       handleRegister()
@@ -46,7 +44,7 @@ function Login() {
 useEffect(()=>{
   /* global google */
   google.accounts.id.initialize({
-    client_id: '117852649508-n6pl5fek07k9co4pfqpihgtq7rotv09d.apps.googleusercontent.com',
+    client_id: '719668832114-ieqsiradroo9m4tb6584acqhcr80siet.apps.googleusercontent.com',
     callback: handleCallbackResponse,
   })
 
@@ -105,10 +103,8 @@ useEffect(()=>{
 
   const handleSubmit = (e) => {
     e.preventDefault()
-
   
       const userData = {
-        
         email,
         password,
       }

@@ -11,7 +11,7 @@ const MyOrders = () => {
 
   const dispatch = useDispatch()
   const user = useSelector(state => state.auth.you)
-  console.log(user)
+
     const [products, setProducts] = useState([])
     const [loading , setLoading] = useState(false)
     //fetxh from redux store

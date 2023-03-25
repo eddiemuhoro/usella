@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MyOrders from './tabs/MyOrders';
 import './profile.css';
 import MyInbox from './tabs/MyInbox';
 import MyWishList from './tabs/MyWishList';
 import MyPosts from './tabs/MyPosts';
 import { useDispatch, useSelector } from 'react-redux';
-import { AiOutlineLogout } from 'react-icons/ai';
+import { AiOutlineLogout, AiOutlineEdit } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
-import { logout, reset } from '../../react-redux/features/auth/authSlice';
+import { getProfile, logout, reset } from '../../react-redux/features/auth/authSlice';
+import Popup from 'reactjs-popup';
+import ProfileEditor from './EditProfile';
+import axios from 'axios';
 
 const details = {
     name: 'John Doe',
@@ -15,6 +18,7 @@ const details = {
     phone: '55-512-834',
     avatar: 'https://www.w3schools.com/howto/img_avatar.png',
 };
+
 
 
 const Profile = () => {
@@ -25,6 +29,18 @@ const Profile = () => {
     const [inbox, setInbox] = useState(false)
     const [wishlist, setWishlist] = useState(false)
     const [posts, setPosts] = useState(false)
+    const [profile, setProfile] = useState({})
+
+//profile details
+    useEffect(() => {   
+       dispatch(getProfile(user.id))
+         .then(res => {
+                //array [0] because we are getting an array of objects
+                setProfile(res.payload[0])
+            }
+        )
+    }, [dispatch, user.id])
+
 
 
 
@@ -62,10 +78,8 @@ const Profile = () => {
             dispatch(logout())
             dispatch(reset())
             navigate('/login')
-
         }        
     }
-
 
     return (
         <div className="profile-container">
@@ -73,16 +87,21 @@ const Profile = () => {
                 <div className="profile-header">Profile</div>
                 <div className="profile-details">
                     <div className="profile-avatar">
-                        <img src={details.avatar} alt={details.name} />
+                        <img src={profile.profilePic} alt={details.name} />
                     </div>
                     <div className="profile-info">
                         <h3 className="profile-name">{user.firstName} {user.lastName}</h3>
                         <p className="profile-email">{user.email}</p>
-                        <p className="profile-phone">{details.phone}</p>
+                        <p className="profile-phone">{profile.phone}</p>
+                        <p className="profile-bio">{profile.bio}</p>
                     </div>
 
                     <div className= 'logout-btn'>
                         <AiOutlineLogout title='logout' onClick={handleLogout} />
+                    </div>
+
+                    <div className= 'edit-btn'>
+                       <ProfileEditor  dp={profile.profilePic} pNo={profile.phone} profBio={profile.bio} />
                     </div>
                     
                 </div>
