@@ -38,6 +38,30 @@ export const login = createAsyncThunk('/login', async(you, thunkAPI)=>{
     }
 })
 
+//GET PROFILE DETAILS
+export const getProfile = createAsyncThunk('/getProfile', async(id, thunkAPI)=>{
+    try {
+        return await authService.getProfile(id);
+    } catch (error) {
+         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+
+        return thunkAPI.rejectWithValue(message);
+    }
+}
+)
+
+//UPDATE PROFILE DETAILS
+export const updateProfile = createAsyncThunk('/updateProfile', async(id, thunkAPI)=>{
+    try {
+        return await authService.updateProfile(id);
+    } catch (error) {
+         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+
+        return thunkAPI.rejectWithValue(message);
+    }
+}
+)
+
 
 
 
