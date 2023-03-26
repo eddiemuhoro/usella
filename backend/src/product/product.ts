@@ -3,13 +3,14 @@ import { prisma } from '../db.js';
 import { Request, Response, Router } from 'express';
 import { handleErrors } from '../middleware/handleErrors.js';
 import { sendMail } from '../Mailer/productMail.js';
+import { Category } from '@prisma/client';
 // import { Category } from '@prisma/client';
 
 const router = Router();
 
 //* fetch all the products
 
-router.get('/', async (_req: any, res: Response) => {
+router.get('/', async (_req: Request, res: Response) => {
   try {
     const product = await prisma.product.findMany();
 
@@ -24,7 +25,7 @@ router.get('/', async (_req: any, res: Response) => {
 
 //* fetch a specific product by id
 
-router.get('/:id', async (req: any, res: Response) => {
+router.get('/:id', async (req: Request, res: Response) => {
   try {
     const product = await prisma.product.findUnique({
       where: {
@@ -69,7 +70,7 @@ router.get(
   handleErrors,
   async (req: Request, res: Response) => {
     try {
-      const category = req.params.category;
+      const category: Category = req.params.category as Category;
       const product = await prisma.product.findMany({
         where: {
           category: category

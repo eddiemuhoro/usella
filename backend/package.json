@@ -9,12 +9,11 @@
     "dev": "nodemon src/index.ts",
     "start": "nodemon dist/index.js",
     "format": "prettier --config .prettierrc 'src/**/*.ts' --write",
-    "typecheck": "tsc --noEmit",
     "lint": "eslint 'src/**/*.ts' --fix",
     "test": "jest --watchAll",
     "prestart": "npm run build",
     "predev": "npm run build"
-    
+
 
 
   },
@@ -31,8 +30,7 @@
     "nodemon": "^2.0.22",
     "prettier": "^2.8.7",
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^4.6.2",
-    "ts-node": "^10.9.1"
+    "swagger-ui-express": "^4.6.2"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
