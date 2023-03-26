@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_URL = 'http://localhost:9000/';
+const API_URL = 'https://odd-slip-ant.cyclic.app/';
 
 const register = async(userData)=>{
     const response = await axios.post(API_URL + 'register', userData)
@@ -48,7 +48,8 @@ const authService ={
     login,
     register,
     logout,
-    getProfile
+    getProfile,
+    updateProfile
 
 }
 

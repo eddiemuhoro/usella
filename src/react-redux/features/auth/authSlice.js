@@ -51,9 +51,9 @@ export const getProfile = createAsyncThunk('/getProfile', async(id, thunkAPI)=>{
 )
 
 //UPDATE PROFILE DETAILS
-export const updateProfile = createAsyncThunk('/updateProfile', async(id, thunkAPI)=>{
+export const updateProfile = createAsyncThunk('/updateProfile', async(userData, thunkAPI)=>{
     try {
-        return await authService.updateProfile(id);
+        return await authService.updateProfile(userData);
     } catch (error) {
          const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
 
