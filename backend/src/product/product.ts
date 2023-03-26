@@ -3,7 +3,7 @@ import { prisma } from '../db.js';
 import { Request, Response, Router } from 'express';
 import { handleErrors } from '../middleware/handleErrors.js';
 import { sendMail } from '../Mailer/productMail.js';
-import { Category } from '@prisma/client';
+// import { Category } from '@prisma/client';
 // import { Category } from '@prisma/client';
 
 const router = Router();
@@ -64,28 +64,28 @@ router.get('/user/:id', async (req: Request, res: Response) => {
 
 //* fetch all products of a specific category
 
-router.get(
-  '/category/:category',
+// router.get(
+//   '/category/:category',
 
-  handleErrors,
-  async (req: Request, res: Response) => {
-    try {
-      const category: Category = req.params.category as Category;
-      const product = await prisma.product.findMany({
-        where: {
-          category: category
-        }
-      });
+//   handleErrors,
+//   async (req: Request, res: Response) => {
+//     try {
+//       const category: Category = req.params.category as Category;
+//       const product = await prisma.product.findMany({
+//         where: {
+//           category: category
+//         }
+//       });
 
-      if (!product) {
-        throw new Error('Category products not found');
-      }
-      res.json(product);
-    } catch (e: any) {
-      res.status(500).json({ message: e.message });
-    }
-  }
-);
+//       if (!product) {
+//         throw new Error('Category products not found');
+//       }
+//       res.json(product);
+//     } catch (e: any) {
+//       res.status(500).json({ message: e.message });
+//     }
+//   }
+// );
 
 //* Post a new product
 
