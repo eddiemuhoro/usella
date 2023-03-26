@@ -39,7 +39,9 @@ const Profile = () => {
                 setProfile(res.payload[0])
             }
         )
-    }, [dispatch, user.id, profile.bio, profile.phone, profile.profilePic])
+    }, [dispatch, user.id])
+
+    console.log(profile)
 
 
 
