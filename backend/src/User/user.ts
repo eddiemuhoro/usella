@@ -1,6 +1,6 @@
 import { body } from 'express-validator';
-import { handleErrors } from '../middleware/handleErrors';
-import { prisma } from '../db';
+import { handleErrors } from '../middleware/handleErrors.js';
+import { prisma } from '../db.js';
 import bcrypt from 'bcrypt';
 import { Request, Response, Router } from 'express';
 //* register user

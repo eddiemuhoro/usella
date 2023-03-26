@@ -5,11 +5,14 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "build": "rimraf dist && tsc",
+    "build": "tsc",
+    "dev": "nodemon src/index.ts",
     "start": "nodemon dist/index.js",
     "format": "prettier --config .prettierrc 'src/**/*.ts' --write",
     "typecheck": "tsc --noEmit",
-    "prestart" : "pnpm run build"
+    "lint": "eslint 'src/**/*.ts' --fix",
+    "test": "jest --watchAll"
+
 
   },
   "keywords": [],

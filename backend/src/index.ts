@@ -2,11 +2,11 @@ import express from 'express';
 import 'dotenv/config';
 import morgan from 'morgan';
 import cors from 'cors';
-import { login, register } from './User/user';
-import usersRouter from './User/user';
+import { login, register } from './User/user.js';
+import usersRouter from './User/user.js';
 import bodyParser from 'body-parser';
-import productRouter from './product/product';
-import { swaggerDocs } from './swagger/swagger';
+import productRouter from './product/product.js';
+import { swaggerDocs } from './swagger/swagger.js';
 import swaggerUi from 'swagger-ui-express'
 
 // import {login, register} from './User/user';

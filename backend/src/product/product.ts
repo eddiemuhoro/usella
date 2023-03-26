@@ -1,8 +1,8 @@
 import { body } from 'express-validator';
-import { prisma } from '../db';
+import { prisma } from '../db.js';
 import { Request, Response, Router } from 'express';
-import { handleErrors } from '../middleware/handleErrors';
-import { sendMail } from '../Mailer/productMail';
+import { handleErrors } from '../middleware/handleErrors.js';
+import { sendMail } from '../Mailer/productMail.js';
 import { Category } from '@prisma/client';
 
 const router = Router();

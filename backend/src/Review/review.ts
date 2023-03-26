@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
-import { body } from 'express-validator/src/middlewares/validation-chain-builders';
-import { handleErrors } from '../middleware/handleErrors';
-import { prisma } from '../db';
+import { body } from 'express-validator';
+import { handleErrors } from '../middleware/handleErrors.js';
+import { prisma } from '../db.js';
 
 const router = Router();
 
