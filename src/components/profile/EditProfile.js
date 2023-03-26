@@ -80,12 +80,13 @@ const [select , setSelect] = useState(dp)
         console.log(profileData);
         axios.put(`https://odd-slip-ant.cyclic.app/profile/${id}`, profileData)
        setLoading(false)
-        //inputs are empty
-        setBio('');
-        setPhone('');
+       
         //navigate to profile page
         navigate('/profile')
-        window.location.reload();
+        setInterval(() => {
+          window.location.reload()
+        }
+        , 1000)
       })
     }
     )
