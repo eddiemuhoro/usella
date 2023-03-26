@@ -6,7 +6,7 @@ specifiers:
   '@types/dotenv': ^8.2.0
   '@types/express': ^4.17.17
   '@types/morgan': ^1.9.4
-  '@types/node': ^18.15.5
+  '@types/node': ^18.15.10
   '@types/nodemailer': ^6.4.7
   '@types/nodemon': ^1.19.2
   '@types/swagger-jsdoc': ^6.0.1
@@ -17,8 +17,8 @@ specifiers:
   express-validator: ^6.15.0
   morgan: ^1.10.0
   nodemailer: ^6.9.1
-  nodemon: ^2.0.21
-  prettier: ^2.8.6
+  nodemon: ^2.0.22
+  prettier: ^2.8.7
   swagger-jsdoc: ^6.2.8
   swagger-ui-express: ^4.6.2
   ts-node: ^10.9.1
@@ -31,11 +31,11 @@ dependencies:
   express-validator: 6.15.0
   morgan: 1.10.0
   nodemailer: 6.9.1
-  nodemon: 2.0.21
-  prettier: 2.8.6
+  nodemon: 2.0.22
+  prettier: 2.8.7
   swagger-jsdoc: 6.2.8
   swagger-ui-express: 4.6.2_express@4.18.2
-  ts-node: 10.9.1_zlbzrxdj56n2qhafx752nt3nlm
+  ts-node: 10.9.1_zd7fjxbseldtiwc6h6ujrbvxuy
 
 devDependencies:
   '@types/bcrypt': 5.0.0
@@ -43,7 +43,7 @@ devDependencies:
   '@types/dotenv': 8.2.0
   '@types/express': 4.17.17
   '@types/morgan': 1.9.4
-  '@types/node': 18.15.5
+  '@types/node': 18.15.10
   '@types/nodemailer': 6.4.7
   '@types/nodemon': 1.19.2
   '@types/swagger-jsdoc': 6.0.1
@@ -129,26 +129,26 @@ packages:
   /@types/bcrypt/5.0.0:
     resolution: {integrity: sha512-agtcFKaruL8TmcvqbndlqHPSJgsolhf/qPWchFlgnW1gECTN/nKbFcoFnvKAQRFfKbh+BO6A3SWdJu9t+xF3Lw==}
     dependencies:
-      '@types/node': 18.15.5
+      '@types/node': 18.15.10
     dev: true
 
   /@types/body-parser/1.19.2:
     resolution: {integrity: sha512-ALYone6pm6QmwZoAgeyNksccT9Q4AWZQ6PvfwR37GT6r6FWUPguq6sUmNGSMV2Wr761oQoBxwGGa6DR5o1DC9g==}
     dependencies:
       '@types/connect': 3.4.35
-      '@types/node': 18.15.5
+      '@types/node': 18.15.10
     dev: true
 
   /@types/connect/3.4.35:
     resolution: {integrity: sha512-cdeYyv4KWoEgpBISTxWvqYsVy444DOqehiF3fM3ne10AmJ62RSyNkUnxMJXHQWRQQX2eR94m5y1IZyDwBjV9FQ==}
     dependencies:
-      '@types/node': 18.15.5
+      '@types/node': 18.15.10
     dev: true
 
   /@types/cors/2.8.13:
     resolution: {integrity: sha512-RG8AStHlUiV5ysZQKq97copd2UmVYw3/pRMLefISZ3S1hK104Cwm7iLQ3fTKx+lsUH2CE8FlLaYeEA2LSeqYUA==}
     dependencies:
-      '@types/node': 18.15.5
+      '@types/node': 18.15.10
     dev: true
 
   /@types/dotenv/8.2.0:
@@ -161,7 +161,7 @@ packages:
   /@types/express-serve-static-core/4.17.33:
     resolution: {integrity: sha512-TPBqmR/HRYI3eC2E5hmiivIzv+bidAfXofM+sbonAGvyDhySGw9/PQZFt2BLOrjUUR++4eJVpx6KnLQK1Fk9tA==}
     dependencies:
-      '@types/node': 18.15.5
+      '@types/node': 18.15.10
       '@types/qs': 6.9.7
       '@types/range-parser': 1.2.4
     dev: true
@@ -186,22 +186,22 @@ packages:
   /@types/morgan/1.9.4:
     resolution: {integrity: sha512-cXoc4k+6+YAllH3ZHmx4hf7La1dzUk6keTR4bF4b4Sc0mZxU/zK4wO7l+ZzezXm/jkYj/qC+uYGZrarZdIVvyQ==}
     dependencies:
-      '@types/node': 18.15.5
+      '@types/node': 18.15.10
     dev: true
 
-  /@types/node/18.15.5:
-    resolution: {integrity: sha512-Ark2WDjjZO7GmvsyFFf81MXuGTA/d6oP38anyxWOL6EREyBKAxKoFHwBhaZxCfLRLpO8JgVXwqOwSwa7jRcjew==}
+  /@types/node/18.15.10:
+    resolution: {integrity: sha512-9avDaQJczATcXgfmMAW3MIWArOO7A+m90vuCFLr8AotWf8igO/mRoYukrk2cqZVtv38tHs33retzHEilM7FpeQ==}
 
   /@types/nodemailer/6.4.7:
     resolution: {integrity: sha512-f5qCBGAn/f0qtRcd4SEn88c8Fp3Swct1731X4ryPKqS61/A3LmmzN8zaEz7hneJvpjFbUUgY7lru/B/7ODTazg==}
     dependencies:
-      '@types/node': 18.15.5
+      '@types/node': 18.15.10
     dev: true
 
   /@types/nodemon/1.19.2:
     resolution: {integrity: sha512-4GWiTN3HevkxMIxEQ7OpD3MAHhlVsX2tairCMRmf8oYZxmhHw9+UpQpIdGdJrjsMT2Ty26FtJzUUcP/qM5fR8A==}
     dependencies:
-      '@types/node': 18.15.5
+      '@types/node': 18.15.10
     dev: true
 
   /@types/qs/6.9.7:
@@ -216,7 +216,7 @@ packages:
     resolution: {integrity: sha512-NUo5XNiAdULrJENtJXZZ3fHtfMolzZwczzBbnAeBbqBwG+LaG6YaJtuwzwGSQZ2wsCrxjEhNNjAkKigy3n8teQ==}
     dependencies:
       '@types/mime': 3.0.1
-      '@types/node': 18.15.5
+      '@types/node': 18.15.10
     dev: true
 
   /@types/swagger-jsdoc/6.0.1:
@@ -771,8 +771,8 @@ packages:
     engines: {node: '>=6.0.0'}
     dev: false
 
-  /nodemon/2.0.21:
-    resolution: {integrity: sha512-djN/n2549DUtY33S7o1djRCd7dEm0kBnj9c7S9XVXqRUbuggN1MZH/Nqa+5RFQr63Fbefq37nFXAE9VU86yL1A==}
+  /nodemon/2.0.22:
+    resolution: {integrity: sha512-B8YqaKMmyuCO7BowF1Z1/mkPqLk6cs/l63Ojtd6otKjMx47Dq1utxfRxcavH1I7VSaL8n5BUaoutadnsX3AAVQ==}
     engines: {node: '>=8.10.0'}
     hasBin: true
     dependencies:
@@ -853,8 +853,8 @@ packages:
     engines: {node: '>=8.6'}
     dev: false
 
-  /prettier/2.8.6:
-    resolution: {integrity: sha512-mtuzdiBbHwPEgl7NxWlqOkithPyp4VN93V7VeHVWBF+ad3I5avc0RVDT4oImXQy9H/AqxA2NSQH8pSxHW6FYbQ==}
+  /prettier/2.8.7:
+    resolution: {integrity: sha512-yPngTo3aXUUmyuTjeTUT75txrf+aMh9FiD7q9ZE/i6r0bPb22g4FsE6Y338PQX1bmfy08i9QQCB7/rcUAVntfw==}
     engines: {node: '>=10.13.0'}
     hasBin: true
     dev: false
@@ -1043,7 +1043,7 @@ packages:
       nopt: 1.0.10
     dev: false
 
-  /ts-node/10.9.1_zlbzrxdj56n2qhafx752nt3nlm:
+  /ts-node/10.9.1_zd7fjxbseldtiwc6h6ujrbvxuy:
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
     peerDependencies:
@@ -1062,7 +1062,7 @@ packages:
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.3
-      '@types/node': 18.15.5
+      '@types/node': 18.15.10
       acorn: 8.8.2
       acorn-walk: 8.2.0
       arg: 4.1.3
