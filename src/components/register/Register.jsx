@@ -41,12 +41,12 @@ function Register() {
     console.log(userData)
     dispatch(register(userData))
   }
-
+//117852649508-t13ajvt9etu46132uenkvuvver29vpol.apps.googleusercontent.com
 
 useEffect(()=>{
   /* global google */
   google.accounts.id.initialize({
-    client_id: '117852649508-n6pl5fek07k9co4pfqpihgtq7rotv09d.apps.googleusercontent.com',
+    client_id: '117852649508-t13ajvt9etu46132uenkvuvver29vpol.apps.googleusercontent.com',
     callback: handleCallbackResponse,
   })
 
