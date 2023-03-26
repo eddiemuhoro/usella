@@ -39,7 +39,7 @@ const Profile = () => {
                 setProfile(res.payload[0])
             }
         )
-    }, [dispatch, user.id])
+    }, [dispatch, user.id, profile.bio, profile.phone, profile.profilePic])
 
 
 
@@ -87,7 +87,7 @@ const Profile = () => {
                 <div className="profile-header">Profile</div>
                 <div className="profile-details">
                     <div className="profile-avatar">
-                        <img src={profile.profilePic} alt={details.name} />
+                        <img src={ !profile.profilePic ? 'https://www.w3schools.com/howto/img_avatar.png' : profile.profilePic} alt={user.firstName} />
                     </div>
                     <div className="profile-info">
                         <h3 className="profile-name">{user.firstName} {user.lastName}</h3>
@@ -101,7 +101,7 @@ const Profile = () => {
                     </div>
 
                     <div className= 'edit-btn'>
-                       <ProfileEditor  dp={profile.profilePic} pNo={profile.phone} profBio={profile.bio} />
+                       <ProfileEditor pNo={profile.phone} profBio={profile.bio}  dp={!profile.profilePic ? 'https://www.w3schools.com/howto/img_avatar.png' : profile.profilePic}  id={profile.id} />
                     </div>
                     
                 </div>

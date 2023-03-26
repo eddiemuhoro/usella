@@ -10,14 +10,21 @@ import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/
 import { db } from "../../lib/init-firebase";
 import { addDoc, collection } from 'firebase/firestore'
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 
-function ProfileEditor({dp, pNo, profBio}) {
+function ProfileEditor({dp, pNo, profBio, id}) {
+  const navigate = useNavigate();
   const user = useSelector(state => state.auth.you)
   const [bio, setBio] = useState(profBio);
   const [isFile, setFile] = useState(dp);
 const [select , setSelect] = useState(dp)
   const [phone , setPhone] = useState(pNo);
+  const [loading , setLoading] = useState(false);
+
+
+  console.log(profBio)
+  console.log(bio)
 
   //generate a cloudinary image
 
@@ -34,6 +41,7 @@ const [select , setSelect] = useState(dp)
 }
  //insert to firebase-----------------------
  const handleSubmit= async(e) => {
+  setLoading(true)
   try {
     e.preventDefault();
     let file = isFile;
@@ -70,7 +78,14 @@ const [select , setSelect] = useState(dp)
           userId: user.id
         }
         console.log(profileData);
-        axios.put('http://localhost:9000/profile', profileData)
+        axios.put(`https://odd-slip-ant.cyclic.app/profile/${id}`, profileData)
+       setLoading(false)
+        //inputs are empty
+        setBio('');
+        setPhone('');
+        //navigate to profile page
+        navigate('/profile')
+        window.location.reload();
       })
     }
     )
@@ -78,7 +93,6 @@ const [select , setSelect] = useState(dp)
   } catch (error) {
     throw error
   }
-
 }
 
 
@@ -127,7 +141,7 @@ const [select , setSelect] = useState(dp)
                         onChange={handlePhoneChange}
                         />
                       
-                        <button type="submit">Save</button>
+                        <button type="submit">{loading ? 'saving...' : 'Save'}</button>
                     </form>
                     <AiOutlineClose className="close-btn" onClick={close}  size={25} />
                  </div>

@@ -9,6 +9,7 @@ import axios from 'axios';
 function Register() {
   let userObject = {}
   const [user, setUser] = useState({});
+  const [bio, setBio] = useState('')
   // 719668832114-ieqsiradroo9m4tb6584acqhcr80siet.apps.googleusercontent.com
   //published key
   //117852649508-n6pl5fek07k9co4pfqpihgtq7rotv09d.apps.googleusercontent.com
@@ -92,6 +93,7 @@ useEffect(()=>{
       navigate('/')
       window.location.reload()
       dispatch(reset())
+      
     }
     if(isError){
       alert('Enter valid credentials👀 ')
@@ -119,8 +121,9 @@ useEffect(()=>{
         password,
       }
       console.log(userData)
-
       dispatch(register(userData))
+   
+
     }
     //send data to backend
   };
