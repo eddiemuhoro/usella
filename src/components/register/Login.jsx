@@ -84,7 +84,7 @@ useEffect(()=>{
 
 
   useEffect((dispatch)=>{
-    if(isSuccess || you){
+    if(isSuccess){
       toast.success(message)
       navigate('/')
       window.location.reload()
