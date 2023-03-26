@@ -3,8 +3,12 @@ import 'dotenv/config';
 import morgan from 'morgan';
 import cors from 'cors';
 import { login, register } from './User/user';
+import usersRouter from './User/user';
 import bodyParser from 'body-parser';
 import productRouter from './product/product';
+import { swaggerDocs } from './swagger/swagger';
+import swaggerUi from 'swagger-ui-express'
+
 // import {login, register} from './User/user';
 
 const app = express();
@@ -25,6 +29,8 @@ app.all('/', (_req, res) => {
 app.use('/login', login);
 app.use('/register', register);
 app.use('/product', productRouter);
+app.use('/users', usersRouter);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
 
 //* create listen app
 app.listen(port, () => {

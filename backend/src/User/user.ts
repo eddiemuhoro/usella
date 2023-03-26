@@ -2,8 +2,14 @@ import { body } from 'express-validator';
 import { handleErrors } from '../middleware/handleErrors';
 import { prisma } from '../db';
 import bcrypt from 'bcrypt';
-import { Request, Response } from 'express';
+import { Request, Response, Router } from 'express';
 //* register user
+
+const router = Router();
+
+
+
+
 
 export const register =
   (body('name').isString(),
@@ -77,3 +83,58 @@ export const login =
       res.status(500).send({ message: e.message });
     }
   });
+
+//* fetch all the users
+
+router.get('/', async (_req: Request, res: Response) => {
+  try {
+    const users = await prisma.user.findMany({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        phone: true,
+        location: true,
+        product: true,
+        profile: true
+      }
+    });
+
+    if (!users) {
+      throw new Error('Cannot fetch users');
+    }
+
+    res.json(users);
+  } catch (e: any) {
+    res.status(500).json({ message: e.message });
+  }
+});
+
+//* delete account
+
+router.all('/delete/:id', async (req: Request, res: Response) => {
+  try {
+    const user = await prisma.user.delete({
+      where: {
+        id: req.params.id
+      }
+    });
+
+    if (!user) {
+      throw new Error('Account not deleted');
+    }
+
+    res.json({ message: 'Account deleted successfully' });
+  } catch (e: any) {
+    res.status(500).json({ message: e.message });
+  }
+});
+
+// router.all('/verify', async (_req: Request, res: Response) => {
+//   try {
+//   } catch (e: any) {
+//     res.status(500).json({ message: e.message });
+//   }
+// });
+
+export default router;
