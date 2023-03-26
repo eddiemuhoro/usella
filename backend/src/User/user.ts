@@ -14,6 +14,7 @@ export const register =
   body('password').isString(),
   body('location').isString(),
   handleErrors,
+  
   async (req: Request, res: Response) => {
     try {
       const { name, email, phone, password, location } = req.body;
