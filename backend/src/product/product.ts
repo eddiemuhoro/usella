@@ -3,7 +3,7 @@ import { prisma } from '../db.js';
 import { Request, Response, Router } from 'express';
 import { handleErrors } from '../middleware/handleErrors.js';
 import { sendMail } from '../Mailer/productMail.js';
-import { Category } from '@prisma/client';
+// import { Category } from '@prisma/client';
 
 const router = Router();
 
@@ -69,7 +69,7 @@ router.get(
   handleErrors,
   async (req: Request, res: Response) => {
     try {
-      const category: Category = req.params.category as Category;
+      const category = req.params.category;
       const product = await prisma.product.findMany({
         where: {
           category: category
