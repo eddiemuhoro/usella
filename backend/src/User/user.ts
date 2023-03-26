@@ -42,7 +42,7 @@ export const register =
         res.status(500).json({ message: 'user profile not created' });
       }
 
-      res.json({ message: 'user created successfully', id: user.id });
+      res.status(200).json({ message: 'user created successfully', id: user.id });
     } catch (e: any) {
       res.status(500).send({ message: e.message });
     }
@@ -74,7 +74,7 @@ export const login =
         res.status(500).json({ message: 'Invalid credentials' });
       }
 
-      res.json({ message: 'User logged in successfully', id: user!.id });
+      res.status(200).json({ message: 'User logged in successfully', id: user!.id });
     } catch (e: any) {
       res.status(500).send({ message: e.message });
     }
@@ -120,7 +120,7 @@ router.all('/delete/:id', async (req: Request, res: Response) => {
       throw new Error('Account not deleted');
     }
 
-    res.json({ message: 'Account deleted successfully' });
+    res.status(200).json({ message: 'Account deleted successfully' });
   } catch (e: any) {
     res.status(500).json({ message: e.message });
   }
