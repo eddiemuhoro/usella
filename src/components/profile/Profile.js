@@ -6,11 +6,12 @@ import MyWishList from './tabs/MyWishList';
 import MyPosts from './tabs/MyPosts';
 import { useDispatch, useSelector } from 'react-redux';
 import { AiOutlineLogout, AiOutlineEdit } from 'react-icons/ai';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getProfile, logout, reset } from '../../react-redux/features/auth/authSlice';
 import Popup from 'reactjs-popup';
 import ProfileEditor from './EditProfile';
 import axios from 'axios';
+import { BsForward } from 'react-icons/bs';
 
 const details = {
     name: 'John Doe',
@@ -83,6 +84,38 @@ const Profile = () => {
         }        
     }
 
+    const slides = [
+        {
+          id: 1,
+          title: 'Add bio',
+          description: 'Add your bio to your profile ',
+        },
+        {
+          id: 2,
+          title: 'Add your phone number',
+          description: 'Add your phone number to your profile',
+        },
+       
+      ];
+    
+
+    const [currentSlide, setCurrentSlide] = useState(0)
+
+
+    const handleNextClick = () => {
+        if (currentSlide < slides.length - 1) {
+          setCurrentSlide(currentSlide + 1);
+        }else if(currentSlide === slides.length - 1){
+          setCurrentSlide(0)
+    
+        }
+      };
+
+      const currentSlideStyle = {
+        transform: `translateX(-${currentSlide * 100}%)`,
+    
+      };
+
     return (
         <div className="profile-container">
             <section className='profile-info'>
@@ -95,7 +128,7 @@ const Profile = () => {
                         <h3 className="profile-name">{user.firstName} {user.lastName}</h3>
                         <p className="profile-email">{user.email}</p>
                         <p className="profile-phone">{profile.phone}</p>
-                        <p className="profile-bio">{profile.bio}</p>
+                       
                     </div>
 
                     <div className= 'logout-btn'>
@@ -104,9 +137,38 @@ const Profile = () => {
 
                     <div className= 'edit-btn'>
                        <ProfileEditor pNo={profile.phone} profBio={profile.bio}  dp={!profile.profilePic ? 'https://www.w3schools.com/howto/img_avatar.png' : profile.profilePic}  id={profile.id} />
-                    </div>
-                    
+                    </div> 
                 </div>
+
+                {
+                    !profile.phone && !profile.bio ?
+                    (
+                        <div className='add-items'>
+                    <div className="slider">
+                        <div className="slider-wrapper" style={currentSlideStyle}>
+                            {slides.map((slide, index) => (
+                                <div key={index} className="slider-slide">
+                                    <p>{slide.description}</p>
+
+                                </div>
+                            ))}
+                        </div>
+                        <button
+                            className="slider-next"
+                            onClick={handleNextClick}
+                        >
+                            <BsForward />
+                        </button>
+                    </div>
+                </div>
+                    ):
+                    (
+                        <p className="profile-bio">{profile.bio}</p>
+                    )
+                }
+
+                
+
             </section>
             <section className='profile-contents'>
                 <section className='profile-nav'>
