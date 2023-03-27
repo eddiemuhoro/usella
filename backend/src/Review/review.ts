@@ -5,11 +5,11 @@ import { prisma } from '../db.js';
 
 const router = Router();
 
-//* fetch all product reviews
+//* fetch all user reviews
 
-router.get('/product/:id', async (req: Request, res: Response) => {
+router.get('/user/:id', async (req: Request, res: Response) => {
   try {
-    const reviews = await prisma.product.findMany({
+    const reviews = await prisma.user.findMany({
       where: {
         id: req.params.id
       },
@@ -31,11 +31,13 @@ router.get('/product/:id', async (req: Request, res: Response) => {
 //* post a review
 
 router.post(
-  '/review',
-  body('productId').isString(),
-  body('userId').isString(),
-  body('rating').isString(),
-  body('comment').isInt(),
+  '/user/send',
+  body('sender_name').isString(),
+  body('sender_email').isString(),
+  body('sender_image').isString(),
+  body('user_id').isString(),
+  body('comment').isString(),
+  body('rating').isInt(),
   handleErrors,
   async (req: Request, res: Response) => {
     try {
@@ -56,13 +58,15 @@ router.post(
   }
 );
 
+
+
 //* edit your review
 
-router.put('/:id', async (req: Request, res: Response) => {
+router.put('/user/update/:id', async (req: Request, res: Response) => {
   try {
     const review = await prisma.review.update({
       where: {
-        id: req.params.id
+        id: req.params.id,
       },
       data: {
         comment: req.body.comment,
@@ -71,8 +75,7 @@ router.put('/:id', async (req: Request, res: Response) => {
       select: {
         comment: true,
         rating: true,
-        user_id: true,
-        product_id: true
+        user_id: true
       }
     });
     if (!review) {
@@ -87,7 +90,7 @@ router.put('/:id', async (req: Request, res: Response) => {
 
 //* delete a review
 
-router.delete('/:id', async (req: Request, res: Response) => {
+router.delete('/delete/user/:id', async (req: Request, res: Response) => {
   try {
     const review = await prisma.review.delete({
       where: {
@@ -104,3 +107,78 @@ router.delete('/:id', async (req: Request, res: Response) => {
     res.status(500).json({ message: e.message });
   }
 });
+
+
+//!n All the usella review routes
+
+//* rate the website for its services
+router.post(
+  '/usella/send',
+  body('user_id').isString(),
+  body('comment').isString(),
+  body('rating').isInt(),
+  handleErrors,
+  async (req: Request, res: Response) => {
+    try {
+      const review = await prisma.usellaReviews.create({
+        data: {
+          ...req.body
+        }
+      });
+
+      if (!review) {
+        throw new Error('Review not sent');
+      }
+
+      res.json({ message: 'Review sent successfully' });
+    } catch (e: any) {
+      res.status(500).json({ message: e.message });
+    }
+  }
+);
+router.delete(
+  '/usella/delete/:id',
+
+  async (req: Request, res: Response) => {
+    try {
+      const review = await prisma.usellaReviews.delete({
+        where: {
+          id: req.params.id
+        }
+      });
+
+      if (!review) {
+        throw new Error('Review not sent');
+      }
+
+      res.json({ message: 'Review sent successfully' });
+    } catch (e: any) {
+      res.status(500).json({ message: e.message });
+    }
+  }
+);
+
+//* fetch all usella reviews
+
+router.get('/usella', async (_req: Request, res: Response) => {
+  try {
+    const reviews = await prisma.usellaReviews.findMany({
+      select: {
+        comment: true,
+        rating: true,
+        user_id: true
+      }
+    });
+
+    if (!reviews) {
+      throw new Error('Cannot fetch usella reviews');
+    }
+
+    res.json(reviews);
+  } catch (e: any) {
+    res.status(500).json({ message: e.message });
+  }
+});
+
+
+export default router;
