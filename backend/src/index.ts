@@ -4,12 +4,10 @@ import morgan from 'morgan';
 import cors from 'cors';
 import { login, register } from './User/user.js';
 import usersRouter from './User/user.js';
-// import bodyParser from 'body-parser';
 import productRouter from './product/product.js';
-// import { swaggerDocs } from './swagger/swagger.js';
-// import swaggerUi from 'swagger-ui-express';
-
-// import {login, register} from './User/user';
+import swaggerUi from 'swagger-ui-express';
+import swaggerSpec from './swagger/swagger.js';
+import reviewRouter from './Review/review.js';
 
 const app = express();
 
@@ -30,9 +28,13 @@ app.use('/login', login);
 app.use('/register', register);
 app.use('/product', productRouter);
 app.use('/users', usersRouter);
+app.use('/review', reviewRouter);
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 // app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 //* create listen app
 app.listen(port, () => {
   console.log(`Server is listening in port : ${port}`);
+
 });
