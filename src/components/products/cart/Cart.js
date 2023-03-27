@@ -8,7 +8,7 @@ import { deleteCart, deleteProduct, getCartByUser } from '../../../react-redux/f
 import Loader from '../../loader/Loader'
 import './cart.css'
 import Paypal from './Paypal'
-const Cart = () => {
+const Cart = (props) => {
   const navigate = useNavigate()
   const [phone , setPhone] = useState('')
   const dispatch = useDispatch()
@@ -18,7 +18,7 @@ const Cart = () => {
   const [delivery , setDelivery] = useState('')
   const [update, setUpdate] = useState(false)
   //show delivery on console
-   console.log(delivery)
+  //  console.log(delivery)
 
   useEffect(() => {
     setLoading(true)
@@ -35,6 +35,7 @@ const Cart = () => {
      dispatch(deleteCart(productId))  
      .then((res)=>{
       setUpdate(true)
+      props.setCartCount(true)
      })
   }
 
@@ -157,7 +158,7 @@ const Cart = () => {
       }
       )
     }, [dispatch, user.id])
-    console.log(inOrder)
+    // console.log(inOrder)
 
 
   return (

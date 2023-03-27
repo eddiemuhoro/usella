@@ -9,6 +9,15 @@
     top: 0;
     z-index: 999;
   }
+
+  .navbar span{
+    font-size: x-small;
+    position: absolute;
+    top: 0;
+    top: 25px;
+    right: 10px;
+    color: #f0833a;
+  }
   
   .navbar-container {
     display: flex;
@@ -53,6 +62,7 @@
     text-decoration: none;
     padding: 0.5rem 1rem;
     height: 100%;
+    position: relative;
   }
   
   .fa-shopping-cart {
