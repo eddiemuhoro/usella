@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import {AiOutlineShoppingCart} from 'react-icons/ai';
@@ -8,11 +8,34 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout, reset } from "../../react-redux/features/auth/authSlice";
 import {CgProfile } from 'react-icons/cg';
 import {FiHelpCircle} from 'react-icons/fi';
+import { getCartByUser } from "../../react-redux/features/products/productSlice";
+import Cart from "../products/cart/Cart";
 function Navbar() {
   const you = useSelector((state) => state.auth.you);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [click, setClick] = useState(false);
+  const [items, setItems] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [update, setUpdate] = useState(false)
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleCheckboxChange = (newCheckedValue) => {
+    setIsChecked(newCheckedValue);
+  };
+
+
+  useEffect(() => {
+    setLoading(true)
+    dispatch(getCartByUser(you.id))
+    .then(res => {
+      setItems(res.payload)
+      setLoading(false)
+      setUpdate(false)
+      
+    }
+  )
+  }, [update, dispatch, you.id])
 
   const onLogout = ()=>{
     dispatch(logout())
@@ -60,6 +83,11 @@ function Navbar() {
                 <li className="nav-item">
               <NavLink to="/cart" className="nav-links" onClick={closeMobileMenu}>
                   <AiOutlineShoppingCart />
+                  {loading ? (
+                    <span className="badge badge-danger">Loading...</span>
+                  ):(
+                    <span className="badge badge-danger">{items.length}</span>
+                  )}
               </NavLink>
             </li>
               ):(
@@ -98,6 +126,7 @@ function Navbar() {
           
         </ul>
       </div>
+     <div style={{display:'none'}}> <Cart setCartCount={handleCheckboxChange} /></div>
     </nav>
   );
 }
