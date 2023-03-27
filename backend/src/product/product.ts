@@ -3,6 +3,7 @@ import { prisma } from '../db.js';
 import { Request, Response, Router } from 'express';
 import { handleErrors } from '../middleware/handleErrors.js';
 import { sendMail } from '../Mailer/productMail.js';
+import { Category } from '@prisma/client';
 // import { Category } from '@prisma/client';
 // import { Category } from '@prisma/client';
 
@@ -12,7 +13,11 @@ const router = Router();
 
 router.get('/', async (_req: Request, res: Response) => {
   try {
-    const product = await prisma.product.findMany();
+    const product = await prisma.product.findMany({
+      where:{
+        status: "AVAILABLE"
+      }
+    });
 
     if (!product) {
       res.status(500).json({ message: 'products not found' });
@@ -52,6 +57,7 @@ router.get('/user/:id', async (req: Request, res: Response) => {
       }
     });
 
+
     if (!products) {
       throw new Error('Cannot fetch user products');
     }
@@ -64,33 +70,33 @@ router.get('/user/:id', async (req: Request, res: Response) => {
 
 //* fetch all products of a specific category
 
-// router.get(
-//   '/category/:category',
+router.get(
+  '/category/:category',
 
-//   handleErrors,
-//   async (req: Request, res: Response) => {
-//     try {
-//       const category: Category = req.params.category as Category;
-//       const product = await prisma.product.findMany({
-//         where: {
-//           category: category
-//         }
-//       });
+  handleErrors,
+  async (req: Request, res: Response) => {
+    try {
+      const category: Category = req.params.category as Category;
+      const product = await prisma.product.findMany({
+        where: {
+          category: category
+        }
+      });
 
-//       if (!product) {
-//         throw new Error('Category products not found');
-//       }
-//       res.json(product);
-//     } catch (e: any) {
-//       res.status(500).json({ message: e.message });
-//     }
-//   }
-// );
+      if (!product) {
+        throw new Error('Category products not found');
+      }
+      res.json(product);
+    } catch (e: any) {
+      res.status(500).json({ message: e.message });
+    }
+  }
+);
 
 //* Post a new product
 
 router.post(
-  '/',
+  '/send',
   body('name').isString(),
   body('quantity'),
   body('category').isString(),
@@ -98,6 +104,9 @@ router.post(
   body('location').isString(),
   body('description').isString(),
   body('seller_id').isString(),
+  body('seller_email').isString(),
+  body('seller_phone').isString(),
+  body('seller_name').isString(),
   handleErrors,
   async (req: Request, res: Response) => {
     try {
@@ -121,7 +130,7 @@ router.post(
   }
 );
 
-router.put('/:id', async (req: any, res: Response) => {
+router.put('/update/:id', async (req: any, res: Response) => {
   try {
     const product = await prisma.product.update({
       where: {
@@ -144,7 +153,7 @@ router.put('/:id', async (req: any, res: Response) => {
 
 //* delete a specific product by id
 
-router.delete('/:id', async (req: any, res: Response) => {
+router.delete('/delete/:id', async (req: any, res: Response) => {
   try {
     const product = await prisma.product.delete({
       where: {
@@ -156,7 +165,7 @@ router.delete('/:id', async (req: any, res: Response) => {
       throw new Error('Cannot delete the product');
     }
 
-    res.json(product);
+    res.json({ message: 'Product deleted successfully' });
   } catch (e: any) {
     res.status(500).json({ message: e.message });
   }
@@ -164,7 +173,7 @@ router.delete('/:id', async (req: any, res: Response) => {
 
 //* delete all the user products by id
 
-router.delete('/all/:id', async (req: Request, res: Response) => {
+router.delete('/user/delete/:id', async (req: Request, res: Response) => {
   try {
     const products = await prisma.product.deleteMany({
       where: {
@@ -181,5 +190,8 @@ router.delete('/all/:id', async (req: Request, res: Response) => {
     res.status(500).json({ message: e.message });
   }
 });
+
+//* delete all the completed products
+
 
 export default router;
