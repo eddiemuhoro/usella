@@ -11,15 +11,16 @@ datasource db {
 }
 
 model user {
-  id       String    @id @default(cuid())
-  name     String
-  email    String    @unique
-  phone    String    @unique
-  password String
-  location String
-  profile  profile?
-  product  product[]
-  review   review[]
+  id            String          @id @default(cuid())
+  name          String
+  email         String          @unique
+  phone         String          @unique
+  password      String
+  location      String
+  profile       profile?
+  product       product[]
+  review        review[]
+  usellaReviews usellaReviews[]
 }
 
 model profile {
@@ -42,37 +43,49 @@ model product {
   description  String
   images       String[] @default([])
   seller_id    String
-  sender_email String
-  sender_phone String
+  seller_email String
+  seller_phone String
+  seller_name  String
   seller       user     @relation(fields: [seller_id], references: [id])
   rating       Int      @default(0)
   sold         Boolean  @default(false)
   status       Status   @default(AVAILABLE)
-  review       review[]
 }
 
 model review {
-  id         String  @id @default(cuid())
-  product    product @relation(fields: [product_id], references: [id])
-  product_id String
-  user       user    @relation(fields: [user_id], references: [id])
-  user_id    String
-  rating     Int
-  comment    String
+  id           String @id @default(cuid())
+  user         user   @relation(fields: [user_id], references: [id])
+  sender_name  String
+  sender_image String
+  sender_email String
+  user_id      String
+  rating       Int
+  comment      String
+}
+
+model usellaReviews {
+  id      String @id @default(cuid())
+  user    user   @relation(fields: [id], references: [id])
+  rating  Int
+  comment String
 }
 
 enum Category {
   ELECTRONICS
   FASHION
   HOME
-  GROCERY
   BEAUTY
   SPORTS
   BOOKS
   OTHERS
+  HEALTH
 }
 
 enum Status {
   AVAILABLE
+  PENDING
+  CONFIRMED
   SOLD
 }
+
+
