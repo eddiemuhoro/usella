@@ -25,17 +25,7 @@ function Navbar() {
   };
 
 
-  useEffect(() => {
-    setLoading(true)
-    dispatch(getCartByUser(you.id))
-    .then(res => {
-      setItems(res.payload)
-      setLoading(false)
-      setUpdate(false)
-      
-    }
-  )
-  }, [update, dispatch, you.id])
+
 
   const onLogout = ()=>{
     dispatch(logout())
@@ -126,7 +116,6 @@ function Navbar() {
           
         </ul>
       </div>
-     <div style={{display:'none'}}> <Cart setCartCount={handleCheckboxChange} /></div>
     </nav>
   );
 }
