@@ -23,8 +23,7 @@ const [select , setSelect] = useState(dp)
   const [loading , setLoading] = useState(false);
 
 
-  console.log(profBio)
-  console.log(bio)
+
 
   //generate a cloudinary image
 
@@ -69,7 +68,7 @@ const [select , setSelect] = useState(dp)
         const resourceCollectionRef = collection(db, 'beauty')
         //add values to firestore firebase
         
-         addDoc(resourceCollectionRef, {imageUrl, bio})
+         addDoc(resourceCollectionRef, {imageUrl})
          setFile(null);
          const profileData = {
           bio,
@@ -130,6 +129,7 @@ const [select , setSelect] = useState(dp)
                         id="bio"
                         name="bio"
                         value={bio}
+                        defaultValue={profBio}
                         onChange={handleBioChange}
                         />
 
@@ -138,7 +138,7 @@ const [select , setSelect] = useState(dp)
                         type="text"
                         id="phone"
                         name="phone"
-                        value={phone}
+                        value={pNo}
                         onChange={handlePhoneChange}
                         />
                       
