@@ -3,7 +3,6 @@ import { prisma } from '../db.js';
 import { Request, Response, Router } from 'express';
 import { handleErrors } from '../middleware/handleErrors.js';
 import { sendMail } from '../Mailer/productMail.js';
-import { Category } from '@prisma/client';
 // import { Category } from '@prisma/client';
 // import { Category } from '@prisma/client';
 
@@ -14,8 +13,8 @@ const router = Router();
 router.get('/', async (_req: Request, res: Response) => {
   try {
     const product = await prisma.product.findMany({
-      where:{
-        status: "AVAILABLE"
+      where: {
+        status: 'AVAILABLE'
       }
     });
 
@@ -57,7 +56,6 @@ router.get('/user/:id', async (req: Request, res: Response) => {
       }
     });
 
-
     if (!products) {
       throw new Error('Cannot fetch user products');
     }
@@ -76,7 +74,7 @@ router.get(
   handleErrors,
   async (req: Request, res: Response) => {
     try {
-      const category: Category = req.params.category as Category;
+      const { category } = req.params as any;
       const product = await prisma.product.findMany({
         where: {
           category: category
@@ -192,6 +190,5 @@ router.delete('/user/delete/:id', async (req: Request, res: Response) => {
 });
 
 //* delete all the completed products
-
 
 export default router;
