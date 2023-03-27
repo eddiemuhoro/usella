@@ -582,10 +582,6 @@ const options = {
                 schema: {
                   type: 'object',
                   properties: {
-                    user_id: {
-                      type: 'string',
-                      example: '1'
-                    },
                     comment: {
                       type: 'string',
                       example: 'Nice product'
