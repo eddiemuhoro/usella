@@ -85,3 +85,4 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 -Inbox page
 11/04
 -Auth
+# seller
