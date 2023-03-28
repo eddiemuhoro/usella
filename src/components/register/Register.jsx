@@ -14,6 +14,7 @@ function Register() {
   //published key
   //117852649508-n6pl5fek07k9co4pfqpihgtq7rotv09d.apps.googleusercontent.com
   // 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
+  
   const handleCallbackResponse = (response) => {
       console.log("response", response.credential)
        userObject = jwt_decode(response.credential)
@@ -26,27 +27,22 @@ function Register() {
       //navigate to home page
       //send request to backend to create a new user with name, email and password
       handleRegister()
-
   }
-
+  
   //send request to backend to create a new user with name, email and password
-  const handleRegister =  () => {
-    const userData = {
-      firstName: userObject.given_name,
-      lastName: userObject.family_name,
-      email: userObject.email,
-      password: userObject.sub,
-      profilePic: userObject.picture
-    }
-    console.log(userData)
-    dispatch(register(userData))
-  }
+
+
+
+ 
+
+ 
+  
 //117852649508-t13ajvt9etu46132uenkvuvver29vpol.apps.googleusercontent.com
 
 useEffect(()=>{
   /* global google */
   google.accounts.id.initialize({
-    client_id: '117852649508-t13ajvt9etu46132uenkvuvver29vpol.apps.googleusercontent.com',
+    client_id: '719668832114-ieqsiradroo9m4tb6584acqhcr80siet.apps.googleusercontent.com',
     callback: handleCallbackResponse,
   })
 
@@ -69,10 +65,10 @@ useEffect(()=>{
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    name: '',
     email: '',
     password: '',
+    phone:'',
     confirmPassword: '',
   });
 
@@ -81,16 +77,31 @@ useEffect(()=>{
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
 
-  const { firstName, lastName, email, password, confirmPassword } = formData;
+  const { name, email, password, confirmPassword, phone } = formData;
 
   const { you, isError, isLoading, isSuccess, message }= useSelector (
     (state)=> state.auth
   )
 
+  const handleRegister =  () => {
+ 
+    const userData = {
+      name: userObject.given_name,
+      email: userObject.email,
+      password: userObject.sub,
+      phone: formData.phone,
+    }
+    console.log(userData)
+    dispatch(register(userData))
+  }
+  
+
+  console.log(phone);
+
   useEffect((dispatch)=>{
     if(isSuccess || you){
       toast.success(message)
-      navigate('/')
+      navigate('/email')
       window.location.reload()
       dispatch(reset())
       
@@ -111,19 +122,18 @@ useEffect(()=>{
     if ((password !== confirmPassword )) {
       toast.error("🦄 Passwords don't match!");
  
-    } else if((!firstName || !email || !password || !confirmPassword)){
+    } else if((!name || !email || !password || !confirmPassword)){
       toast.error("🦄 Please fill all the fields!");
     }else {
       const userData = {
-        firstName,
-        lastName,
+        name,
         email,
         password,
+        phone,
+        
       }
       console.log(userData)
       dispatch(register(userData))
-   
-
     }
     //send data to backend
   };
@@ -134,27 +144,17 @@ useEffect(()=>{
       <h2>Register</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="firstName">First Name</label>
+          <label htmlFor="firstName"> Name</label>
           <input
             type="text"
-            name="firstName"
-            id="firstName"
-            value={formData.firstName}
+            name="name"
+            id="name"
+            value={formData.name}
             onChange={handleChange}
             required
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="lastName">Last Name</label>
-          <input
-            type="text"
-            name="lastName"
-            id="lastName"
-            value={formData.lastName}
-            onChange={handleChange}
-            required
-          />
-        </div>
+      
         <div className="form-group">
           <label htmlFor="email">Email</label>
           <input
@@ -190,9 +190,35 @@ useEffect(()=>{
             required
           />
         </div>
+
+        <div className="form-group">
+          <label htmlFor="confirmPassword">Phone</label>
+          <input
+            type="text"
+            name="phone"
+            id="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            minLength="6"
+            required
+          />
+        </div>
         <button type="submit">Register</button>
       </form>
-      <h4>Sign up with Google</h4>
+      <h4 style={{margin:'20px'}}> Or</h4>
+      <h4 style={{margin:'0 0 20px 0 '}}>Sign up with Google</h4>
+      <div className="form-group">
+          <label htmlFor="confirmPassword">Phone</label>
+          <input
+            type="text"
+            name="phone"
+            id="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            minLength="6"
+            required
+          />
+        </div>
       <div id="signInDiv"></div>
 
       <p>Already have an account? <Link to='/login'>Login</Link></p>
