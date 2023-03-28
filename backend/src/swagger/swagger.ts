@@ -83,6 +83,40 @@ const options = {
           }
         }
       },
+      '/users/verify/{email}/{id}': {
+        put: {
+          tags: ['User'],
+          parameters: [
+            {
+              name: 'id',
+              in: 'path',
+              description: 'The user id',
+              required: true,
+              schema: {
+                type: 'string',
+                required: true,
+                description: 'The user id'
+              }
+            },
+            {
+              name: 'email',
+              in: 'path',
+              description: 'The user email',
+              required: true,
+              schema: {
+                type: 'string',
+                required: true,
+                description: 'The user email'
+              }
+            }
+          ],
+          responses: {
+            200: {
+              description: 'User verified successfully'
+            }
+          }
+        }
+      },
 
       '/users': {
         get: {
