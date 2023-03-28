@@ -8,7 +8,7 @@
     "esModuleInterop": true,
     "target": "ESNext",
     // "allowImportingTsExtensions": true,
-    "noEmit" :true,
+    "noEmit" :false,
     "moduleResolution": "node",
     "noUnusedLocals": true,
     "noUnusedParameters": true,

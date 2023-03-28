@@ -6,14 +6,13 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "dev": "node src/index.ts",
-    "start": "nodemon dist/index.js",
+    "dev": "node dist/index.js",
+    "start": "node dist/index.js",
     "format": "prettier --config .prettierrc 'src/**/*.ts' --write",
     "lint": "eslint 'src/**/*.ts' --fix",
-    "test": "jest --watchAll",
     "postinstall": "prisma generate",
-    "prestart": "npm run build",
-    "predev": "npm run build"
+    "prestart": "pnpm run build",
+    "predev": "pnpm run build"
   },
   "keywords": [],
   "author": "",
