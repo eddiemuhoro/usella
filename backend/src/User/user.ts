@@ -3,6 +3,7 @@ import { handleErrors } from '../middleware/handleErrors.js';
 import { prisma } from '../db.js';
 import bcrypt from 'bcrypt';
 import { Request, Response, Router } from 'express';
+import { verifyEmail } from '../Mailer/productMail.js';
 //* register user
 
 const router = Router();
@@ -12,30 +13,25 @@ export const register =
   body('email').isEmail(),
   body('phone').isString(),
   body('password').isString(),
-  body('location').isString(),
   handleErrors,
   async (req: Request, res: Response) => {
     try {
-      const { name, email, phone, password, location } = req.body;
+      const { name, email, phone, password } = req.body;
       const user = await prisma.user.create({
         data: {
           name: name,
           email: email,
           phone: phone,
-          password: bcrypt.hashSync(password, 10),
-          location: location
+          password: bcrypt.hashSync(password, 10)
         },
-        select:{
-          name: true,
+        select: {
           id: true,
-          email: true,
-          phone: true,
-          location: true,
+          email: true
         }
       });
 
       if (!user) {
-        res.status(500).json('could not create user');
+        throw new Error('Registration failed');
       }
 
       // //* register the profile of the user
@@ -46,41 +42,20 @@ export const register =
       });
 
       if (!profile) {
-        res.status(500).json({ message: 'user profile not created' });
+        throw new Error('User profile not created');
       }
+      await verifyEmail(user.email, user.id, req.body.name);
 
-      res.status(200).json(user);
+      res.status(200).json({
+        message: 'user registered',
+        verification: 'Verification email sent'
+      });
     } catch (e: any) {
-      res.status(500).send({ message: e.message });
+      res.status(500).json({ message: e.message });
     }
   });
 
 //* login user
-
-/**
- * @swagger
- * /login:
- *  post:
- *   tags:
- *     - User
- *   requestBody:
- *    required: true
- *    content:
- *      application/json:
- *       schema:
- *        type: object
- *        properties:
- *         email:
- *          type: string
- *          example: "emilio113kariuki@gmail.com"
- *         password:
- *          type: string
- *          example: "pass1234"
- *        responses:
- *             200:
- *             description: User logged in successfully
- *
- */
 
 export const login =
   (body('email').isString(),
@@ -94,27 +69,53 @@ export const login =
           email: email
         }
       });
-      if (!email) {
-        res
-          .status(404)
-          .json({ message: 'make sure you provide the right credentials' });
+      if (!user) {
+        throw new Error('Invalid credentials');
       }
 
-      const isValid = await bcrypt.compare(password, user!.password);
+      const isValid = bcrypt.compareSync(password, user!.password);
 
       if (!isValid) {
-        res.status(500).json({ message: 'Invalid credentials' });
+        throw new Error('Invalid credentials');
       }
 
-      res
-        .status(200)
-        .json({ message: 'User logged in successfully', id: user!.id });
+      if (!user.isVerified) {
+        throw new Error('User not verfied');
+      }
+
+      res.status(200).json({
+        id: user!.id,
+        name: user!.name,
+        email: user!.email,
+        phone: user!.phone
+      });
     } catch (e: any) {
-      res.status(500).send({ message: e.message });
+      res.status(500).json({ message: e.message });
     }
   });
 
 //* fetch all the users
+
+router.put('/verify/:email/:id', async (req: Request, res: Response) => {
+  try {
+    const user = await prisma.user.update({
+      where: {
+        email: req.params.email
+      },
+      data: {
+        isVerified: true
+      }
+    });
+
+    if (!user) {
+      throw new Error('Cannot verify user');
+    }
+
+    res.json(user);
+  } catch (e: any) {
+    res.status(500).json({ message: e.message });
+  }
+});
 
 router.get('/', async (_req: Request, res: Response) => {
   try {
@@ -124,7 +125,7 @@ router.get('/', async (_req: Request, res: Response) => {
         name: true,
         email: true,
         phone: true,
-        location: true,
+        isVerified: true,
         product: true,
         profile: true
       }
@@ -152,7 +153,6 @@ router.all('/:id', async (req: Request, res: Response) => {
         name: true,
         email: true,
         phone: true,
-        location: true,
         product: true,
         profile: true
       }
