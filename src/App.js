@@ -11,6 +11,7 @@ import Products from './components/products/Products';
 import SingleProduct from './components/products/SingleProduct';
 import Post from './components/profile/post/Post';
 import Profile from './components/profile/Profile';
+import Email from './components/register/Verification/Email';
 import Login from './components/register/Login';
 import Register from './components/register/Register';
 function App () {
@@ -19,6 +20,7 @@ function App () {
       <Navbar />
       <Routes>
         <Route path="/register" element={<Register />} />
+        <Route path='/email' element={<Email />} />
         <Route path="/login" element={<Login />} />
         <Route path='/' element={<Hero/>} />
         <Route path='/terms' element={<Terms/>} />

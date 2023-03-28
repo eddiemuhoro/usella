@@ -1,12 +1,12 @@
 import axios from 'axios'
 
-const API_URL = 'https://odd-slip-ant.cyclic.app/';
+const API_URL = 'https://usellar.up.railway.app/';
 
 const register = async(userData)=>{
     const response = await axios.post(API_URL + 'register', userData)
     if(response.data){
-        localStorage.removeItem('you');
-        localStorage.setItem('you', JSON.stringify(response.data));
+        localStorage.removeItem('google');
+        localStorage.setItem('google', JSON.stringify(response.data));
     }
     return response.data
 }
