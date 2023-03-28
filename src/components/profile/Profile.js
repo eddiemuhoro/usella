@@ -125,10 +125,9 @@ const Profile = () => {
                         <img src={ !profile.profilePic ? 'https://www.w3schools.com/howto/img_avatar.png' : profile.profilePic} alt={user.firstName} />
                     </div>
                     <div className="profile-info">
-                        <h3 className="profile-name">{user.firstName} {user.lastName}</h3>
+                        <h3 className="profile-name">{user.name} {user.lastName}</h3>
                         <p className="profile-email">{user.email}</p>
-                        <p className="profile-phone">{profile.phone}</p>
-                       
+                        <p className="profile-phone">{profile.phone}</p>          
                     </div>
 
                     <div className= 'logout-btn'>
