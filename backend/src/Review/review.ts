@@ -166,7 +166,6 @@ router.get('/usella', async (_req: Request, res: Response) => {
       select: {
         comment: true,
         rating: true,
-        user_id: true
       }
     });
 

@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,26 +8,26 @@ datasource db {
 }
 
 model user {
-  id            String          @id @default(cuid())
+  id            String         @id @default(cuid())
   name          String
-  email         String          @unique
-  phone         String          @unique
+  email         String         @unique
+  phone         String         @unique
   password      String
   location      String
-  profile       profile?
   product       product[]
+  profile       profile?
   review        review[]
-  usellaReviews usellaReviews[]
+  usellaReviews usellaReviews?
 }
 
 model profile {
   id          String @id
-  user        user   @relation(fields: [id], references: [id])
   bio         String @default("")
   profile_pic String @default("")
   cover_pic   String @default("")
   followers   Int    @default(0)
   following   Int    @default(0)
+  user        user   @relation(fields: [id], references: [id])
 }
 
 model product {
@@ -46,28 +43,56 @@ model product {
   seller_email String
   seller_phone String
   seller_name  String
-  seller       user     @relation(fields: [seller_id], references: [id])
   rating       Int      @default(0)
   sold         Boolean  @default(false)
   status       Status   @default(AVAILABLE)
+  seller       user     @relation(fields: [seller_id], references: [id])
 }
+
+// model order{
+//   id          String @id @default(cuid())
+//   buyer_id     String
+//   buyer_name   String
+//   buyer_email  String
+//   buyer_phone  String
+//   buyer_image  String
+//   seller_id    String
+//   seller_name  String
+//   seller_email String
+//   seller_phone String
+//   seller_image String
+//   product_id   String
+//   product_name String
+//   product_image String
+//   product_price Int
+//   product_quantity Int
+//   product_category Category
+//   product_description String
+//   product_location String
+//   product_status Status
+//   product_rating Int
+//   product_sold Boolean
+//   buyer         user     @relation(fields: [buyer_id], references: [id])
+//   seller        user     @relation(fields: [seller_id], references: [id])
+//   product       product  @relation(fields: [product_id], references: [id])
+// }
 
 model review {
   id           String @id @default(cuid())
-  user         user   @relation(fields: [user_id], references: [id])
   sender_name  String
   sender_image String
-  sender_email String
   user_id      String
   rating       Int
   comment      String
+  sender_email String
+  user         user   @relation(fields: [user_id], references: [id])
 }
 
 model usellaReviews {
   id      String @id @default(cuid())
-  user    user   @relation(fields: [id], references: [id])
   rating  Int
   comment String
+  user    user   @relation(fields: [id], references: [id])
 }
 
 enum Category {
@@ -83,9 +108,7 @@ enum Category {
 
 enum Status {
   AVAILABLE
+  SOLD
   PENDING
   CONFIRMED
-  SOLD
 }
-
-
