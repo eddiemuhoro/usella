@@ -4,7 +4,7 @@ import { BsCart3, BsHeart, BsHeartFill } from 'react-icons/bs';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { addToCart, getCart, getProductByCategory, getProductById, getProductByUser } from '../../react-redux/features/products/productSlice';
+import { addToCart, getCart, getProductByCategory, getProductById, getProductByUser, reset } from '../../react-redux/features/products/productSlice';
 import Wishlist from '../profile/tabs/WishlistButton';
 import CartButton from './CartButton';
 
@@ -37,7 +37,7 @@ const SingleProduct = () => {
   }
 
   //fetch clicked product'
-  const [products, setclickedProduct] = useState([])
+const [products, setclickedProduct] = useState([])
 
 const handleCart =  () => {
   
@@ -60,53 +60,62 @@ const handleCart =  () => {
 }
 
 
-      const [cart, setCart] = useState([])
+const [cart, setCart] = useState([])
       //fetch cart data by user id
+    //   useEffect(() => {
+    //     dispatch(getCart(products.id))
+    //     .then(res => {
+    //       setCart(res.payload)
+    //     }
+    //   )
+    // }, [dispatch, products.id])
+
+
+    const [test, setTest] = useState('ELECTRONICS')
+
       useEffect(() => {
-        dispatch(getCart(products.id))
-        .then(res => {
-          setCart(res.payload)
-        }
-      )
-    }, [dispatch, products.id])
-
-
-
-
-      useEffect(() => {
+        setLoading(true)
         dispatch(getProductById(id))
         .then(res => {
           setclickedProduct(res.payload)
+          //settest to category 
+          setTest(res.payload.category)
+          setLoading(false)
         }
         )
       }, [dispatch, id])
 
+
+   
+
       const [category , setCategory] = useState([ ])
+    //fetch product by category after fetching product
       useEffect(() => {
         setLoading(true)
-        dispatch(getProductByCategory(products.category))
+        dispatch(getProductByCategory(test))
         .then(res => {
-          setCategory(res.payload)
-          setLoading(false)
-        }
+          //set data to category after 2 seconds
+            setCategory(res.payload)
+            setLoading(false)
+         }
         )
-      }, [dispatch, products.category])
+      }, [dispatch, test])
 
 
-      const [sellerProducts , setSellerProducts] = useState([])
-      useEffect(() => {
-        setLoading(true)
-        dispatch(getProductByUser(products.sellerId))
-        .then(res => { 
-          setSellerProducts(res.payload)
-          setLoading(false)
-        })
-        // const fetchProducts = async () => {
-        //   const { data } = await axios.get(`http://localhost:9000/products/seller/${seller}`)
-        //   setProducts(data)
-        // }
-        // fetchProducts()
-      }, [dispatch, products.sellerId])
+      // const [sellerProducts , setSellerProducts] = useState([])
+      // useEffect(() => {
+      //   setLoading(true)
+      //   dispatch(getProductByUser(products.sellerId))
+      //   .then(res => { 
+      //     setSellerProducts(res.payload)
+      //     setLoading(false)
+      //   })
+      //   // const fetchProducts = async () => {
+      //   //   const { data } = await axios.get(`http://localhost:9000/products/seller/${seller}`)
+      //   //   setProducts(data)
+      //   // }
+      //   // fetchProducts()
+      // }, [dispatch, products.sellerId])
 
 
 
@@ -145,7 +154,7 @@ const handleCart =  () => {
             <img src={products.image} alt="product" />
           </div>
           <div className='product-content' >
-                <h1 className="info-name">{products.name}</h1>
+                <h1 className="info-name">{products.category}</h1>
               
                 <p className="info-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.</p>
                 <div>
@@ -201,7 +210,7 @@ const handleCart =  () => {
         <section className='seller-info'>
          
           <h4 >Other products posted by {products.sellerName}</h4>
-          <div className='seller-products'>
+          {/* <div className='seller-products'>
           {loading && <p>Please wait a sec...</p>}
               {
                 sellerProducts.map(product => (
@@ -214,7 +223,7 @@ const handleCart =  () => {
                  </ul>
                 ))
               }
-          </div>
+          </div> */}
         </section>
     </div>
     <h2>Related products</h2>
