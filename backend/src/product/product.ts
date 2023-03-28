@@ -2,7 +2,7 @@ import { body } from 'express-validator';
 import { prisma } from '../db.js';
 import { Request, Response, Router } from 'express';
 import { handleErrors } from '../middleware/handleErrors.js';
-import { sendMail } from '../Mailer/productMail.js';
+import { productPostedEmail } from '../Mailer/productMail.js';
 // import { Category } from '@prisma/client';
 // import { Category } from '@prisma/client';
 
@@ -116,7 +116,7 @@ router.post(
       if (!product) {
         res.status(500).json({ message: 'cannot create product' });
       }
-      await sendMail('emilio113kariuki@gmail.com', req.body.name);
+      await productPostedEmail(req.body.seller_email, req.body.seller_name,req.body.name);
       res.json({
         product: product,
         message: 'product created successfully',
@@ -128,28 +128,11 @@ router.post(
   }
 );
 
-router.put('/update/:id', async (req: any, res: Response) => {
-  try {
-    const product = await prisma.product.update({
-      where: {
-        id: req.params.id
-      },
-      data: {
-        ...req.body
-      }
-    });
 
-    if (!product) {
-      throw new Error('Could not update the product');
-    }
-
-    res.json(product);
-  } catch (e: any) {
-    res.status(500).json({ message: e.message });
-  }
-});
 
 //* delete a specific product by id
+
+
 
 router.delete('/delete/:id', async (req: any, res: Response) => {
   try {
