@@ -31,7 +31,7 @@ const MyOrders = () => {
   return (
     <div>
          <section className="orders ">
-          {
+          {/* {
            loading ? (
               <div className="loader">
                 <Loader />
@@ -71,7 +71,7 @@ const MyOrders = () => {
                )
               )
             )
-          }
+          } */}
           {
              products.length === 0 && 
               <div className="no-products">
