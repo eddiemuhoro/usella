@@ -13,10 +13,10 @@ model user {
   email         String         @unique
   phone         String         @unique
   password      String
-  location      String
   product       product[]
   profile       profile?
   review        review[]
+  isVerified    Boolean        @default(false)
   usellaReviews usellaReviews?
 }
 
