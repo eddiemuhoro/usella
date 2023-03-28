@@ -19,8 +19,12 @@ const Post = () => {
         price: 0,
         quantity: 1,
         category: '',
-        sellerId: user.id,
-        sellerName: user.fisrtName,
+        seller_id: user.id,
+        seller_name: 'edwin',
+        seller_email: 'eddie@gmail',
+        seller_phone: '0788282838',
+        location: 'kenya',
+
     });
 
     const handleImageUpload = (event) => {
@@ -39,18 +43,21 @@ const Post = () => {
         const newPost = {
             name: post.name,
             description: post.description,
-            sellerId: (user.id),
-            sellerName: (user.firstName),
+            seller_id: (user.id),
             price:  parseInt(post.price),
             quantity: parseInt(post.quantity),
             category: post.category,
-            image: imageString,
+            seller_name: 'edwin',
+            seller_email: 'eddie@gmail',
+            seller_phone: '0788282838',
+            location: 'kenya',
+
           }
           console.log(newPost)
           dispatch(createproduct(newPost))
           .then(() => {
             toast.success('Product created successfully');
-            navigate('/products');
+           
             })
             .catch((err) => {
                 toast.error(err.message);
@@ -99,10 +106,10 @@ const Post = () => {
                         <option value='others'>Others</option>
                     </select>
                 </div>
-                <div className='form-group'>
+                {/* <div className='form-group'>
                     <label htmlFor='image'>Image</label>
                     <input type='file' name='image' id='image' onChange={handleImageUpload} />
-                </div>
+                </div> */}
                 <div className='form-group'>
                     <button type='submit'>Post</button>
                 </div>
