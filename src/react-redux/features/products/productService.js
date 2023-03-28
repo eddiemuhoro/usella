@@ -1,15 +1,15 @@
 import axios from 'axios'
 
-const API_URL = 'https://odd-slip-ant.cyclic.app/';
+const API_URL = 'https://usellar.up.railway.app/';
 
 const createProduct = async(productData)=>{
-    const response = await axios.post(API_URL + 'products', productData,
+    const response = await axios.post(API_URL + 'product/send', productData,
     )
     return response.data
 }
 
 const getProduct = async()=>{
-  const response = await axios.get(API_URL + 'products',
+  const response = await axios.get(API_URL + 'product',
   )
 //data response
   return response.data
@@ -17,7 +17,7 @@ const getProduct = async()=>{
 
 //get single product by id
 const getProductById = async(productId)=>{
-  const response = await axios.get(API_URL + 'products/' + productId,
+  const response = await axios.get(API_URL + 'product/' + productId,
   )
 //data response
   return response.data
@@ -25,7 +25,7 @@ const getProductById = async(productId)=>{
 
 //get product by category
 const getProductByCategory = async(category)=>{
-  const response = await axios.get(API_URL + 'products/category/' + category,
+  const response = await axios.get(API_URL + 'product/category/' + category,
   )
 //data response
  return response.data
@@ -33,7 +33,7 @@ const getProductByCategory = async(category)=>{
 
 //get product by user id
 const getProductByUser = async(userId)=>{
-  const response = await axios.get(API_URL + 'products/seller/' + userId,
+  const response = await axios.get(API_URL + 'product/user/' + userId,
   )
 //data response
   return response.data  
@@ -42,13 +42,13 @@ const getProductByUser = async(userId)=>{
 
 const deleteProduct = async (productId) => {
 
-    const response = await axios.delete(API_URL + 'products/' + productId)
+    const response = await axios.delete(API_URL + 'product/delete' + productId)
   
     return response.data
   }
 
   const  updateProduct = async (productId, productData) => {
-    const response = await axios.put(API_URL + 'products/' + productId, productData)
+    const response = await axios.put(API_URL + 'product/' + productId, productData)
     return response.data
   }
 
