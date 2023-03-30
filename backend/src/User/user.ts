@@ -95,27 +95,55 @@ export const login =
   });
 
 //* fetch all the users
+//route to show a simple formfiedl to verify the user
+// router.get('/verify/:email/:id', async (req: Request, res: Response) => {
+//   try {
+//     res.send(
+//       `<form action="/submit/${req.params.id}/${req.params.email}" method="GET">` +
+//         `<input type="text" name="code" placeholder="Enter verification code" val/>` +
+//         `<button type="submit">Verify</button>` +
+//         `</form>`
+//     );
+//   } catch (e: any) {
+//     res.status(500).json({ message: e.message });
+//   }
+// });
 
-router.put('/verify/:email/:id', async (req: Request, res: Response) => {
-  try {
-    const user = await prisma.user.update({
-      where: {
-        email: req.params.email
-      },
-      data: {
-        isVerified: true
+// router.get('/submit/:id/:email', (req, res) => {
+//   const code = req.body.code;
+//   console.log(`Received code: ${code}`);
+//   res.redirect(
+//     `http://localhost:4200/users/verify/${req.params.email}/${code}`
+//   );
+// });
+
+router.get(
+  '/verify/:email/:code',
+  body('code'),
+  handleErrors,
+  async (req: Request, res: Response) => {
+    try {
+      if (req.params.code !== '1234') {
+        const user = await prisma.user.update({
+          where: {
+            email: req.params.email
+          },
+          data: {
+            isVerified: true
+          }
+        });
+        if (!user) {
+          throw new Error('Cannot verify user');
+        }
+        // res.redirect('https://dshopie.vercel.app/login');
+
+        res.json(user);
       }
-    });
-
-    if (!user) {
-      throw new Error('Cannot verify user');
+    } catch (e: any) {
+      res.status(500).json({ message: e.message });
     }
-
-    res.json(user);
-  } catch (e: any) {
-    res.status(500).json({ message: e.message });
   }
-});
+);
 
 router.get('/', async (_req: Request, res: Response) => {
   try {

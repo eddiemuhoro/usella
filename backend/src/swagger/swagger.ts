@@ -67,10 +67,7 @@ const options = {
                       type: 'string',
                       example: 'pass1234'
                     },
-                    location: {
-                      type: 'string',
-                      example: 'Nairobi'
-                    }
+                    
                   }
                 }
               }
@@ -84,7 +81,7 @@ const options = {
         }
       },
       '/users/verify/{email}/{id}': {
-        put: {
+        get: {
           tags: ['User'],
           parameters: [
             {

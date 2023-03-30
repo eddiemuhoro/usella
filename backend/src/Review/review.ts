@@ -24,6 +24,7 @@ router.get('/user/:id', async (req: Request, res: Response) => {
 
     res.json(reviews);
   } catch (e: any) {
+  
     res.status(500).json({ message: e.message });
   }
 });

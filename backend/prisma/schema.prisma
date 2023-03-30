@@ -27,7 +27,7 @@ model profile {
   cover_pic   String @default("")
   followers   Int    @default(0)
   following   Int    @default(0)
-  user        user   @relation(fields: [id], references: [id])
+  user        user   @relation(fields: [id], references: [id],onUpdate: Cascade, onDelete: Cascade) 
 }
 
 model product {
@@ -46,7 +46,7 @@ model product {
   rating       Int      @default(0)
   sold         Boolean  @default(false)
   status       Status   @default(AVAILABLE)
-  seller       user     @relation(fields: [seller_id], references: [id])
+  seller       user     @relation(fields: [seller_id], references: [id],onUpdate: Cascade, onDelete: Cascade)
 }
 
 // model order{
@@ -85,14 +85,14 @@ model review {
   rating       Int
   comment      String
   sender_email String
-  user         user   @relation(fields: [user_id], references: [id])
+  user         user   @relation(fields: [user_id], references: [id],onUpdate: Cascade, onDelete: Cascade) 
 }
 
 model usellaReviews {
   id      String @id @default(cuid())
   rating  Int
   comment String
-  user    user   @relation(fields: [id], references: [id])
+  user    user   @relation(fields: [id], references: [id],onUpdate: Cascade, onDelete: Cascade) 
 }
 
 enum Category {

@@ -172,12 +172,12 @@ export const verifyEmail = async (
                       an account with <span style="font-size: 20px;font-weight: bold;">Usella</span></h5>
                   <h5 style="font-weight:normal; font-size: 16px; margin-bottom: 8pxpx;">Please click on the button to verify
                       your email</h5>
+                      <h5 style="font-weight:normal; font-size: 16px; margin-bottom: 8pxpx;">Your verification code is: <span style="font-weight: bold">1234</span></h5>
       
-                  <button id="myButton" onclick="{
-                    alert('hello');
-                 }">Click
-                      to verify</button>
-      
+                  <a href="https://usellar.up.railway.app/users/verify/${userEmail}/${userId}"><button id="myButton">Click to Verify</button></a>
+    
+                  <h5 style="font-weight:normal; font-size: 16px;">After you click on the verify button you can go back to the app or website to continue browsing<a
+                          href="www.google.com">help Center</a></h5>
                   <h5 style="font-weight:normal; font-size: 16px;">If you would like to know more, please visity our <a
                           href="www.google.com">help Center</a></h5>
       
@@ -198,33 +198,7 @@ export const verifyEmail = async (
       
       
           </div>
-          <script>
-              async function callPutFunction() {
-                  var button = document.getElementById("myButton");
-                  button.classList.add("loading");
-                  var xhttp = new XMLHttpRequest();
-                  await xhttp.open("PUT", "https://usellar.up.railway.app/users/verify/${userEmail}/${userId}", true);
-                  await xhttp.setRequestHeader("Content-type", "application/json");
-                  await xhttp.send();
-                  console.log("done");
-                  xhttp.onload = function () {
-                      button.classList.remove("loading");
-                      if (xhttp.status == 200) {
-                          button.classList.add("verified");
-                          button.textContent = "Verified";
-                          //add delay
-                          setTimeout(function () {
-                              window.location.href = "https://dshopie.vercel.app/login";
-                          }, 1000);
-                      } else {
-                          button.classList.add("failed");
-                          button.textContent = "Failed to verify";
-                      }
-                      console.log(xhttp.responseText);
-      
-                  }
-              }
-          </script>
+        
       
       
       
