@@ -89,7 +89,7 @@ function Navbar() {
             you ? (
               <li className="nav-item">
                 <NavLink to='/profile' onClick={closeMobileMenu}  className="nav-links" >
-                  <CgProfile style={{marginRight:'9px'}} />{you && you.name}
+                  <CgProfile style={{marginRight:'9px'}} />{you.name}
                 </NavLink>
               </li>
             ):
