@@ -16,6 +16,7 @@ model user {
   product       product[]
   profile       profile?
   review        review[]
+  code         String         
   isVerified    Boolean        @default(false)
   usellaReviews usellaReviews?
 }
