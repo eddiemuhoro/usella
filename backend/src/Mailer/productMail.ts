@@ -100,8 +100,8 @@ export const productPostedEmail = async (
 // verify email
 export const verifyEmail = async (
   userEmail: string,
-  userId: string,
-  userName: string
+  userName: string,
+  code: string
 ) => {
   // Create a transporter object using SMTP
   const transporter = nodemailer.createTransport({
@@ -116,7 +116,7 @@ export const verifyEmail = async (
   const mailOptions = {
     from: `Usella  ${process.env.email}`,
     to: userEmail,
-    subject: 'Verify your Usella',
+    subject: 'Verify your Usella Account',
     html: `<!DOCTYPE html>
       <html lang="en">
       
@@ -163,7 +163,6 @@ export const verifyEmail = async (
               <div style="display: flex; align-items: center;flex-direction: column;">
                   <img src="https://firebasestorage.googleapis.com/v0/b/apt-rite-346310.appspot.com/o/about02-removebg-preview.png?alt=media&token=f464f698-cfe6-4940-bc24-f6737c7b1a9b"
                       alt="Usella Logo" style="width: 150px; height: 100px;">
-                  <h3 style="font-size:30px; margin-top: 0px;">Usella</h3>
               </div>
               <hr style="border: solid grey 0.5px; margin: 0px; margin-bottom: 10px;">
               <div>
@@ -172,12 +171,7 @@ export const verifyEmail = async (
                       an account with <span style="font-size: 20px;font-weight: bold;">Usella</span></h5>
                   <h5 style="font-weight:normal; font-size: 16px; margin-bottom: 8pxpx;">Please click on the button to verify
                       your email</h5>
-                      <h5 style="font-weight:normal; font-size: 16px; margin-bottom: 8pxpx;">Your verification code is: <span style="font-weight: bold">1234</span></h5>
-      
-                  <a href="https://usellar.up.railway.app/users/verify/${userEmail}/${userId}"><button id="myButton">Click to Verify</button></a>
-    
-                  <h5 style="font-weight:normal; font-size: 16px;">After you click on the verify button you can go back to the app or website to continue browsing<a
-                          href="www.google.com">help Center</a></h5>
+                      <h5 style="font-weight:normal; font-size: 16px; margin-bottom: 8pxpx;">Your verification code is: <span style="font-weight: bold">${code}</span></h5>
                   <h5 style="font-weight:normal; font-size: 16px;">If you would like to know more, please visity our <a
                           href="www.google.com">help Center</a></h5>
       
