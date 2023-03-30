@@ -57,7 +57,7 @@ const options = {
                     },
                     email: {
                       type: 'string',
-                      example: 'emilio113kariukI@gmail.com'
+                      example: 'emilio113kariuki@gmail.com'
                     },
                     phone: {
                       type: 'string',
@@ -80,19 +80,19 @@ const options = {
           }
         }
       },
-      '/users/verify/{email}/{id}': {
-        get: {
+      '/users/verify/{email}/{code}': {
+        put: {
           tags: ['User'],
           parameters: [
             {
-              name: 'id',
+              name: 'code',
               in: 'path',
-              description: 'The user id',
+              description: 'The verification code',
               required: true,
               schema: {
                 type: 'string',
                 required: true,
-                description: 'The user id'
+                description: 'The verification code'
               }
             },
             {
