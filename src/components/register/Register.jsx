@@ -32,8 +32,6 @@ function Register() {
   if(phone){
 
     handleRegister()
-  }else{
-    alert('Please enter your phone number')
   }
   }
 
@@ -113,12 +111,12 @@ function Register() {
       dispatch(reset())
 
     }
-    if (isError) {
-      alert('Enter valid credentials👀 ')
-      navigate('/login')
-      window.location.reload()
-      dispatch(reset())
-    }
+    // if (isError) {
+    //   alert('Enter valid credentials👀 ')
+    //   navigate('/login')
+    //   window.location.reload()
+    //   dispatch(reset())
+    // }
   }, [you, isSuccess, isError, message, navigate])
 
 

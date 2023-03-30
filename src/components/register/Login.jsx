@@ -138,7 +138,6 @@ useEffect(()=>{
             id="password"
             value={formData.password}
             onChange={handleChange}
-            minLength="6"
             required
           />
         </div>
