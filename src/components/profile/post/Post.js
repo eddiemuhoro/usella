@@ -1,81 +1,112 @@
-import React, { useState} from 'react'
-import axios from 'axios'
-import { toast } from 'react-toastify';
-import FileBase from 'react-file-base64'
+import { useState } from "react";
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage'
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../../../lib/init-firebase";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import {FcNext} from 'react-icons/fc'
 
-import { useDispatch, useSelector } from 'react-redux';
-import './post.css'
-import { createproduct } from '../../../react-redux/features/products/productSlice';
-import { useNavigate } from 'react-router-dom';
 const Post = () => {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const reader = new window.FileReader();
-    const user = useSelector(state => state.auth.you);
-    const [imageString, setImageString] = useState('');
-    const [post, setPost] = useState({
-        name: '',
-        description: '',
-        price: 0,
-        quantity: 1,
-        category: '',
-        seller_id: user.id,
-        seller_name: 'edwin',
-        seller_email: 'eddie@gmail',
-        seller_phone: '0788282838',
-        location: 'kenya',
+  const user = useSelector(state => state.auth.you)
+  const [images, setImages] = useState([]);
+  const [urls, setUrls] = useState([]);
+  const [progress, setProgress] = useState(0);
+  const [post, setPost] = useState({
+    name: '',
+    description: '',
+    price: 0,
+    quantity: 1,
+    category: '',
+    seller_id: user.id,
+    seller_name: user.fisrtName,
+    seller_email: user.email,
+    //generate a random number for the phone number if the user does not have one
+    seller_phone: user.phone || Math.floor(Math.random() * 10000000000),
+    location:"Nairobi"
+});
 
+
+  const handleChange = (e) => {
+    for (let i = 0; i < e.target.files.length; i++) {
+      const newImage = e.target.files[i];
+      newImage["id"] = Math.random();
+      setImages((prevState) => [...prevState, newImage]);
+    }
+  };
+
+  const handleUpload = () => {
+    const promises = [];
+
+    images.map((image) => {
+
+    const storage= getStorage();
+    var storagePath = 'products/'+image.name;;
+    const storageRef = ref(storage, storagePath);
+    const uploadTask = uploadBytesResumable(storageRef, image);
+
+      promises.push(uploadTask);
+     
+         //progress of uploads
+    uploadTask.on('state_changed', (snapshot)=>{
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      console.log('Upload is '+ progress + '% done');
+    },
+    (error) => {
+      console.log(error)
+    },
+    ()=>{
+      //get the image url 
+      getDownloadURL(uploadTask.snapshot.ref)
+      .then((urls)=>{
+        console.log('file available at' , urls);
+        var urls = urls;
+        const resourceCollectionRef = collection(db, 'beauty')
+        //add values to firestore firebase
+        
+         addDoc(resourceCollectionRef, {urls})
+         setUrls((prevState) => [...prevState, urls]);
+      })
+    }
+    )
     });
 
-    const handleImageUpload = (event) => {
-        const file = event.target.files[0];
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onloadend = () => {
-          setImageString(reader.result);
-        };
-      };
+    Promise.all(promises)
+      .then(() => alert("All images uploaded"), 
+        setUrls(urls),
+       
+      )
+      .catch((err) => console.log(err))
       
-    
-    //send post request to backend
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const newPost = {
-            name: post.name,
-            description: post.description,
-            seller_id: (user.id),
-            price:  parseInt(post.price),
-            quantity: parseInt(post.quantity),
-            category: post.category,
-            seller_name: 'edwin',
-            seller_email: 'eddie@gmail',
-            seller_phone: '0788282838',
-            location: 'kenya',
 
-          }
-          console.log(newPost)
-          dispatch(createproduct(newPost))
-          .then(() => {
-            toast.success('Product created successfully');
-           
-            })
-            .catch((err) => {
-                toast.error(err.message);
-            });
+  };
+  console.log("urlData", urls);
 
-          //navigate to products
-         
-    }
+  //send the urls to the backend using axios
 
 
-    
+  // axios.post('http://localhost:9000/products/test', {name: 'kimm',price:99, description: 'nice',category: 'electronics',images:urls})
+
+  //send urls to an axios endpoint
+  const handleSend = () => {
+    console.log(`urls to be sent: ${urls}`);
+    const sentData ={name:post.name,price:parseInt(post.price), description: post.description,quantity:parseInt(post.quantity), category: post.category,images:urls, seller_name: user.firstName, seller_id: user.id, seller_email: user.email, seller_phone: user.phone || Math.floor(Math.random() * 10000000000), location: "Nairobi"}
+    console.log(sentData);
+    axios.post('https://usella.up.railway.app/product/sell', sentData)
+    .then((res)=>{
+      console.log(res);
+    })
+    .catch((err)=>{
+      console.log(err);
+    })
+  }
+
   return (
-    <div className='post-container'>
-        
-        <section className='post-form'>
-        <h2>Post your product here</h2>
-            <form onSubmit={handleSubmit}>
-                <div className='form-group'>
+    <div>
+      <progress value={progress} max="100" />
+      <br />
+      <section className='post-form'>
+      <h2 style={{margin:'10px 0'}}>Post your product here</h2>
+      <div className='form-group'>
                     <label htmlFor='title'>Product's Name</label>
                     <input type='text' name='title' id='name' value={post.name} onChange={e => setPost({...post, name: e.target.value})} />
                 </div>
@@ -106,17 +137,43 @@ const Post = () => {
                         <option value='others'>Others</option>
                     </select>
                 </div>
-                {/* <div className='form-group'>
-                    <label htmlFor='image'>Image</label>
-                    <input type='file' name='image' id='image' onChange={handleImageUpload} />
-                </div> */}
-                <div className='form-group'>
-                    <button type='submit'>Post</button>
-                </div>
-            </form>
+                <input type="file" multiple onChange={handleChange} />
+                <div className="product-upload-btn">
+                  <button onClick={handleUpload}>Upload</button>
+                  <FcNext />
+                  <button onClick={handleSend}>Send</button>
+        </div>
+        <h3>selected images</h3>
+        <section className="selected-image">
+          {urls.map((url, i) => (
+            <div>
+              <img
+                key={i}
+
+                src={url || "http://via.placeholder.com/300"}
+                alt="firebase"
+              />
+            </div>
+          ))}
         </section>
+      </section>
+      <br />
+      {/* <input type="file" multiple onChange={handleChange} />
+      <button onClick={handleUpload}>Upload</button>
+      <button onClick={handleSend}>Send</button> */}
+      <br />
+      {/* {urls.map((url, i) => (
+        <div key={i}>
+          <a href={url} target="_blank">
+            {url}
+          </a>
+        </div>
+      ))} */}
+      <br />
+    
     </div>
-  )
-}
+  );
+};
+
 
 export default Post

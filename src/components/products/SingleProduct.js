@@ -72,7 +72,6 @@ const [cart, setCart] = useState([])
 
 
     const [test, setTest] = useState('ELECTRONICS')
-
       useEffect(() => {
         setLoading(true)
         dispatch(getProductById(id))
@@ -84,8 +83,6 @@ const [cart, setCart] = useState([])
         }
         )
       }, [dispatch, id])
-
-
    
 
       const [category , setCategory] = useState([ ])
@@ -191,17 +188,7 @@ const [cart, setCart] = useState([])
 
              
               </div>
-              <div className='favorite'>
-                  {/* DISPLAY WISHLISsT ID */}
-                  {
-                      user ? (
-                        <Wishlist productId={id}  name={products.name} price={products.price} description={products.description} image={products.image} />
-                      ) : (
-                        <BsHeart />
-                      )
-
-                  }
-                </div>
+           
              </div>
          
       </section>
@@ -224,6 +211,17 @@ const [cart, setCart] = useState([])
                 ))
               }
           </div> */}
+             <div className='favorite'>
+                  {/* DISPLAY WISHLISsT ID */}
+                  {
+                      user ? (
+                        <Wishlist productId={id}  name={products.name} price={products.price} description={products.description} image={products.image} />
+                      ) : (
+                        <BsHeart />
+                      )
+
+                  }
+                </div>
         </section>
     </div>
     <h2>Related products</h2>
