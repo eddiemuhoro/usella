@@ -15,6 +15,16 @@ export const register =
   body('password').isString(),
   handleErrors,
   async (req: Request, res: Response) => {
+    function generateVerificationCode() {
+      const digits = '0123456789';
+      let code = '';
+      for (let i = 0; i < 6; i++) {
+        code += digits[Math.floor(Math.random() * 10)];
+      }
+      return code;
+    }
+
+    const verificationCode = generateVerificationCode();
     try {
       const { name, email, phone, password } = req.body;
       const user = await prisma.user.create({
@@ -22,7 +32,8 @@ export const register =
           name: name,
           email: email,
           phone: phone,
-          password: bcrypt.hashSync(password, 10)
+          password: bcrypt.hashSync(password, 10),
+          code: verificationCode
         },
         select: {
           id: true,
@@ -44,11 +55,12 @@ export const register =
       if (!profile) {
         throw new Error('User profile not created');
       }
-      await verifyEmail(user.email, user.id, req.body.name);
+      await verifyEmail(user.email, req.body.name, verificationCode);
 
       res.status(200).json({
         message: 'user registered',
-        verification: 'Verification email sent'
+        verification: 'Verification email sent',
+        email: user.email
       });
     } catch (e: any) {
       res.status(500).json({ message: e.message });
@@ -117,13 +129,22 @@ export const login =
 //   );
 // });
 
-router.get(
+router.put(
   '/verify/:email/:code',
   body('code'),
   handleErrors,
   async (req: Request, res: Response) => {
     try {
-      if (req.params.code !== '1234') {
+      const user = await prisma.user.findUnique({
+        where: {
+          email: req.params.email
+        }
+      });
+      if (!user) {
+        throw new Error('User not found');
+      }
+
+      if (req.params.code == user.code) {
         const user = await prisma.user.update({
           where: {
             email: req.params.email
