@@ -17,6 +17,8 @@ const Cart = (props) => {
   const [loading , setLoading] = useState(false)
   const [delivery , setDelivery] = useState('')
   const [update, setUpdate] = useState(false)
+
+  
   //show delivery on console
   //  console.log(delivery)
 
@@ -27,6 +29,10 @@ const Cart = (props) => {
       setItems(res.payload)
       setLoading(false)
       setUpdate(false)
+      //if no cart items return this
+      if(res.payload.length === 0){
+        return
+      }
     }
   )
   }, [update, dispatch, user.id])
@@ -39,7 +45,9 @@ const Cart = (props) => {
      })
   }
 
- 
+//if there are no items in cart return this
+
+
 
   const handleQuantityChange = (itemId, newQuantity) => {
     const updatedItems = items.map(item => {
@@ -150,9 +158,14 @@ const Cart = (props) => {
      dispatch(getCartByUser(user.id))
       .then(res => {
         res.data.map(item => {
-          if(item.userId === user.id) {
+          if(item.userId === user.id){
             setInOrder(true)
             }
+            //if payload is empty return this
+            if(res.payload.length === 0){
+              return
+            }
+            
           }
         )
       }
@@ -162,10 +175,14 @@ const Cart = (props) => {
 
 
   return (
+    
     <div className="cart-page">
       <h1>Your Cart</h1>
       {
         loading && <Loader />
+      }
+      {
+        items.length === 0 && <h2>Your cart is empty</h2>
       }
       {items.map(item => (
         <div key={item.id} className="cart-item">
