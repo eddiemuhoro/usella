@@ -14,6 +14,7 @@ import Profile from './components/profile/Profile';
 import Email from './components/register/Verification/Email';
 import Login from './components/register/Login';
 import Register from './components/register/Register';
+import ProductDisplay from './components/products/ProductDisplay';
 function App () {
   return (
     <div className="App">
@@ -25,7 +26,7 @@ function App () {
         <Route path='/' element={<Hero/>} />
         <Route path='/terms' element={<Terms/>} />
         <Route path='/policy' element={<PrivacyPolicy/>} />
-        <Route path='/products' element={<Products/>} />
+        <Route path='/products' element={<ProductDisplay/>} />
         <Route path='/products/:id' element={<SingleProduct/>} />
         <Route path='/profile' element={<Profile />} />
         <Route path='/post' element={<Post />} />
