@@ -7,6 +7,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Popup from 'reactjs-popup';
 import { addToCart, getCart, getProductByCategory, getProductById, getProductByUser, reset } from '../../react-redux/features/products/productSlice';
+import Loader from '../loader/Loader';
 import Wishlist from '../profile/tabs/WishlistButton';
 import CartButton from './CartButton';
 import './products.css'
@@ -109,20 +110,21 @@ const SingleProduct = () => {
   }, [dispatch, test])
 
 
-  // const [sellerProducts , setSellerProducts] = useState([])
-  // useEffect(() => {
-  //   setLoading(true)
-  //   dispatch(getProductByUser(products.sellerId))
-  //   .then(res => { 
-  //     setSellerProducts(res.payload)
-  //     setLoading(false)
-  //   })
-  //   // const fetchProducts = async () => {
-  //   //   const { data } = await axios.get(`http://localhost:9000/products/seller/${seller}`)
-  //   //   setProducts(data)
-  //   // }
-  //   // fetchProducts()
-  // }, [dispatch, products.sellerId])
+  const [sellerProducts , setSellerProducts] = useState([])
+  useEffect(() => {
+    setLoading(true)
+    dispatch(getProductByUser(products.seller_id))
+    .then(res => { 
+      setSellerProducts(res.payload)
+      console.log(res.payload);
+      setLoading(false)
+    })
+    // const fetchProducts = async () => {
+    //   const { data } = await axios.get(`http://localhost:9000/products/seller/${seller}`)
+    //   setProducts(data)
+    // }
+    // fetchProducts()
+  }, [dispatch, products.seller_id])
 
 
 
@@ -158,7 +160,14 @@ const SingleProduct = () => {
         {
           <section className='product-info'>
             <div>
-              <img src={products.images} alt="product" />
+              {
+                !loading ? (
+                  <img src={products.images} alt="product" />
+                ):
+                (
+                  <img src='https://media.istockphoto.com/id/1138824305/vector/loading-icon-on-black.jpg?s=170667a&w=0&k=20&c=5TgSExGSoy7SXYcXEKfKCfZW-qFXsTaZRHcBF99WMLM=' alt='loading' className='product-image'/>
+                )
+              }
               <section>
                 <h2>Other images</h2>
 
@@ -168,23 +177,32 @@ const SingleProduct = () => {
                     products.images.slice(0, 2).map((image, index) => (
                       <div className='image'>
                         <Popup trigger={
+                          !loading ?( 
                           <img src={image} alt="product"
                             className={`product-image ${index === expandedIndex ? 'expanded' : ''}`}
                             onClick={() => handleImageClick(index)}
-                          />
+                          />):(
+                           
+                            <img src='https://media.istockphoto.com/id/1138824305/vector/loading-icon-on-black.jpg?s=170667a&w=0&k=20&c=5TgSExGSoy7SXYcXEKfKCfZW-qFXsTaZRHcBF99WMLM=' alt='loading'  className={`product-image`}/>
+
+                          )
 
                         } nested closeOnDocumentClick={true} modal>
                           {(close) => (
-
-
                             <div className='other-images popup'>
                               {
                                 products.images.map((image, index) => (
                                   <div className='image-popup'>
-                                    <img src={image} alt="product"
-                                      className={`product-image ${index === expandedIndex ? 'expanded' : ''}`}
-                                      onClick={() => handleImageClick(index)}
-                                    />
+                                    {
+                                      !loading ?(
+                                        <img src={image} alt="product"
+                                          className={`product-image ${index === expandedIndex ? 'expanded' : ''}`}
+                                          onClick={() => handleImageClick(index)}
+                                        />
+                                      ):(
+                                        <img src='https://media.istockphoto.com/id/1138824305/vector/loading-icon-on-black.jpg?s=170667a&w=0&k=20&c=5TgSExGSoy7SXYcXEKfKCfZW-qFXsTaZRHcBF99WMLM=' alt='loading'  className={`product-image`}/>
+                                      )
+                                    }
                                   </div>
                                 ))
 
@@ -239,11 +257,6 @@ const SingleProduct = () => {
                   )
                 }
 
-                {
-
-                }
-
-
               </div>
 
             </div>
@@ -254,21 +267,21 @@ const SingleProduct = () => {
 
         <section className='seller-info'>
 
-          <h4 >Other products posted by {products.sellerName}</h4>
-          {/* <div className='seller-products'>
+          <h4>Other products posted by <span> {products.seller_name}</span></h4>
+          <div className='seller-products'>
           {loading && <p>Please wait a sec...</p>}
               {
                 sellerProducts.map(product => (
                  <ul>
                     <li>
                       <Link key={product.id} onClick={handleReload} to={`/products/${product.id}`}>
-                        <p ><span style={{textDecoration:'underline'}}>{product.name}</span> {cutSellerDescription(product.description)}</p>
+                        <p><span style={{textDecoration:'underline'}}>{product.name}</span> {cutSellerDescription(product.description)}</p>
                       </Link>
                     </li>
                  </ul>
                 ))
               }
-          </div> */}
+          </div>
           <div className='favorite'>
             {/* DISPLAY WISHLISsT ID */}
             {
