@@ -89,7 +89,7 @@ const Post = () => {
   //send urls to an axios endpoint
   const handleSend = () => {
     console.log(`urls to be sent: ${urls}`);
-    const sentData ={name:post.name,price:parseInt(post.price), description: post.description,quantity:parseInt(post.quantity), category: post.category, seller_name: user.firstName, seller_id: user.id, seller_email: user.email, seller_phone: user.phone || Math.floor(Math.random() * 10000000000), location: "Nairobi"}
+    const sentData ={name:post.name,price:parseInt(post.price), description: post.description,quantity:parseInt(post.quantity), category: post.category.toUpperCase(), seller_name: user.name, seller_id: user.id, seller_email: user.email, seller_phone: user.phone || Math.floor(Math.random() * 10000000000).toString(), location: "Nairobi"}
     console.log(sentData);
     axios.post('https://usellar.up.railway.app/product/send', sentData)
     .then((res)=>{
