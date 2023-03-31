@@ -42,7 +42,7 @@ const getProductByUser = async(userId)=>{
 
 const deleteProduct = async (productId) => {
 
-    const response = await axios.delete(API_URL + 'product/delete' + productId)
+    const response = await axios.delete(API_URL + 'product/delete/' + productId)
   
     return response.data
   }

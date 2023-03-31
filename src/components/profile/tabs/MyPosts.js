@@ -67,7 +67,7 @@ const MyPosts = () => {
                 products.map(product => (
                   <div className="product">
                       <div className="product-img">
-                        <img src="https://images.unsplash.com/photo-1676809767144-d24ba6178421?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80" alt="product" />
+                        <img src={product.images[0]} alt="product" />
                       </div>
                       <div className="product-info">
                         <p className="info-name">{product.name}</p>

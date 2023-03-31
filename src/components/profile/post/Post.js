@@ -6,7 +6,9 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import {FcNext} from 'react-icons/fc'
 import './post.css'
+import { useNavigate } from "react-router-dom";
 const Post = () => {
+  const navigate = useNavigate();
   const user = useSelector(state => state.auth.you)
   const [images, setImages] = useState([]);
   const [urls, setUrls] = useState([]);
@@ -89,11 +91,17 @@ const Post = () => {
   //send urls to an axios endpoint
   const handleSend = () => {
     console.log(`urls to be sent: ${urls}`);
-    const sentData ={name:post.name,price:parseInt(post.price), description: post.description,quantity:parseInt(post.quantity), category: post.category.toUpperCase(), seller_name: user.name, seller_id: user.id, seller_email: user.email, seller_phone: user.phone || Math.floor(Math.random() * 10000000000).toString(), location: "Nairobi"}
+    const sentData ={name:post.name,price:parseInt(post.price), description: post.description,quantity:parseInt(post.quantity), category: post.category.toUpperCase(), seller_name: user.name, seller_id: user.id, seller_email: user.email, seller_phone: user.phone || Math.floor(Math.random() * 10000000000).toString(), location: "Nairobi",images:urls}
     console.log(sentData);
-    axios.post('https://usellar.up.railway.app/product/send', sentData)
+    axios.post('https://usella.up.railway.app/product/send', 
+        //CONTENT TYPE IS IMPORTANT
+      
+        sentData
+    )
     .then((res)=>{
       console.log(res);
+      //navigate to the home page
+      navigate('/products')
     })
     .catch((err)=>{
       console.log(err);
