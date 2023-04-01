@@ -7,7 +7,7 @@ import MyPosts from './tabs/MyPosts';
 import { useDispatch, useSelector } from 'react-redux';
 import { AiOutlineLogout, AiOutlineEdit } from 'react-icons/ai';
 import { Link, useNavigate } from 'react-router-dom';
-import { getProfile, logout, reset } from '../../react-redux/features/auth/authSlice';
+import { getFollowers, getProfile, logout, reset } from '../../react-redux/features/auth/authSlice';
 import Popup from 'reactjs-popup';
 import ProfileEditor from './EditProfile';
 import axios from 'axios';
@@ -37,7 +37,7 @@ const Profile = () => {
        dispatch(getProfile(user.id))
          .then(res => {
                 //array [0] because we are getting an array of objects
-                setProfile(res.payload[0])
+                setProfile(res.payload)
             }
         )
     }, [dispatch, user.id])
@@ -111,6 +111,16 @@ const Profile = () => {
         }
       };
 
+      //FETCH FOLLOWERS
+      const [followers, serFollowers] = useState([])
+      useEffect(()=>{
+        dispatch(getFollowers(user.id))
+        .then(res => {
+            serFollowers(res.payload)
+        })
+     
+      },[dispatch, user.id])
+
       const currentSlideStyle = {
         transform: `translateX(-${currentSlide * 100}%)`,
     
@@ -125,9 +135,11 @@ const Profile = () => {
                         <img src={ !profile.profilePic ? 'https://www.w3schools.com/howto/img_avatar.png' : profile.profilePic} alt={user.firstName} />
                     </div>
                     <div className="profile-info">
-                        <h3 className="profile-name">{user.name}</h3>
-                        <p className="profile-email">{user.email}</p>
-                        <p className="profile-phone">{profile.phone}</p>          
+                        <h3 className="profile-name">{profile.name}</h3>
+                        <p className="profile-email">{profile.email}</p>
+                        <p className="profile-phone">{profile.phone}</p> 
+                        <p className='profile-location'>Location: {profile.location}</p>
+                        <p className='followers'>followers: {followers.length} </p>         
                     </div>
 
                     <div className= 'logout-btn'>
@@ -135,12 +147,12 @@ const Profile = () => {
                     </div>
 
                     <div className= 'edit-btn'>
-                       <ProfileEditor pNo={profile.phone} profBio={profile.bio}  dp={!profile.profilePic ? 'https://www.w3schools.com/howto/img_avatar.png' : profile.profilePic}  id={profile.id} />
+                       <ProfileEditor userName={profile.name} profileLocation={profile.location} pNo={profile.phone} profBio={profile.bio}  dp={!profile.profilePic ? 'https://www.w3schools.com/howto/img_avatar.png' : profile.profilePic}  id={profile.id} />
                     </div> 
                 </div>
 
                 {
-                    !profile.phone && !profile.bio ?
+                     !profile.bio ?
                     (
                         <div className='add-items'>
                     <div className="slider">

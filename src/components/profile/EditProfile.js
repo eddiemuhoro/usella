@@ -13,23 +13,35 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 
-function ProfileEditor({dp, pNo, profBio, id}) {
+function ProfileEditor({dp, pNo, profBio, id, profileLocation, userName}) {
   const navigate = useNavigate();
   const user = useSelector(state => state.auth.you)
   const [bio, setBio] = useState(profBio);
+  const [location, setLocation]= useState(profileLocation)
+  const [name, setName] = useState(userName)
   const [isFile, setFile] = useState(dp);
-const [select , setSelect] = useState(dp)
+  const [select , setSelect] = useState(dp)
   const [phone , setPhone] = useState(pNo);
   const [loading , setLoading] = useState(false);
 
 
-
+console.log(pNo);
 
   //generate a cloudinary image
+
+  const handleNameChange = (e) => {
+    setName(e.target.value);
+  };
+  
 
   const handleBioChange = (e) => {
     setBio(e.target.value);
   };
+
+  const handleLocationChange=(e)=>{
+    setLocation(e.target.value)
+  };
+  
 
   const handlePhoneChange = (e) => {
     setPhone(e.target.value);
@@ -72,20 +84,21 @@ const [select , setSelect] = useState(dp)
          setFile(null);
          const profileData = {
           bio,
-          profilePic: imageUrl,
+          profile_pic: imageUrl,
           phone,
-          userId: user.id
+          name,
+          location
         }
         console.log(profileData);
-        axios.put(`https://odd-slip-ant.cyclic.app/profile/${id}`, profileData)
+        axios.put(`https://usella.up.railway.app/users/update/${id}`, profileData)
        setLoading(false)
        
         //navigate to profile page
-        navigate('/profile')
-        setInterval(() => {
-          window.location.reload()
-        }
-        , 1000)
+        // navigate('/profile')
+        // setInterval(() => {
+        //   window.location.reload()
+        // }
+        // , 1000)
       })
     }
     )
@@ -123,6 +136,34 @@ const [select , setSelect] = useState(dp)
                               </div>
                            
                      </div>
+                     <label htmlFor="phone">Name:</label>
+                        <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        defaultValue={userName}
+                        onChange={handleNameChange}
+                        />
+
+<label htmlFor="phone">Phone:</label>
+                        <input
+                        type="text"
+                        id="phone"
+                        name="phone"
+                        defaultValue={pNo}
+                        onChange={handlePhoneChange}
+                        />
+
+<label htmlFor="phone">Location:</label>
+                        <input
+                        type="text"
+                        id="location"
+                        name="location"
+                        defaultValue={location}
+                        onChange={handleLocationChange}
+                        />
+
+                      
 
                         <label htmlFor="bio">Bio:</label>
                         <textarea
@@ -133,14 +174,7 @@ const [select , setSelect] = useState(dp)
                         onChange={handleBioChange}
                         />
 
-                        <label htmlFor="phone">Phone:</label>
-                        <input
-                        type="text"
-                        id="phone"
-                        name="phone"
-                        value={pNo}
-                        onChange={handlePhoneChange}
-                        />
+                       
                       
                         <button type="submit">{loading ? 'saving...' : 'Save'}</button>
                     </form>
