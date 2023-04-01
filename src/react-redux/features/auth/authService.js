@@ -24,7 +24,7 @@ const login = async (userData)=>{
 
 //GET PROFILE DETAILS
 const getProfile = async (id)=>{
-    const response = await axios.get(API_URL + 'profile/' + id)
+    const response = await axios.get(API_URL + 'users/' + id)
     return response.data;
 }
 
@@ -32,6 +32,12 @@ const getProfile = async (id)=>{
 const updateProfile = async (id, userData)=>{
     const response = await axios.put(API_URL + 'profile/' + id, userData)
     return response.data;
+}
+
+//GET FOLLOWERS
+const getFollowers = async (id)=>{
+    const response = await axios.put(API_URL + 'users/followers/' + id)
+    return response.data
 }
 
 
@@ -49,7 +55,8 @@ const authService ={
     register,
     logout,
     getProfile,
-    updateProfile
+    updateProfile,
+    getFollowers
 
 }
 

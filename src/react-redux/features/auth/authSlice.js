@@ -75,6 +75,16 @@ export const logout = createAsyncThunk('/logout', (you, thunkAPI)=>{
     }
 })
 
+export const getFollowers = createAsyncThunk('/getFollowers', async(id, thunkAPI)=>{
+    try {
+        return await authService.getFollowers(id)
+    } catch (error) {
+        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+
+        return thunkAPI.rejectWithValue(message);
+    }
+})
+
 
 
 export const authSlice = createSlice({
