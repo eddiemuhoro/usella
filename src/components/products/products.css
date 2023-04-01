@@ -18,6 +18,7 @@
     border: 1px solid rgb(175, 175, 175);
     border-radius: 10px;
     height: 400px;
+    /* height: 80%; */
     background-color: #0a0a0a;
     transition: .1s ;
     position: relative;
@@ -115,7 +116,7 @@
 .product-info{
     display: flex;  
     flex-direction: column;
-    height: 25%;
+    /* height: 25%; */
 
 }
 
@@ -277,6 +278,9 @@
     .products{
         grid-template-columns: repeat(2, 1fr);
     }
+    .product{
+        height: 80%;
+    }
     .single-product-container{
         flex-direction: column;
         padding: 0;
@@ -300,5 +304,8 @@
     .image-popup{
         width: 90%;
         height: 300px
+    }
+    .info-description{
+        display: none;
     }
 }
