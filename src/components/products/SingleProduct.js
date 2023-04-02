@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import Popup from 'reactjs-popup';
 import { addToCart, getCart, getProductByCategory, getProductById, getProductByUser, reset } from '../../react-redux/features/products/productSlice';
 import Loader from '../loader/Loader';
+import SellerProfile from '../profile/SellerProfile';
 import Wishlist from '../profile/tabs/WishlistButton';
 import CartButton from './CartButton';
 import './products.css'
@@ -267,7 +268,7 @@ const SingleProduct = () => {
 
         <section className='seller-info'>
 
-          <h4>Other products posted by <span> {products.seller_name}</span></h4>
+         <SellerProfile name={products.seller_name} sellerId={products.seller_id} />
           <div className='seller-products'>
           {loading && <p>Please wait a sec...</p>}
               {
