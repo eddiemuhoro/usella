@@ -25,7 +25,7 @@ const handleVerify = async (e) => {
     console.log(response.data);
 
     //navigate to dashboard
-    navigate('/dashboard')
+    navigate('/')
   }
   return response.data;
 }
@@ -42,8 +42,6 @@ const handleVerify = async (e) => {
             <button type="submit" className="verification-page__button">Verify</button>
           </form>
     </div>
-  
-
   </div>
   );
 }
