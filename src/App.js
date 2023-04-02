@@ -15,6 +15,7 @@ import Email from './components/register/Verification/Email';
 import Login from './components/register/Login';
 import Register from './components/register/Register';
 import ProductDisplay from './components/products/ProductDisplay';
+import SellerProfile from './components/profile/SellerProfile';
 function App () {
   return (
     <div className="App">
@@ -29,6 +30,7 @@ function App () {
         <Route path='/products' element={<ProductDisplay/>} />
         <Route path='/products/:id' element={<SingleProduct/>} />
         <Route path='/profile' element={<Profile />} />
+        <Route path='/seller/profile' element={<SellerProfile />} />
         <Route path='/post' element={<Post />} />
         {/* <Route path='/cart' element={<Cart />} /> */}
         <Route path='/help' element={<Help />} />
