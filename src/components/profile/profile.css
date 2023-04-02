@@ -262,6 +262,69 @@
 }
 
 
+/* SELLER POPUP CSS */
+.profile-container.seller{
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+}
+
+.profile-container.seller > section{
+  width: 100%;
+
+}
+
+
+.profile-details.seller{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+
+.profile-avatar.seller{
+  width: 150px;
+  height: 150px;
+  
+
+}
+
+.profile-avatar img{
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.seller-followers{
+  display: flex;
+  justify-content: space-between;
+}
+
+.seller-followers p{
+  margin-right: 40px;
+}
+
+.profile-header button{
+  font-size: 15px;
+  padding: 5px;
+  margin-right: 8px;
+}
+.seller-btn{
+  display: flex;
+}
+
+.profile-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.profile-header.phone{
+  display: none;
+}
+
+
+
   @media screen and (max-width: 768px) {
     .profile-container {
       flex-direction: column;
@@ -277,6 +340,27 @@
 
     .profile-nav-item p{ 
       text-align: center;
+  }
+  .profile-container.seller{
+    width: 100%;
+  }
+  .profile-avatar.seller{
+    width: 100px;
+    height: 100px;
+    display: flex;
+  }
+  .profile-details.seller{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+  }
+  .profile-header.desktop{
+    display: none;
+  }
+  .profile-header{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
   }
   
     
