@@ -52,6 +52,10 @@ console.log(pNo);
 }
  //insert to firebase-----------------------
  const handleSubmit= async(e) => {
+  if ('vibrate' in navigator) {
+    // Make the phone vibrate for 500 milliseconds
+    navigator.vibrate(500);
+  }
   setLoading(true)
   try {
     e.preventDefault();
