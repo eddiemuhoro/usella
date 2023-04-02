@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { AiFillCloseCircle, AiOutlineClose, AiOutlineEdit } from "react-icons/ai";
 import Popup from "reactjs-popup";
 import "./profile.css";
-import {fill} from "@cloudinary/url-gen/actions/resize";
-import {CloudinaryImage} from '@cloudinary/url-gen';
+import { fill } from "@cloudinary/url-gen/actions/resize";
+import { CloudinaryImage } from '@cloudinary/url-gen';
 import axios from "axios";
 import { FirebaseError } from "firebase/app";
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage'
@@ -13,177 +13,177 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 
-function ProfileEditor({dp, pNo, profBio, id, profileLocation, userName}) {
+function ProfileEditor({ dp, pNo, profBio, id, profileLocation, userName }) {
   const navigate = useNavigate();
   const user = useSelector(state => state.auth.you)
   const [bio, setBio] = useState(profBio);
-  const [location, setLocation]= useState(profileLocation)
+  const [location, setLocation] = useState(profileLocation)
   const [name, setName] = useState(userName)
   const [isFile, setFile] = useState(dp);
-  const [select , setSelect] = useState(dp)
-  const [phone , setPhone] = useState(pNo);
-  const [loading , setLoading] = useState(false);
+  const [select, setSelect] = useState(dp)
+  const [phone, setPhone] = useState(pNo);
+  const [loading, setLoading] = useState(false);
 
 
-console.log(pNo);
+  console.log(pNo);
 
   //generate a cloudinary image
 
   const handleNameChange = (e) => {
     setName(e.target.value);
   };
-  
+
 
   const handleBioChange = (e) => {
     setBio(e.target.value);
   };
 
-  const handleLocationChange=(e)=>{
+  const handleLocationChange = (e) => {
     setLocation(e.target.value)
   };
-  
+
 
   const handlePhoneChange = (e) => {
     setPhone(e.target.value);
   };
-  const handleImageAsFile=e=>{
+  const handleImageAsFile = e => {
     setFile(e.target.files[0])
     setSelect(URL.createObjectURL(e.target.files[0]))
-}
- //insert to firebase-----------------------
- const handleSubmit= async(e) => {
-  if ('vibrate' in navigator) {
-    // Make the phone vibrate for 500 milliseconds
-    navigator.vibrate(500);
   }
-  setLoading(true)
-  try {
-    e.preventDefault();
-    let file = isFile;
+  //insert to firebase-----------------------
+  const handleSubmit = async (e) => {
+    if ('vibrate' in navigator) {
+      // Make the phone vibrate for 500 milliseconds
+      navigator.vibrate(500);
+    }
+    setLoading(true)
+    try {
+      e.preventDefault();
+      let file = isFile;
 
       //storage for images
-    const storage= getStorage();
-    var storagePath = 'products/'+file.name;;
-    const storageRef = ref(storage, storagePath);
-    const uploadTask = uploadBytesResumable(storageRef, file);
+      const storage = getStorage();
+      var storagePath = 'products/' + file.name;;
+      const storageRef = ref(storage, storagePath);
+      const uploadTask = uploadBytesResumable(storageRef, file);
 
-    //progress of uploads
-    uploadTask.on('state_changed', (snapshot)=>{
-      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      console.log('Upload is '+ progress + '% done');
-    },
-    (error) => {
-      console.log(error)
-    },
-    ()=>{
-      //get the image url 
-      getDownloadURL(uploadTask.snapshot.ref)
-      .then((imageUrl)=>{
-        console.log('file available at' , imageUrl);
-        var imageUrl = imageUrl;
-        const resourceCollectionRef = collection(db, 'beauty')
-        //add values to firestore firebase
-        
-         addDoc(resourceCollectionRef, {imageUrl})
-         setFile(null);
-         const profileData = {
-          bio,
-          profile_pic: imageUrl,
-          phone,
-          name,
-          location
+      //progress of uploads
+      uploadTask.on('state_changed', (snapshot) => {
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log('Upload is ' + progress + '% done');
+      },
+        (error) => {
+          console.log(error)
+        },
+        () => {
+          //get the image url 
+          getDownloadURL(uploadTask.snapshot.ref)
+            .then((imageUrl) => {
+              console.log('file available at', imageUrl);
+              var imageUrl = imageUrl;
+              const resourceCollectionRef = collection(db, 'beauty')
+              //add values to firestore firebase
+
+              addDoc(resourceCollectionRef, { imageUrl })
+              setFile(null);
+              const profileData = {
+                bio,
+                profile_pic: imageUrl,
+                phone,
+                name,
+                location
+              }
+              console.log(profileData);
+              axios.put(`https://usella.up.railway.app/users/update/${id}`, profileData)
+              setLoading(false)
+
+              //navigate to profile page
+              // navigate('/profile')
+              // setInterval(() => {
+              //   window.location.reload()
+              // }
+              // , 1000)
+            })
         }
-        console.log(profileData);
-        axios.put(`https://usella.up.railway.app/users/update/${id}`, profileData)
-       setLoading(false)
-       
-        //navigate to profile page
-        // navigate('/profile')
-        // setInterval(() => {
-        //   window.location.reload()
-        // }
-        // , 1000)
-      })
+      )
+      alert('success')
+    } catch (error) {
+      throw error
     }
-    )
-    alert('success')
-  } catch (error) {
-    throw error
   }
-}
 
 
- 
+
 
   return (
-    <Popup trigger={<AiOutlineEdit title='edit' />} modal nested  closeOnDocumentClick={false}>
+    <Popup trigger={<AiOutlineEdit title='edit' />} modal nested closeOnDocumentClick={false}>
       {(close) => (
-         <div className="popup-overlay">
-                 <div className="popup">
-                    <h2>Edit Profile</h2>
-                    <form onSubmit={handleSubmit}>
-                    <div className="image-section">
-                            <div className="profile-avatar">
-                                <img src={select} alt="profile"className="current-image" />
-                            </div>
-                            
-                            <div>
-                                <label htmlFor="image-upload" className="change-image-btn">
-                                    Change Profile Picture
-                                </label>
-                                <input
-                                    type="file"
-                                    id="image-upload"
-                                    accept=".png, .jpg, .jpeg"
-                                    onChange={handleImageAsFile}
-                                />
-                              </div>
-                           
-                     </div>
-                     <label htmlFor="phone">Name:</label>
-                        <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        defaultValue={userName}
-                        onChange={handleNameChange}
-                        />
+        <div className="popup-overlay">
+          <div className="popup">
+            <h2>Edit Profile</h2>
+            <form onSubmit={handleSubmit}>
+              <div className="image-section">
+                <div className="profile-avatar">
+                  <img src={select} alt="profile" className="current-image" />
+                </div>
 
-<label htmlFor="phone">Phone:</label>
-                        <input
-                        type="text"
-                        id="phone"
-                        name="phone"
-                        defaultValue={pNo}
-                        onChange={handlePhoneChange}
-                        />
+                <div>
+                  <label htmlFor="image-upload" className="change-image-btn">
+                    Change Profile Picture
+                  </label>
+                  <input
+                    type="file"
+                    id="image-upload"
+                    accept=".png, .jpg, .jpeg"
+                    onChange={handleImageAsFile}
+                  />
+                </div>
 
-<label htmlFor="phone">Location:</label>
-                        <input
-                        type="text"
-                        id="location"
-                        name="location"
-                        defaultValue={location}
-                        onChange={handleLocationChange}
-                        />
+              </div>
+              <label htmlFor="phone">Name:</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                defaultValue={userName}
+                onChange={handleNameChange}
+              />
 
-                      
+              <label htmlFor="phone">Phone:</label>
+              <input
+                type="text"
+                id="phone"
+                name="phone"
+                defaultValue={pNo}
+                onChange={handlePhoneChange}
+              />
 
-                        <label htmlFor="bio">Bio:</label>
-                        <textarea
-                        id="bio"
-                        name="bio"
-                        value={bio}
-                        defaultValue={profBio}
-                        onChange={handleBioChange}
-                        />
+              <label htmlFor="phone">Location:</label>
+              <input
+                type="text"
+                id="location"
+                name="location"
+                defaultValue={location}
+                onChange={handleLocationChange}
+              />
 
-                       
-                      
-                        <button type="submit">{loading ? 'saving...' : 'Save'}</button>
-                    </form>
-                    <AiOutlineClose className="close-btn" onClick={close}  size={25} />
-                 </div>
+
+
+              <label htmlFor="bio">Bio:</label>
+              <textarea
+                id="bio"
+                name="bio"
+                value={bio}
+                defaultValue={profBio}
+                onChange={handleBioChange}
+              />
+
+
+
+              <button type="submit">{loading ? 'saving...' : 'Save'}</button>
+            </form>
+            <AiOutlineClose className="close-btn" onClick={close} size={25} />
+          </div>
         </div>
       )}
     </Popup>

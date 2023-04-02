@@ -12,6 +12,7 @@ import Popup from 'reactjs-popup';
 import ProfileEditor from './EditProfile';
 import axios from 'axios';
 import { BsForward } from 'react-icons/bs';
+import { getProductByUser } from '../../react-redux/features/products/productSlice';
 
 
 
@@ -19,31 +20,48 @@ const SellerProfile = ({name, sellerId}) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const user = useSelector(state => state.auth.you)
-    const [orders, setOrders] = useState(true)
-    const [inbox, setInbox] = useState(false)
-    const [wishlist, setWishlist] = useState(false)
+    const [products, setProducts] = useState([])
     const [posts, setPosts] = useState(false)
     const [profile, setProfile] = useState({})
+    const [loading, setLoading] = useState(false)
 //profile details
     useEffect(() => {   
        dispatch(getProfile(sellerId))
          .then(res => {
                 //array [0] because we are getting an array of objects
                 setProfile(res.payload)
+                setLoading(true)
             }
         )
-    }, [dispatch, sellerId])
+    }, [loading, dispatch, sellerId])
 
     console.log(profile)
+
+    //GET SELLER'S PRODUCTS
+      //fetxh from redux store
+  useEffect(() => {
+    setLoading(true)
+    dispatch(getProductByUser(sellerId))
+      .then(res => {
+        setProducts(res.payload)
+        setLoading(false)
+      })
+
+    // const fetchProducts = async () => {
+    //   const { data } = await axios.get(`http://localhost:9000/products/seller/${seller}`)
+    //   setProducts(data)
+    // }
+    // fetchProducts()
+  }, [ dispatch, sellerId])
+
+  console.log(products)
 
 
 
 
   
     const handlePosts = () => {
-        setOrders(false)
-        setInbox(false)
-        setWishlist(false)
+      
         setPosts(true)
     }
 
@@ -93,9 +111,8 @@ const SellerProfile = ({name, sellerId}) => {
                                     <p className='followers'> <strong style={{color:'white'}}> {followers.length}</strong> followers </p>
                                     <p className='following'><strong style={{color:'white'}}> 22</strong> following  </p>
                                 </div>
-                            <p className="profile-email">{profile.email}</p>
-                            <p className="profile-phone">{profile.phone}</p> 
-                            <p className='profile-location'>Location: {profile.location}</p>
+                            <p className="profile-email">{profile.bio}</p>
+                            <p className='profile-location'>{profile.location}</p>
                         </div>
                     </div> 
                 </section>
@@ -111,6 +128,42 @@ const SellerProfile = ({name, sellerId}) => {
                     
                     </section>
                 </section>
+                <section className="products myProducts">
+        {
+          !products ? (
+            <div className="no-products">
+              <h1>You have no products</h1>
+              <Link to='/post' style={{ textDecoration: 'underline' }}>Add a product</Link>
+            </div>
+          ) : (
+
+            products.map(product => (
+              <div className="product">
+                
+                <div className="product-img">
+                  {loading ? (<img src={product.images[0]} alt="product" />
+                  ) : (<img src='https://media.istockphoto.com/id/1138824305/vector/loading-icon-on-black.jpg?s=170667a&w=0&k=20&c=5TgSExGSoy7SXYcXEKfKCfZW-qFXsTaZRHcBF99WMLM=' alt='loading' className='product-image' />
+                  )}
+                </div>
+                <div className="product-info">
+                  <p className="info-name">{product.name}</p>
+                  <p className="info-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.</p>
+
+                </div>
+                <div className="product-btns">
+                  <p className="info-price">${product.price}</p>
+                </div>
+                <div className='favorite'>
+                </div>
+
+              </div>
+            )
+            )
+
+          )
+        }
+
+      </section>
                 <AiOutlineClose className="close-btn" onClick={close}  size={25} />
 
             </div>
