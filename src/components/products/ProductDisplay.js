@@ -13,6 +13,30 @@ const Product = ({ product }) => {
     const navigate = useNavigate()
   const [currentImage, setCurrentImage] = useState(0);
 
+  const [startX, setStartX] = useState(null);
+
+  const handleTouchStart = (event) => {
+    setStartX(event.touches[0].clientX);
+  };
+
+  const handleTouchMove = (event) => {
+    if (startX == null) {
+      return;
+    }
+    const deltaX = event.touches[0].clientX - startX;
+    if (deltaX > 50 && currentImage > 0) {
+      setCurrentImage(currentImage - 1);
+      setStartX(null);
+    } else if (deltaX < -50 && currentImage < product.images.length - 1) {
+      setCurrentImage(currentImage + 1);
+      setStartX(null);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    setStartX(null);
+  };
+
   const handleNextImage = () => {
     setCurrentImage((currentImage + 1) % product.images.length);
   };
@@ -28,50 +52,52 @@ const Product = ({ product }) => {
 
   return (
     <div className="product">
-    <div className="product-img">
-        <img src={product.images[currentImage]} alt={product.name} />
-        <FcPrevious  style={{color:'white'}} onClick={handlePrevImage} className='prev-button'/>
-        <FcNext  onClick={handleNextImage} className='next-button' />
-    </div>
-    <Link key={product.id} to={`/products/${product.id}`}>
-
-            <div className="product-info">
-                    <p className="info-name">{product.name}</p>
-                    <p className="info-description">hsdkjc  sbvfhsv shvchjsjb shvhjsbkdhcbsh </p>
-                </div>
-    </Link>
-    <div className="product-btns">
-            <p className="info-price">Ksh {product.price.toLocaleString('en-US')}</p>
-            {
-              you ? (
-                <CartButton productId={product.id}  name={product.name} price={product.price} description={product.description} image={product.image} />
-              ) : (
-                <BsCart3 onClick={handleLogin} />
-              )
-
-            }
-    </div>
-
-
-    <div className='favorite'>
-            {/* DISPLAY WISHLIST ID */}
-            {
-              you ? (
-                <Wishlist productId={product.id}  name={product.name} price={product.price} description={product.description} image={product.image} />
-              ) : (
-                <BsHeart onClick={handleLogin} />
-              )
-                
-            }
-          </div>
-      
+      <div className="product-img">
         
-      
+        <img src={product.images[currentImage]} alt={product.name} onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd} />
+        <FcPrevious style={{ color: 'white' }} onClick={handlePrevImage} className='prev-button' />
+        <FcNext onClick={handleNextImage} className='next-button' />
+      </div>
+      <Link key={product.id} to={`/products/${product.id}`}>
+
+        <div className="product-info">
+          <p className="info-name">{product.name}</p>
+          <p className="info-description">hsdkjc  sbvfhsv shvchjsjb shvhjsbkdhcbsh </p>
+        </div>
+      </Link>
+      <div className="product-btns">
+        <p className="info-price">Ksh {product.price.toLocaleString('en-US')}</p>
+        {
+          you ? (
+            <CartButton productId={product.id} name={product.name} price={product.price} description={product.description} image={product.image} />
+          ) : (
+            <BsCart3 onClick={handleLogin} />
+          )
+
+        }
+      </div>
+
+
+      <div className='favorite'>
+        {/* DISPLAY WISHLIST ID */}
+        {
+          you ? (
+            <Wishlist productId={product.id} name={product.name} price={product.price} description={product.description} image={product.image} />
+          ) : (
+            <BsHeart onClick={handleLogin} />
+          )
+
+        }
+      </div>
+
+
+
     </div>
   );
 };
 
 const Products = ({ products }) => {
+  
   return (
     <div className="products">
       {products.map((product) => (

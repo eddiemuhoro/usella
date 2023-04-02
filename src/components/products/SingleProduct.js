@@ -96,6 +96,8 @@ const SingleProduct = () => {
       )
   }, [dispatch, id])
 
+  // console.log(products.images[0])
+
 
   const [category, setCategory] = useState([])
   //fetch product by category after fetching product
@@ -154,6 +156,35 @@ const SingleProduct = () => {
   }
 
 
+  //SWIPE THROUGH IMAGES
+  const [currentImage, setCurrentImage] = useState(0);
+
+  const [startX, setStartX] = useState(null);
+
+  const handleTouchStart = (event) => {
+    setStartX(event.touches[0].clientX);
+  };
+
+  const handleTouchMove = (event) => {
+    if (startX == null) {
+      return;
+    }
+    const deltaX = event.touches[0].clientX - startX;
+    if (deltaX > 50 && currentImage > 0) {
+      setCurrentImage(currentImage - 1);
+      setStartX(null);
+    } else if (deltaX < -50 && currentImage < products.images.length - 1) {
+      setCurrentImage(currentImage + 1);
+      setStartX(null);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    setStartX(null);
+  };
+
+
+
 
   return (
     <div>
@@ -163,7 +194,7 @@ const SingleProduct = () => {
             <div>
               {
                 !loading ? (
-                  <img src={products.images} alt="product" />
+                  <img src={products.images} alt="product" onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}  />
                 ):
                 (
                   <img src='https://media.istockphoto.com/id/1138824305/vector/loading-icon-on-black.jpg?s=170667a&w=0&k=20&c=5TgSExGSoy7SXYcXEKfKCfZW-qFXsTaZRHcBF99WMLM=' alt='loading' className='product-image'/>
