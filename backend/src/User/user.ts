@@ -44,17 +44,6 @@ export const register =
       if (!user) {
         throw new Error('Registration failed');
       }
-
-      // //* register the profile of the user
-      const profile = await prisma.profile.create({
-        data: {
-          id: user.id
-        }
-      });
-
-      if (!profile) {
-        throw new Error('User profile not created');
-      }
       await verifyEmail(user.email, req.body.name, verificationCode);
 
       res.status(200).json({
@@ -166,17 +155,57 @@ router.put(
   }
 );
 
+router.get('/followers/:id', async (req: Request, res: Response) => {
+  try {
+    const followers = await prisma.follow.findMany({
+      where: {
+        followingId: req.params.id
+      }
+    });
+    //get the exact users from the users table from the ids got
+    if (!followers) {
+      throw new Error('no followers');
+    }
+    const users = await prisma.user.findMany({
+      where: {
+        id: {
+          in: followers.map((follower) => follower.followerId)
+        }
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        phone: true
+      }
+    });
+    res.json({
+      followers: users,
+      count: users.length
+    });
+  } catch (e: any) {
+    res.status(500).json({ message: e.message });
+  }
+});
 router.get('/', async (_req: Request, res: Response) => {
   try {
     const users = await prisma.user.findMany({
       select: {
         id: true,
+        password: false,
         name: true,
         email: true,
         phone: true,
+        location: true,
+        bio: true,
+        profile_pic: true,
         isVerified: true,
+        cover_pic: true,
         product: true,
-        profile: true
+        review: true,
+        followers: true,
+        following: true,
+        usellaReviews: true
       }
     });
 
@@ -191,7 +220,7 @@ router.get('/', async (_req: Request, res: Response) => {
 });
 
 //* get a single user
-router.all('/:id', async (req: Request, res: Response) => {
+router.get('/:id', async (req: Request, res: Response) => {
   try {
     const user = await prisma.user.findUnique({
       where: {
@@ -202,8 +231,13 @@ router.all('/:id', async (req: Request, res: Response) => {
         name: true,
         email: true,
         phone: true,
-        product: true,
-        profile: true
+        bio: true,
+        location: true,
+        profile_pic: true,
+        cover_pic: true,
+        followers: true,
+        following: true,
+        product: true
       }
     });
     if (!user) {
@@ -217,7 +251,7 @@ router.all('/:id', async (req: Request, res: Response) => {
 
 //* delete account
 
-router.all('/delete/:id', async (req: Request, res: Response) => {
+router.get('/delete/:id', async (req: Request, res: Response) => {
   try {
     const user = await prisma.user.delete({
       where: {
@@ -234,5 +268,29 @@ router.all('/delete/:id', async (req: Request, res: Response) => {
     res.status(500).json({ message: e.message });
   }
 });
+//* update profile
+
+router.put('/update/:id', async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const profile = await prisma.user.update({
+      where: {
+        id: id
+      },
+      data: {
+        ...req.body
+      }
+    });
+    if (!profile) {
+      throw new Error('Profile not updated');
+    }
+
+    res.status(200).json(profile);
+  } catch (e: any) {
+    res.status(500).json({ message: e.message });
+  }
+});
+
+//folow a user
 
 export default router;
