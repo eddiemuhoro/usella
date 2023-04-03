@@ -299,7 +299,7 @@ const SingleProduct = () => {
 
         <section className='seller-info'>
 
-         <SellerProfile name={products.seller_name} sellerId={products.seller_id} />
+         <SellerProfile name={products.seller_name} sellerId={products.seller_id} sellerProducts={sellerProducts} />
           <div className='seller-products'>
           {loading && <p>Please wait a sec...</p>}
               {
