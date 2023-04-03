@@ -60,46 +60,47 @@ const Products = () => {
 {
   loading ?<Loader/> : (
     <section className="products">
-    {
-      products.map(product => (
+      {
+        products.length === 0 ? ( <h2>No products found</h2>) : (
+          products.map(product => (
        
-        <div className="product">
-            <div className="product-img">
-              <img src={product.image} alt="product" />
+            <div className="product">
+                <div className="product-img">
+                  <img src={product.image} alt="product" />
+                </div>
+                <Link key={product.id} to={`/products/${product.id}`}>
+                <div className="product-info">
+                  <p className="info-name">{product.name}</p>
+                  <p className="info-description">{cutDescription(product.description)}</p>
+                </div>
+                </Link>
+                <div className="product-btns">
+                  <p className="info-price">Ksh {product.price.toLocaleString('en-US')}</p>
+                  {
+                    you ? (
+                      <CartButton productId={product.id}  name={product.name} price={product.price} description={product.description} image={product.image} />
+                    ) : (
+                      <BsCart3 onClick={handleLogin} />
+                    )
+    
+                  }
+                </div>
+                <div className='favorite'>
+                  {/* DISPLAY WISHLIST ID */}
+                  {
+                    you ? (
+                      <Wishlist productId={product.id}  name={product.name} price={product.price} description={product.description} image={product.image} />
+                    ) : (
+                      <BsHeart onClick={handleLogin} />
+                    )
+                      
+                  }
+                </div>
             </div>
-            <Link key={product.id} to={`/products/${product.id}`}>
-            <div className="product-info">
-              <p className="info-name">{product.name}</p>
-              <p className="info-description">{cutDescription(product.description)}</p>
-            </div>
-            </Link>
-            <div className="product-btns">
-              <p className="info-price">Ksh {product.price.toLocaleString('en-US')}</p>
-              {
-                you ? (
-                  <CartButton productId={product.id}  name={product.name} price={product.price} description={product.description} image={product.image} />
-                ) : (
-                  <BsCart3 onClick={handleLogin} />
-                )
-
-              }
-            </div>
-            <div className='favorite'>
-              {/* DISPLAY WISHLIST ID */}
-              {
-                you ? (
-                  <Wishlist productId={product.id}  name={product.name} price={product.price} description={product.description} image={product.image} />
-                ) : (
-                  <BsHeart onClick={handleLogin} />
-                )
-                  
-              }
-            </div>
-        </div>
-       )
-      )
-    }
-
+           )
+          )
+        )
+      }
   </section>
   )
 }
