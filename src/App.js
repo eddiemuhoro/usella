@@ -21,19 +21,19 @@ function App () {
     <div className="App">
       <Navbar />
       <Routes>
-        <Route path="/register" element={<Register />} />
-        <Route path='/email' element={<Email />} />
-        <Route path="/login" element={<Login />} />
-        <Route path='/' element={<Hero/>} />
-        <Route path='/terms' element={<Terms/>} />
-        <Route path='/policy' element={<PrivacyPolicy/>} />
-        <Route path='/products' element={<ProductDisplay/>} />
-        <Route path='/products/:id' element={<SingleProduct/>} />
-        <Route path='/profile' element={<Profile />} />
-        <Route path='/seller/profile' element={<SellerProfile />} />
-        <Route path='/post' element={<Post />} />
-        {/* <Route path='/cart' element={<Cart />} /> */}
-        <Route path='/help' element={<Help />} />
+          <Route path="/register" element={<Register />} />
+          <Route path='/email' element={<Email />} />
+          <Route path="/login" element={<Login />} />
+          <Route path='/' element={<Hero/>} />
+          <Route path='/terms' element={<Terms/>} />
+          <Route path='/policy' element={<PrivacyPolicy/>} />
+          <Route path='/products' element={<ProductDisplay/>} />
+          <Route path='/products/:id' element={<SingleProduct/>} />
+          <Route path='/profile' element={<Profile />} />
+          <Route path='/seller/profile' element={<SellerProfile />} />
+          <Route path='/post' element={<Post />} />
+          {/* <Route path='/cart' element={<Cart />} /> */}
+        x  <Route path='/help' element={<Help />} />
         <Route path='*' element={<>404 - Not found</>} />
       </Routes>
     </div>
