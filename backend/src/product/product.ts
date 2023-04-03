@@ -107,6 +107,7 @@ router.post(
   body('seller_name').isString(),
   handleErrors,
   async (req: Request, res: Response) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     try {
       const product = await prisma.product.create({
         data: {
@@ -116,7 +117,11 @@ router.post(
       if (!product) {
         res.status(500).json({ message: 'cannot create product' });
       }
-      await productPostedEmail(req.body.seller_email, req.body.seller_name,req.body.name);
+      await productPostedEmail(
+        req.body.seller_email,
+        req.body.seller_name,
+        req.body.name
+      );
       res.json({
         product: product,
         message: 'product created successfully',
@@ -128,11 +133,7 @@ router.post(
   }
 );
 
-
-
 //* delete a specific product by id
-
-
 
 router.delete('/delete/:id', async (req: any, res: Response) => {
   try {
@@ -172,6 +173,25 @@ router.delete('/user/delete/:id', async (req: Request, res: Response) => {
   }
 });
 
-//* delete all the completed products
+router.put('/update/:id', async (req: Request, res: Response) => {
+  try {
+    const product = await prisma.product.update({
+      where: {
+        id: req.params.id
+      },
+      data: {
+        ...req.body
+      }
+    });
+
+    if (!product) {
+      throw new Error('Could not update the product');
+    }
+
+    res.status(200).json({ message: product });
+  } catch (e: any) {
+    res.status(500).json({ message: e.message });
+  }
+});
 
 export default router;
