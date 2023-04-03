@@ -14,21 +14,34 @@ model user {
   phone         String         @unique
   password      String
   product       product[]
-  profile       profile?
   review        review[]
-  code         String         
+  code          String
   isVerified    Boolean        @default(false)
+  bio           String         @default("")
+  profile_pic   String         @default("")
+  cover_pic     String         @default("")
+  location      String         @default("")
   usellaReviews usellaReviews?
+  followers     follow[]       @relation("followers")
+  following     follow[]       @relation("following")
+  order         order[]
+  history       history[]
 }
 
-model profile {
-  id          String @id
-  bio         String @default("")
-  profile_pic String @default("")
-  cover_pic   String @default("")
-  followers   Int    @default(0)
-  following   Int    @default(0)
-  user        user   @relation(fields: [id], references: [id],onUpdate: Cascade, onDelete: Cascade) 
+model follow {
+  id          String @id @default(uuid())
+  followerId  String
+  followingId String
+  follower    user   @relation("followers", fields: [followerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  following   user   @relation("following", fields: [followingId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  // Additional constraint to ensure that follower and following are different
+
+  // Additional constraints to ensure uniqueness of follower-following pairs
+  @@unique([followerId, followingId])
+  @@unique([followingId, followerId])
+  @@index([followerId])
+  @@index([followingId])
 }
 
 model product {
@@ -45,38 +58,24 @@ model product {
   seller_phone String
   seller_name  String
   rating       Int      @default(0)
-  sold         Boolean  @default(false)
   status       Status   @default(AVAILABLE)
-  seller       user     @relation(fields: [seller_id], references: [id],onUpdate: Cascade, onDelete: Cascade)
+  seller       user     @relation(fields: [seller_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  order        order[]
 }
 
-// model order{
-//   id          String @id @default(cuid())
-//   buyer_id     String
-//   buyer_name   String
-//   buyer_email  String
-//   buyer_phone  String
-//   buyer_image  String
-//   seller_id    String
-//   seller_name  String
-//   seller_email String
-//   seller_phone String
-//   seller_image String
-//   product_id   String
-//   product_name String
-//   product_image String
-//   product_price Int
-//   product_quantity Int
-//   product_category Category
-//   product_description String
-//   product_location String
-//   product_status Status
-//   product_rating Int
-//   product_sold Boolean
-//   buyer         user     @relation(fields: [buyer_id], references: [id])
-//   seller        user     @relation(fields: [seller_id], references: [id])
-//   product       product  @relation(fields: [product_id], references: [id])
-// }
+model order {
+  id            String        @id @default(cuid())
+  buyer_id      String
+  buyer         user          @relation(fields: [buyer_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  order_status  OrderStatus   @default(PENDING)
+  product_id    String
+  seller_id     String
+  quantity      Int
+  price         Int
+  paymentStatus PaymentStatus @default(UNPAID)
+  location      String
+  product       product       @relation(fields: [product_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+}
 
 model review {
   id           String @id @default(cuid())
@@ -86,14 +85,34 @@ model review {
   rating       Int
   comment      String
   sender_email String
-  user         user   @relation(fields: [user_id], references: [id],onUpdate: Cascade, onDelete: Cascade) 
+  user         user   @relation(fields: [user_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
 }
 
 model usellaReviews {
   id      String @id @default(cuid())
   rating  Int
   comment String
-  user    user   @relation(fields: [id], references: [id],onUpdate: Cascade, onDelete: Cascade) 
+  user    user   @relation(fields: [id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+}
+
+model history {
+  id           String   @id @default(cuid())
+  name         String
+  quantity     Int
+  category     Category @default(OTHERS)
+  price        Int
+  location     String
+  description  String
+  images       String[] @default([])
+  belongsTo    String
+  seller_id    String
+  seller_email String
+  seller_phone String
+  seller_name  String
+  rating       Int      @default(0)
+  sold         Boolean  @default(false)
+  status       Status   @default(AVAILABLE)
+  owner        user     @relation(fields: [belongsTo], references: [id], onUpdate: Cascade, onDelete: Cascade)
 }
 
 enum Category {
@@ -107,9 +126,19 @@ enum Category {
   HEALTH
 }
 
+enum PaymentStatus {
+  UNPAID
+  PAID
+}
+
 enum Status {
   AVAILABLE
-  SOLD
   PENDING
-  CONFIRMED
+  SOLD
+}
+
+enum OrderStatus {
+  PENDING
+  ACCEPTED
+  DELIVERED
 }
