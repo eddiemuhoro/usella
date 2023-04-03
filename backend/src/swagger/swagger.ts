@@ -66,8 +66,7 @@ const options = {
                     password: {
                       type: 'string',
                       example: 'pass1234'
-                    },
-                    
+                    }
                   }
                 }
               }
@@ -80,6 +79,91 @@ const options = {
           }
         }
       },
+
+      '/users/update/{id}': {
+        put: {
+          tags: ['User'],
+          parameters: [
+            {
+              name: 'id',
+              in: 'path',
+              description: 'The user id',
+              required: true,
+              schema: {
+                type: 'string',
+                required: true,
+                description: 'The user id'
+              }
+            }
+          ],
+          requestBody: {
+            required: false,
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    name: {
+                      type: 'string',
+                      example: 'Emilio Kariuki'
+                    },
+                    bio: {
+                      type: 'string',
+                      example: 'I am a software developer'
+                    },
+                    phone: {
+                      type: 'string',
+                      example: '0712345678'
+                    },
+                    profile_pic: {
+                      type: 'string',
+                      example: 'https://www.google.com'
+                    },
+                    cover_pic: {
+                      type: 'string',
+                      example: 'https://www.google.com'
+                    },
+                    location: {
+                      type: 'string',
+                      example: 'Nairobi'
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        responses: {
+          200: {
+            description: 'User updated successfully'
+          }
+        }
+      },
+
+      '/users/followers/{id}': {
+        get: {
+          tags: ['User'],
+          parameters: [
+            {
+              name: 'id',
+              in: 'path',
+              description: 'The user id',
+              required: true,
+              schema: {
+                type: 'string',
+                required: true,
+                description: 'The user id'
+              }
+            }
+          ],
+          responses: {
+            200: {
+              description: 'A list of followers'
+            }
+          }
+        }
+      },
+
       '/users/verify/{email}/{code}': {
         put: {
           tags: ['User'],
@@ -170,6 +254,67 @@ const options = {
           responses: {
             200: {
               descrition: 'User deleted successfully'
+            }
+          }
+        }
+      },
+
+      '/follow': {
+        post: {
+          tags: ['User'],
+          requestBody: {
+            required: true,
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    followerId: {
+                      type: 'string',
+                      example: '60f9b9b0b9b9b9b9b9b9b9b9'
+                    },
+                    followingId: {
+                      type: 'string',
+                      example: '60f9b9b0b9b9b9b9b9b9b9b9'
+                    }
+                  }
+                }
+              }
+            }
+          },
+          responses: {
+            200: {
+              description: 'User followed successfully'
+            }
+          }
+        }
+      },
+      '/unfollow': {
+        post: {
+          tags: ['User'],
+          requestBody: {
+            required: true,
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    followerId: {
+                      type: 'string',
+                      example: '60f9b9b0b9b9b9b9b9b9b9b9'
+                    },
+                    followingId: {
+                      type: 'string',
+                      example: '60f9b9b0b9b9b9b9b9b9b9b9'
+                    }
+                  }
+                }
+              }
+            }
+          },
+          responses: {
+            200: {
+              description: 'User followed successfully'
             }
           }
         }
@@ -664,6 +809,304 @@ const options = {
           responses: {
             200: {
               description: 'All reviews'
+            }
+          }
+        }
+      },
+
+      //order routes
+
+      '/order': {
+        get: {
+          tags: ['Order'],
+          description: 'Get all orders',
+          responses: {
+            200: {
+              description: 'All orders'
+            }
+          }
+        }
+      },
+
+      '/order/create': {
+        post: {
+          tags: ['Order'],
+          description: 'create an order',
+          requestBody: {
+            required: true,
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    buyer_id: {
+                      type: 'string',
+                      example: '1'
+                    },
+                    buyer_email: {
+                      type: 'string',
+                      example: 'emilio113kariuki@gmail.com'
+                    },
+                    buyer_name: {
+                      type: 'string',
+                      example: 'Emilio Kariuki'
+                    },
+                    product_id: {
+                      type: 'string',
+                      example: '1'
+                    },
+                    quantity: {
+                      type: 'number',
+                      example: 1
+                    },
+                    location: {
+                      type: 'string',
+                      example: 'Nairobi'
+                    }
+                  }
+                }
+              }
+            }
+          },
+          responses: {
+            200: {
+              description: 'Order created successfully'
+            }
+          }
+        }
+      },
+
+      '/order/{id}': {
+        get: {
+          tags: ['Order'],
+          description: 'Get an order by id',
+          parameters: [
+            {
+              name: 'id',
+              in: 'path',
+              description: 'The order id',
+              required: true,
+              schema: {
+                type: 'string',
+                required: true,
+                description: 'The order id'
+              }
+            }
+          ],
+          responses: {
+            200: {
+              description: 'Order details'
+            }
+          }
+        }
+      },
+
+      '/order/user/{id}': {
+        get: {
+          tags: ['Order'],
+          description: 'Get an order by user id',
+          parameters: [
+            {
+              name: 'id',
+              in: 'path',
+              description: 'The user id',
+              required: true,
+              schema: {
+                type: 'string',
+                description: 'The user id'
+              }
+            }
+          ],
+          responses: {
+            200: {
+              description: 'Order details'
+            }
+          }
+        }
+      },
+
+      '/order/cancel/{id}': {
+        delete: {
+          tags: ['Order'],
+          description: 'Cancel your Order',
+          parameters: [
+            {
+              name: 'id',
+              in: 'path',
+              description: 'The order id',
+              required: true,
+              schema: {
+                type: 'string',
+                description: 'The order id'
+              }
+            }
+          ],
+          responses: {
+            200: {
+              description: 'Order cancelled successfully'
+            },
+            500: {
+              description: 'Order has not been cancelled'
+            }
+          }
+        }
+      },
+      '/order/confirm/{id}/{seller}': {
+        put: {
+          tags: ['Order'],
+          description: 'Confirm an order',
+          parameters: [
+            {
+              name: 'id',
+              in: 'path',
+              description: 'The order id',
+              required: true,
+              schema: {
+                type: 'string',
+                description: 'The order id'
+              }
+            },
+            {
+              name: 'seller',
+              in: 'path',
+              description: 'The seller id',
+              required: true,
+              schema: {
+                type: 'string',
+                description: 'The seller id'
+              }
+            }
+          ],
+          responses: {
+            200: {
+              description: 'Order confirmed successfully'
+            },
+            500: {
+              description: 'Order has not been confirmed'
+            }
+          }
+        }
+      },
+      '/order/reject/{id}/{seller}': {
+        put: {
+          tags: ['Order'],
+          description: 'Confirm an order',
+          parameters: [
+            {
+              name: 'id',
+              in: 'path',
+              description: 'The order id',
+              required: true,
+              schema: {
+                type: 'string',
+                description: 'The order id'
+              }
+            },
+            {
+              name: 'seller',
+              in: 'path',
+              description: 'The seller id',
+              required: true,
+              schema: {
+                type: 'string',
+                description: 'The seller id'
+              }
+            }
+          ],
+          responses: {
+            200: {
+              description: 'Order confirmed successfully'
+            },
+            500: {
+              description: 'Order has not been confirmed'
+            }
+          }
+        }
+      },
+
+      '/order/pay/{amount}/{id}': {
+        put: {
+          tags: ['Order'],
+          description: 'Pay for an order',
+          parameters: [
+            {
+              name: 'amount',
+              in: 'path',
+              description: "The order's amount",
+              required: true,
+              schema: {
+                type: 'number',
+                description: "The order's amount"
+              }
+            },
+            {
+              name: 'id',
+              in: 'path',
+              description: 'The order id',
+              required: true,
+              schema: {
+                type: 'string',
+                description: 'The order id'
+              }
+            }
+          ],
+          responses: {
+            200: {
+              description: 'payment made successfully'
+            },
+            500: {
+              description: 'payment has not been made'
+            }
+          }
+        }
+      },
+
+      '/order/complete/{id}': {
+        put: {
+          tags: ['Order'],
+          description: 'Complete an order',
+          parameters: [
+            {
+              name: 'id',
+              in: 'path',
+              description: 'The order id',
+              required: true,
+              schema: {
+                type: 'string',
+                description: 'The order id'
+              }
+            }
+          ],
+          responses: {
+            200: {
+              description: 'Order completed successfully'
+            },
+            500: {
+              description: 'Order has not been completed'
+            }
+          }
+        }
+      },
+
+      '/order/history/{id}': {
+        get: {
+          tags: ['Order'],
+          description: 'Get all orders by user id',
+          parameters: [
+            {
+              name: 'id',
+              in: 'path',
+              description: 'The user id',
+              required: true,
+              schema: {
+                type: 'string',
+                description: 'The user id'
+              }
+            }
+          ],
+          responses: {
+            200: {
+              description: 'All orders'
             }
           }
         }
