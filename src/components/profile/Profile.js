@@ -117,6 +117,7 @@ const Profile = () => {
         dispatch(getFollowers(user.id))
         .then(res => {
             serFollowers(res.payload)
+            console.log(`followers: ${res.payload}`);
         })
      
       },[dispatch, user.id])
@@ -138,8 +139,8 @@ const Profile = () => {
                         <h3 className="profile-name">{profile.name}</h3>
                         <p className="profile-email">{profile.email}</p>
                         <p className="profile-phone">{profile.phone}</p> 
+                        <p className='followers'>followers: {followers.count} </p>         
                         <p className='profile-location'>Location: {profile.location}</p>
-                        <p className='followers'>followers: {followers.length} </p>         
                     </div>
 
                     <div className= 'logout-btn'>

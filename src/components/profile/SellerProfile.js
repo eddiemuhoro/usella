@@ -16,7 +16,7 @@ import { getProductByUser } from '../../react-redux/features/products/productSli
 
 
 
-const SellerProfile = ({name, sellerId}) => {
+const SellerProfile = ({name, sellerId, sellerProducts}) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const user = useSelector(state => state.auth.you)
@@ -24,6 +24,7 @@ const SellerProfile = ({name, sellerId}) => {
     const [posts, setPosts] = useState(false)
     const [profile, setProfile] = useState({})
     const [loading, setLoading] = useState(false)
+    
 //profile details
     useEffect(() => {   
        dispatch(getProfile(sellerId))
@@ -47,11 +48,6 @@ const SellerProfile = ({name, sellerId}) => {
         setLoading(false)
       })
 
-    // const fetchProducts = async () => {
-    //   const { data } = await axios.get(`http://localhost:9000/products/seller/${seller}`)
-    //   setProducts(data)
-    // }
-    // fetchProducts()
   }, [ dispatch, sellerId])
 
   console.log(products)
@@ -71,12 +67,13 @@ const SellerProfile = ({name, sellerId}) => {
 
 
       //FETCH FOLLOWERS
-      const [followers, serFollowers] = useState([])
+      const [followers, setFollowers] = useState([])
       useEffect(()=>{
-        dispatch(getFollowers(sellerId))
+        axios.get(`https://usella.up.railway.app/users/followers/${sellerId}`)
         .then(res => {
-            serFollowers(res.payload)
-        })
+          setFollowers(res.data)
+        }
+        )
      
       },[dispatch, sellerId])
 
@@ -86,84 +83,84 @@ const SellerProfile = ({name, sellerId}) => {
         <Popup trigger={<h4>Other products posted by <span> {name}</span>  </h4>} modal nested  closeOnDocumentClick={false}>
             {(close) => (
             <div className="profile-container seller" style={{backgroundColor:'black'}}>
-                <section className='profile-info'>
-                   
+                  <section className='profile-info'>
+
                     <div className="profile-details seller">
-                        <div className="profile-avatar seller">
-                            <img src={ !profile.profilePic ? 'https://www.w3schools.com/howto/img_avatar.png' : profile.profilePic} alt={user.firstName} />
-                            <div className='profile-header phone'>
-                                <h3 className="profile-name">{profile.name}</h3>
-                                <div className='seller-btn'>
-                                    <button>Following</button>
-                                    <button>Message</button>
-                                </div>
-                            </div>
+                      <div className="profile-avatar seller">
+                        <img src={!profile.profilePic ? 'https://www.w3schools.com/howto/img_avatar.png' : profile.profilePic} alt={user.firstName} />
+                        <div className='profile-header phone'>
+                          <h3 className="profile-name">{profile.name}</h3>
+                          <div className='seller-btn'>
+                            <button >Follower</button>
+                            <button>Message</button>
+                          </div>
                         </div>
-                        <div className="profile-info">
+                      </div>
+                      <div className="profile-info">
                         <div className='profile-header desktop'>
-                                <h3 className="profile-name">{profile.name}</h3>
-                                <div className='seller-btn'>
-                                    <button>Following</button>
-                                    <button>Message</button>
-                                </div>
-                            </div>
-                                <div className='seller-followers'>
-                                    <p className='followers'> <strong style={{color:'white'}}> {followers.length}</strong> followers </p>
-                                    <p className='following'><strong style={{color:'white'}}> 22</strong> following  </p>
-                                </div>
-                            <p className="profile-email">{profile.bio}</p>
-                            <p className='profile-location'>{profile.location}</p>
+                          <h3 className="profile-name">{name}</h3>
+                          <div className='seller-btn'>
+                            <button>Following</button>
+                            <button>Message</button>
+                          </div>
                         </div>
-                    </div> 
-                </section>
-                <section className='profile-contents'>
+                        <div className='seller-followers'>
+                          <p className='followers'> <strong style={{ color: 'white' }}> {followers.count}</strong> followers </p>
+                          <p className='following'><strong style={{ color: 'white' }}> 22</strong> following  </p>
+                        </div>
+                        <p className="profile-email">{profile.bio}</p>
+                        <p className='profile-location'>{profile.location}</p>
+                      </div>
+                    </div>
+                  </section>
+                  <section className='profile-contents'>
                     <section className='profile-nav'>
-                    
-                        <div className={posts ? 'profile-nav-item active' : 'profile-nav-item'} onClick={handlePosts}>
-                            <p>{name}'s Posts</p>
-                        </div>
+
+                      <div className={posts ? 'profile-nav-item active' : 'profile-nav-item'} onClick={handlePosts}>
+                        <p>{name}'s Posts</p>
+                      </div>
                     </section>
 
                     <section className='selected-tab'>
-                    
+
                     </section>
-                </section>
-                <section className="products myProducts">
-        {
-          !products ? (
-            <div className="no-products">
-              <h1>You have no products</h1>
-              <Link to='/post' style={{ textDecoration: 'underline' }}>Add a product</Link>
-            </div>
-          ) : (
+                  </section>
+                  <section className="products myProducts">
+                    {
+                      !sellerProducts ? (
+                        <div className="no-products">
+                          <h1>You have no products</h1>
+                          <Link to='/post' style={{ textDecoration: 'underline' }}>Add a product</Link>
+                        </div>
+                      ) : (
 
-            products.map(product => (
-              <div className="product">
-                
-                <div className="product-img">
-                  {loading ? (<img src={product.images[0]} alt="product" />
-                  ) : (<img src='https://media.istockphoto.com/id/1138824305/vector/loading-icon-on-black.jpg?s=170667a&w=0&k=20&c=5TgSExGSoy7SXYcXEKfKCfZW-qFXsTaZRHcBF99WMLM=' alt='loading' className='product-image' />
-                  )}
-                </div>
-                <div className="product-info">
-                  <p className="info-name">{product.name}</p>
-                  <p className="info-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.</p>
+                        sellerProducts.map(product => (
+                          <div className="product" style={{ height: '300px' }}>
 
-                </div>
-                <div className="product-btns">
-                  <p className="info-price">${product.price}</p>
-                </div>
-                <div className='favorite'>
-                </div>
+                            <div className="product-img">
+                              {loading ? (<img src={product.images[0]} alt="product" />
+                              ) : (<img src='https://media.istockphoto.com/id/1138824305/vector/loading-icon-on-black.jpg?s=170667a&w=0&k=20&c=5TgSExGSoy7SXYcXEKfKCfZW-qFXsTaZRHcBF99WMLM=' alt='loading' className='product-image' />
+                              )}
+                            </div>
+                            <div className="product-info">
+                              <p className="info-name">{product.name}</p>
+                              {/* <p className="info-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.</p> */}
 
-              </div>
-            )
-            )
+                            </div>
+                            <div className="product-btns">
+                              <p className="info-price">${product.price}</p>
+                            </div>
+                            <div className='favorite'>
+                            </div>
 
-          )
-        }
+                          </div>
+                        )
+                        )
 
-      </section>
+                      )
+                    }
+
+                  </section>
                 <AiOutlineClose className="close-btn" onClick={close}  size={25} />
 
             </div>
