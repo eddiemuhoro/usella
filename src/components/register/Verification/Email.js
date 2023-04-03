@@ -26,6 +26,8 @@ const handleVerify = async (e) => {
 
     //navigate to dashboard
     navigate('/')
+    //reload
+    window.location.reload();
   }
   return response.data;
 }
