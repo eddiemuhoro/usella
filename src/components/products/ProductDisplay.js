@@ -100,6 +100,9 @@ const Products = ({ products }) => {
   
   return (
     <div className="products">
+      {
+        products.length === 0 && ( <h2>No products found</h2>)
+      }
       {products.map((product) => (
         <Product key={product.id} product={product} />
       ))}
