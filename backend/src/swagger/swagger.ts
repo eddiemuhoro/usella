@@ -164,6 +164,30 @@ const options = {
         }
       },
 
+      '/users/following/{id}': {
+        get: {
+          tags: ['User'],
+          parameters: [
+            {
+              name: 'id',
+              in: 'path',
+              description: 'The user id',
+              required: true,
+              schema: {
+                type: 'string',
+                required: true,
+                description: 'The user id'
+              }
+            }
+          ],
+          responses: {
+            200: {
+              description: 'A list of followers'
+            }
+          }
+        }
+      },
+
       '/users/verify/{email}/{code}': {
         put: {
           tags: ['User'],
@@ -624,6 +648,92 @@ const options = {
         }
       },
 
+      '/product/add/favourite': {
+        post: {
+          tags: ['Product'],
+          description: 'Add a product to favourite',
+          requestBody: {
+            required: true,
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    buyer_id: {
+                      type: 'string',
+                      example: '1'
+                    },
+                    product_id: {
+                      type: 'string',
+                      example: '1'
+                    }
+                  }
+                }
+              }
+            }
+          },
+          responses: {
+            200: {
+              description: 'Product added to favourite successfully'
+            }
+          }
+        }
+      },
+
+      '/product/fetch/favourite/{id}': {
+        get: {
+          tags: ['Product'],
+          description: 'Get all products in favourite',
+          parameters: [
+            {
+              name: 'id',
+              in: 'path',
+              description: 'The user id',
+              required: true,
+              schema: {
+                type: 'string',
+                required: true,
+                description: 'The user id'
+              }
+            }
+          ],
+          responses: {
+            200: {
+              description: 'All products in favourite'
+            }
+          }
+        }
+      },
+
+      '/product/delete/favourite/{id}': {
+        delete: {
+          tags: ['Product'],
+          description: 'Delete a product from favourite',
+          parameters: [
+            {
+              name: 'id',
+              in: 'path',
+              description: 'The product id',
+              required: true,
+              schema: {
+                type: 'string',
+                required: true,
+                description: 'The product id'
+              }
+            }
+          ],
+          responses: {
+            200: {
+              description: 'Product deleted from favourite successfully'
+            },
+            404: {
+              description: 'Product not found'
+            }
+          }
+        }
+      },
+
+
       //review routes
 
       '/review/send': {
@@ -815,6 +925,91 @@ const options = {
       },
 
       //order routes
+
+      '/order/add/cart': {
+        post: {
+          tags: ['Order'],
+          description: 'Add a product to cart',
+          requestBody: {
+            required: true,
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    buyer_id: {
+                      type: 'string',
+                      example: '1'
+                    },
+                    product_id: {
+                      type: 'string',
+                      example: '1'
+                    }
+                  }
+                }
+              }
+            }
+          },
+          responses: {
+            200: {
+              description: 'Product added to cart successfully'
+            }
+          }
+        }
+      },
+
+      '/order/fetch/cart/{id}': {
+        get: {
+          tags: ['Order'],
+          description: 'Get all products in cart',
+          parameters: [
+            {
+              name: 'id',
+              in: 'path',
+              description: 'The user id',
+              required: true,
+              schema: {
+                type: 'string',
+                required: true,
+                description: 'The user id'
+              }
+            }
+          ],
+          responses: {
+            200: {
+              description: 'All products in cart'
+            }
+          }
+        }
+      },
+
+      '/order/delete/cart/{id}': {
+        delete: {
+          tags: ['Order'],
+          description: 'Delete a product from cart',
+          parameters: [
+            {
+              name: 'id',
+              in: 'path',
+              description: 'The product id',
+              required: true,
+              schema: {
+                type: 'string',
+                required: true,
+                description: 'The product id'
+              }
+            }
+          ],
+          responses: {
+            200: {
+              description: 'Product deleted from cart successfully'
+            },
+            404: {
+              description: 'Product not found'
+            }
+          }
+        }
+      },
 
       '/order': {
         get: {
