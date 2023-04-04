@@ -194,4 +194,81 @@ router.put('/update/:id', async (req: Request, res: Response) => {
   }
 });
 
+
+router.post(
+  '/add/favourite',
+  body('product_id').isString(),
+  body('buyer_id').isString(),
+  handleErrors,
+  async (req: Request, res: Response) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    try {
+      const product = await prisma.favourite.create({
+        data: {
+          id: req.body.product_id + req.body.buyer_id,
+          buyer_id: req.body.buyer_id
+        }
+      });
+      if (!product) {
+        res.status(500).json({ message: 'cannot add item to favourite' });
+      }
+      res.json(product);
+    } catch (e: any) {
+      res.status(500).json({ message: e.message });
+    }
+  }
+);
+
+router.get('/fetch/favourite/:id', async (req: Request, res: Response) => {
+  try {
+    const cart = await prisma.favourite.findMany({
+      where: {
+        buyer_id: req.params.id
+      },
+      select: {
+        id: true,
+      }
+    });
+
+    if (!cart) {
+      throw new Error('product not found');
+    }
+
+    const product: any = [];
+    for (let i = 0; i < cart.length; i++) {
+      const item = await prisma.product.findUnique({
+        where: {
+          id: cart[i].id.replace(req.params.id, '')
+        }
+      });
+      product.push(item);
+    }
+
+    res.json(
+      product
+    );
+  } catch (e: any) {
+    res.status(500).json({ message: e.message });
+  }
+});
+
+router.delete('/delete/favourite/:id', async (req: Request, res: Response) => {
+  try {
+    const cart = await prisma.favourite.delete({
+      where: {
+        id: req.params.id
+      }
+    });
+
+    if (!cart) {
+      throw new Error('Cart not found');
+    }
+
+    res.json({ message: 'removed from favourites successfully' });
+  } catch (e: any) {
+    res.status(500).json({ message: e.message });
+  }
+});
+
+
 export default router;
