@@ -10,6 +10,7 @@ function Register() {
   let userObject = {}
   const [user, setUser] = useState({});
   const [bio, setBio] = useState('')
+  const [loading, setLoading] = useState(false)
   // 719668832114-ieqsiradroo9m4tb6584acqhcr80siet.apps.googleusercontent.com
   //published key
   //117852649508-n6pl5fek07k9co4pfqpihgtq7rotv09d.apps.googleusercontent.com
@@ -138,6 +139,7 @@ function Register() {
       }
       console.log(userData)
       dispatch(register(userData))
+      setLoading(true)
     }
     //send data to backend
   };
@@ -207,7 +209,10 @@ function Register() {
             required
           />
         </div>
-        <button type="submit">Register</button>
+        {
+          loading ? <button type="submit" disabled>Registering...</button> : <button type="submit">Register</button>
+        }
+       
       </form>
       <h4 style={{ margin: '20px' }}> Or</h4>
       <section>

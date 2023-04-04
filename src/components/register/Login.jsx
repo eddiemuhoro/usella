@@ -7,6 +7,7 @@ import jwt_decode from 'jwt-decode';
 import './register.css';
 
 function Login() {
+  const [loading, setLoading] = useState(false)
 
   let userObject = {}
   const [user, setUser] = useState({});
@@ -110,6 +111,7 @@ useEffect(()=>{
       }
 
       dispatch(login(userData))
+      setLoading(true)
     // add logic to submit form data to backend
   };
 
@@ -141,8 +143,9 @@ useEffect(()=>{
             required
           />
         </div>
-        
-        <button type="submit">Register</button>
+        {
+          loading ? <button type="submit" disabled>Logging in...</button> : <button type="submit">Login</button>
+        }
         <br />
         <h4>Sign in with Google</h4>
         <br />
