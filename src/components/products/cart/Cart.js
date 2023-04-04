@@ -8,6 +8,8 @@ import { deleteCart, deleteProduct, getCartByUser } from '../../../react-redux/f
 import Loader from '../../loader/Loader'
 import './cart.css'
 import Paypal from './Paypal'
+import { getProfile } from '../../../react-redux/features/auth/authSlice'
+import { toast } from 'react-toastify'
 const Cart = (props) => {
   const navigate = useNavigate()
   const [phone , setPhone] = useState('')
@@ -18,7 +20,17 @@ const Cart = (props) => {
   const [delivery , setDelivery] = useState('')
   const [update, setUpdate] = useState(false)
 
-  
+  const [profile, setProfile] = useState({})
+
+  //profile details
+      useEffect(() => {   
+         dispatch(getProfile(user.id))
+           .then(res => {
+                  //array [0] because we are getting an array of objects
+                  setProfile(res.payload)
+              }
+          )
+      }, [dispatch, user.id])
   //show delivery on console
   //  console.log(delivery)
 
@@ -43,7 +55,7 @@ const Cart = (props) => {
       setUpdate(true)
       props.setCartCount(true)
      })
-  }
+  } 
 
 //if there are no items in cart return this
 
@@ -69,88 +81,54 @@ const Cart = (props) => {
 
 
   //mpesa payment
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    //check if phone number is entered
+  const handleSubmit = (quant, id) => {
+  
     
-    //check if delivery point is selected.if not alert user
-    if(delivery === ''){
-      alert('Please select a delivery point')
-      return
-    }
-    const data = {
-      phone: phone,
-      amount: totalPrice
-    }
-    axios.post(' https://odd-slip-ant.cyclic.app/daraja', data)
-    .then(res => {
-      console.log(res.data)
-    })
-    .catch(err => {
-      console.log(err)
-    }
-)
-  
-  
-    //add purchased items to orders
-    //check if delivery point is selected.if not alert user
- 
+      items.map(item => {
+        console.log(profile.name);
+        console.log(profile.email);
+        console.log(profile.location);
+        console.log(item.quantity);
+        console.log(item.id);
+        console.log(user.id);
 
-    items.map(item => {
-      axios.post('https://odd-slip-ant.cyclic.app/products/orders', {
-        userId: user.id,
-        productId: item.productId,
-        name: item.name,
-        image: item.image,
-        price: item.price,
+      axios.post('https://usella.up.railway.app/order/create', {
+        buyer_id: user.id,
+        buyer_email: profile.email,
+        buyer_name: profile.name,
+        product_id: item.id,
         quantity: item.quantity,
-        delivery:   delivery,
+        location: 'profile.location',
       })
       .then(res => {
+        console.log({buyer_id: user.id, buyer_email: profile.email, buyer_name: profile.name, prodict_id: item.id, quantity: item.quantity, location: profile.location})
         console.log(res)
-        navigate('/profile')
+        toast('Order placed successfully')
+
+        setUpdate(true)
+      
       }
       )
     }
   )
 
-    //set setCheckout to true FOR 10 seconds then set it to false
-    setCheckout(true)
-    setTimeout(() => {
-      setCheckout(false)
-    }, 60000);
+    // //set setCheckout to true FOR 10 seconds then set it to false
+    // setCheckout(true)
+    // setTimeout(() => {
+    //   setCheckout(false)
+    // }, 60000);
 
-    //update product quantity to 0 after order is placed
-    items.map(item => {
-      axios.put(`https://odd-slip-ant.cyclic.app/products/orders/${item.productId}`, {
-        quantity: 0
-      })
-      .then(res => {
-        console.log(res)
-      }
-      )
-    }
-    )
+  
 
-
-      // delete purchased items from cart
-      // items.map(item => {
-      //   dispatch(deleteCart(item.productId))
-
-      // }
-      // )
-      setTimeout(() => {
-        items.map (item => {
-          dispatch(deleteCart(item.productId))
-        }
-        )
-      }, 5000);
+      // setTimeout(() => {
+      //   items.map (item => {
+      //     dispatch(deleteCart(item.productId))
+      //   }
+      //   )
+      // }, 5000);
 
    
   }
-
-
-  //CHECKOUT BUTTON
 
     //check if product is in order
     const [inOrder, setInOrder] = useState(false)
@@ -186,7 +164,7 @@ const Cart = (props) => {
       }
       {items.map(item => (
         <div key={item.id} className="cart-item">
-          <img src={item.image} alt={item.name} />
+          <img src={item.images[0]} alt={item.name} />
           <div className="item-details">
             <p>{item.name}</p>
             <p>{`$${item.price}`}</p>
@@ -196,7 +174,7 @@ const Cart = (props) => {
               <button onClick={() => handleQuantityChange(item.id, item.quantity + 1)}>+</button>
             </div>
           </div>
-          <button onClick={()=>handleCartRemove(item.productId)}>Remove</button>
+          <button onClick={()=>handleCartRemove(item.id+user.id)}>Remove</button>
         </div>
       ))}
       <div className="total-price">
@@ -219,31 +197,17 @@ const Cart = (props) => {
         <div/>
        
         <div style={{marginTop:'20px'}}  className='payment'>
-          {/*mpesa number input*/}
-          
-          <form onSubmit={handleSubmit}>
-          <h3>Pay via Mpesa</h3>
-          <input type='number' placeholder='Enter your phone number' value={phone} onChange={(e)=>setPhone(e.target.value)}/>
-          <h3>Choose delivery point</h3>
-          <select name="delivery" id="delivery" onChange={(e)=>setDelivery(e.target.value)}>
-              <option value="Kiwa Shop" >Choose delivery point</option>
-              <option value="Jemwa Shop">Jemwa Shop</option>
-              <option value="Kiwa Shop">Kiwa Shop</option>
-          </select>
-          {/* Money to be paid */}
-          <p>Amount to be paid: {totalPrice}</p>
-          {/*mpesa pay button*/}
+       
+        {/* <form onSubmit={()=>handleSend( items.quantity, items.id)}>
             {
               checkout ? (
 
                 <p style={{color:'#17516a', width:'40%', }}>
-                       Check a message on your phone to complete the payment
+                       Product has been added to products
                 </p>
               ) : (
-                <button
-                 
-                >
-                  Pay
+                <button >
+                  Order
                 </button>
               )
 
@@ -255,7 +219,9 @@ const Cart = (props) => {
                 </p>
               )
             }
-          </form>
+       </form> */}
+
+       <button onClick={handleSubmit} style={{marginTop:'20px'}} className='btn btn-primary'>Order</button>
 
          
         </div>

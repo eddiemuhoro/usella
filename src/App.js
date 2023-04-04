@@ -32,7 +32,7 @@ function App () {
           <Route path='/profile' element={<Profile />} />
           <Route path='/seller/profile' element={<SellerProfile />} />
           <Route path='/post' element={<Post />} />
-          {/* <Route path='/cart' element={<Cart />} /> */}
+          <Route path='/cart' element={<Cart />} />
         x  <Route path='/help' element={<Help />} />
         <Route path='*' element={<>404 - Not found</>} />
       </Routes>
