@@ -26,6 +26,8 @@ model user {
   following     follow[]       @relation("following")
   order         order[]
   history       history[]
+  cart          cart[]
+  favourite     favourite[]
 }
 
 model follow {
@@ -61,6 +63,18 @@ model product {
   status       Status   @default(AVAILABLE)
   seller       user     @relation(fields: [seller_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   order        order[]
+}
+
+model cart {
+  id       String @id @default(cuid())
+  buyer_id String
+  buyer    user   @relation(fields: [buyer_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+}
+
+model favourite {
+  id       String @id @default(cuid())
+  buyer_id String
+  buyer    user   @relation(fields: [buyer_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
 }
 
 model order {
