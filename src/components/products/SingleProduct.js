@@ -54,13 +54,8 @@ const SingleProduct = () => {
   const handleCart = () => {
 
     const cartData = {
-      productId: products.id,
-      userId: user.id,
-      name: products.name,
-      price: products.price,
-      description: products.description,
-      image: products.image,
-      quantity: 1
+      product_id: products.id,
+      buyer_id: user.id,
     }
     setUpdate(!update)
     dispatch(addToCart(cartData))
