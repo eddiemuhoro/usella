@@ -187,6 +187,42 @@ router.get('/followers/:id', async (req: Request, res: Response) => {
     res.status(500).json({ message: e.message });
   }
 });
+
+
+router.get('/following/:id', async (req: Request, res: Response) => {
+  try {
+    const following = await prisma.follow.findMany({
+      where:{
+        followerId: req.params.id
+      }
+    });
+    //get the exact users from the users table from the ids got
+    if (!following) {
+      throw new Error('no following');
+    }
+    const users = await prisma.user.findMany({
+      where: {
+        id: {
+          in: following.map((follower) => follower.followingId)
+        }
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        phone: true
+      }
+    });
+    res.json({
+      following: users,
+      count: users.length
+    });
+  } catch (e: any) {
+    res.status(500).json({ message: e.message });
+  }
+});
+
+
 router.get('/', async (_req: Request, res: Response) => {
   try {
     const users = await prisma.user.findMany({
@@ -251,7 +287,7 @@ router.get('/:id', async (req: Request, res: Response) => {
 
 //* delete account
 
-router.get('/delete/:id', async (req: Request, res: Response) => {
+router.delete('/delete/:id', async (req: Request, res: Response) => {
   try {
     const user = await prisma.user.delete({
       where: {
