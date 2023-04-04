@@ -187,6 +187,18 @@ async(userId, thunkAPI)=>{
   }
 )
 
+//get PENDING ORDERS BY USER ID
+export const getPendingOrders = createAsyncThunk('products/pending',
+async(userId, thunkAPI) =>{
+  try {
+    return await productService.getPendingOrders(userId)
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+}
+)
+
 //get order by order id
 export const getOrderByOrderId = createAsyncThunk('products/get',
 async(orderId, thunkAPI)=>{
