@@ -2,7 +2,10 @@ import { Router, Request, Response } from 'express';
 import { prisma } from '../db.js';
 import { body } from 'express-validator';
 import { handleErrors } from '../middleware/handleErrors.js';
-import { orderCreatedEmail } from '../Mailer/productMail.js';
+import {
+  orderCreatedEmail,
+  orderDeliveredEmail
+} from '../Mailer/productMail.js';
 // import { payOrder } from '../Mpesa/mpesa.js';
 
 const router = Router();
@@ -343,8 +346,7 @@ router.put('/pay/:amount/:id', async (req: Request, res: Response) => {
         id: req.params.id
       },
       data: {
-        paymentStatus: 'PAID',
-        
+        paymentStatus: 'PAID'
       }
     });
 
@@ -402,6 +404,25 @@ router.put('/complete/:id', async (req: Request, res: Response) => {
     if (!product) {
       throw new Error('Product not found');
     }
+    const buyer = await prisma.user.findUnique({
+      where: {
+        id: updatedOrder.buyer_id
+      }
+    });
+
+    if (!buyer) {
+      throw new Error('Buyer not found');
+    }
+
+    await orderDeliveredEmail(
+      buyer?.email,
+      product?.id,
+      buyer?.name,
+      product?.name,
+      product?.price,
+      product?.description,
+      product?.images[0]
+    );
 
     await prisma.history.create({
       data: {
@@ -450,6 +471,79 @@ router.get('/history/:id', async (req: Request, res: Response) => {
       throw new Error('History not found');
     }
     res.json(history);
+  } catch (e: any) {
+    res.status(500).json({ message: e.message });
+  }
+});
+
+router.post(
+  '/add/cart',
+  body('product_id').isString(),
+  body('buyer_id').isString(),
+  handleErrors,
+  async (req: Request, res: Response) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    try {
+      const product = await prisma.cart.create({
+        data: {
+          id: req.body.product_id + req.body.buyer_id,
+          buyer_id: req.body.buyer_id
+        }
+      });
+      if (!product) {
+        res.status(500).json({ message: 'cannot add item to cart' });
+      }
+      res.json(product);
+    } catch (e: any) {
+      res.status(500).json({ message: e.message });
+    }
+  }
+);
+
+router.get('/fetch/cart/:id', async (req: Request, res: Response) => {
+  try {
+    const cart = await prisma.cart.findMany({
+      where: {
+        buyer_id: req.params.id
+      },
+      select: {
+        id: true
+      }
+    });
+
+    if (!cart) {
+      throw new Error('Cart not found');
+    }
+
+    const product: any = [];
+    for (let i = 0; i < cart.length; i++) {
+      const item = await prisma.product.findUnique({
+        where: {
+          id: cart[i].id.replace(req.params.id, '')
+        }
+      });
+      product.push(item);
+    }
+
+    res.json(product);
+  } catch (e: any) {
+    res.status(500).json({ message: e.message });
+  }
+});
+
+router.delete('/delete/cart/:id', async (req: Request, res: Response) => {
+  try {
+    const cart = await prisma.cart.delete({
+      where: {
+        id: req.params.id
+      }
+    });
+
+    if (!cart) {
+      throw new Error('Cart not found');
+    }
+
+    res.json({ message: 'removed from cart successfully' });
   } catch (e: any) {
     res.status(500).json({ message: e.message });
   }
