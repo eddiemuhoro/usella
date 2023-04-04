@@ -777,3 +777,121 @@ export const orderConfirmEmail = async (
     throw new Error(e.message);
   }
 };
+
+export const orderDeliveredEmail = async (
+  buyerEmail: string,
+  orderNumber: string,
+  buyerName: string,
+  productName: string,
+  productPrice: number,
+  productDescription: string,
+  productImage: string
+) => {
+  // Create a transporter object using SMTP
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.email,
+      pass: process.env.password
+    }
+  });
+
+  // Define the email options
+  const mailOptions = {
+    from: `Usella  ${process.env.email}`,
+    to: buyerEmail,
+    subject: `Your User Order ${orderNumber} has been completed`,
+    html: `<!DOCTYPE html>
+      <html lang="en">
+      
+      <head>
+          <meta charset="UTF-8">
+          <meta http-equiv="X-UA-Compatible" content="IE=edge">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Document</title>
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+          <!-- FontAwesome 4.7.0 CDN -->
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+              integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
+              crossorigin="anonymous" referrerpolicy="no-referrer" />
+      
+      
+      
+      
+      
+      
+      </head>
+      
+      <body style="display: flex; align-items: center; justify-content: center">
+          <div style="width: 800px ;max-width: 800px; border: solid; border-width: 1px; border-color: grey; padding: 15px; ">
+              <div style="display: flex; align-items: center;flex-direction: column;">
+                  <img src="https://firebasestorage.googleapis.com/v0/b/apt-rite-346310.appspot.com/o/about02-removebg-preview.png?alt=media&token=f464f698-cfe6-4940-bc24-f6737c7b1a9b"
+                      alt="Usella Logo" style="width: 150px; height: 100px;">
+                  <h3 style="font-size:30px; margin-top: 0px;">Usella</h3>
+              </div>
+              <hr style="border: solid grey 0.5px; margin: 0px; margin-bottom: 10px;">
+              <div>
+                  <h5 style="font-weight:normal; font-size: 18px;">Hi ${buyerName},</h5>
+                  <h5 style="font-weight:normal; font-size: 16px;margin-bottom: 8px; margin-top: 0px;">Thank you for shopping
+                      on Usella! Your Order <span style="font-weight: bold;">3224452</span>
+                      has been delivered successfully</h5>
+                 
+      
+      
+      
+                  <h5 style="font-weight:normal; font-size: 16px; margin-top: 0px;">Create your next order in the <a href="https://seller-ten.vercel.app/" >Usella website</a> app
+                  <div style="display: flex; align-items: center; border: solid grey 1px; margin-top: 10px; ">
+                      <img src=${productImage} alt="Usella Logo" style="width: 30%; height: 100px; object-fit: cover;">
+                      <div style="padding-left: 10px;">
+                          <h5 style="font-weight:bold; margin: 0px; margin-bottom: 4px; font-size: 14px;">${productName}</h5>
+                          <h5
+                              style="font-weight:normal;  margin: 0px;font-size: 14px;margin-bottom: 10px ;letter-spacing: 0.4px">
+                              ${productDescription}</h5>
+                          <h5
+                              style="font-weight:medium; font-family: 'Times New Roman', Times, serif; margin: 0px;font-size: 13px; letter-spacing: 1px;">
+                              <span style="font-weight: bold;">KSH</span> ${productPrice}
+                          </h5>
+                      </div>
+                  </div>
+      
+                  <h5 style="font-weight:normal; font-size: 16px;">If you would like to know more, please visity our <a
+                          href="www.google.com">help Center</a></h5>
+      
+                  <h5 style="font-weight:normal; font-size: 16px;">Please don’t forget to review Usella, which is providing
+                      this awesome services! You can also encourage them through our <a
+                          href="https://twitter.com/EG_Kariuki">Twitter</a> page using the #Usella
+                      flag. Stay safe & stay healthy.</h5>
+                  <img style="width:600px"
+                      src="https://firebasestorage.googleapis.com/v0/b/apt-rite-346310.appspot.com/o/unnamed.png?alt=media&token=6f0bcfeb-f69c-4441-a404-e4abb1c3616c">
+                  <h5 style="font-weight:normal; font-size: 16px; margin-bottom: 0px;">Happy Shopping!</a></h5>
+                  <h5 style="font-weight:normal; font-size: 16px; margin-top: 8px; margin-bottom: 5px;">Warm Regards,</a></h5>
+                  <img
+                      src="https://firebasestorage.googleapis.com/v0/b/apt-rite-346310.appspot.com/o/unnamed(2).png?alt=media&token=9514f497-0e09-467c-8e9f-58bc6d830b1e">
+                  <h5 style="font-weight:normal; font-size: 16px; margin-bottom: 0px;margin-top: 8px;">Usella Kenya Team</a>
+                  </h5>
+      
+              </div>
+      
+      
+          </div>
+      
+      
+      
+      </body>
+      
+      </html>`
+  };
+
+  // Send the email
+  try {
+    const sent = await transporter.sendMail(mailOptions);
+    if (!sent) {
+      throw new Error('Email could not be sent');
+    }
+
+    console.log('Email sent');
+  } catch (e: any) {
+    throw new Error(e.message);
+  }
+};
