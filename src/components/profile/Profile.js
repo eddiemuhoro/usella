@@ -12,6 +12,7 @@ import Popup from 'reactjs-popup';
 import ProfileEditor from './EditProfile';
 import axios from 'axios';
 import { BsForward } from 'react-icons/bs';
+import MyPendingOrders from './tabs/MyPendingOrders';
 
 const details = {
     name: 'John Doe',
@@ -27,6 +28,7 @@ const Profile = () => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.auth.you)
     const [orders, setOrders] = useState(true)
+    const [pending , setPending] = useState(false)
     const [inbox, setInbox] = useState(false)
     const [wishlist, setWishlist] = useState(false)
     const [posts, setPosts] = useState(false)
@@ -52,6 +54,7 @@ const Profile = () => {
         setInbox(false)
         setWishlist(false)
         setPosts(false)
+        setPending(false)
     }
 
     const handleInbox = () => {
@@ -59,6 +62,7 @@ const Profile = () => {
         setInbox(true)
         setWishlist(false)
         setPosts(false)
+        setPending(false)
     }
 
     const handleWishList = () => {
@@ -66,6 +70,7 @@ const Profile = () => {
         setInbox(false)
         setWishlist(true)
         setPosts(false)
+        setPending(false)
     }
 
     const handlePosts = () => {
@@ -73,6 +78,15 @@ const Profile = () => {
         setInbox(false)
         setWishlist(false)
         setPosts(true)
+        setPending(false)
+    }
+
+    const handlePendingOrders = ()=> {
+        setOrders(false)
+        setInbox(false)
+        setWishlist(false)
+        setPosts(false)
+        setPending(true)
     }
 
     const handleLogout = () => {
@@ -198,6 +212,10 @@ const Profile = () => {
                     <div className={posts ? 'profile-nav-item active' : 'profile-nav-item'} onClick={handlePosts}>
                         <p>My Posts</p>
                     </div>
+
+                    <div className={pending ? 'profile-nav-item active' : 'profile-nav-item'} onClick={handlePendingOrders}>
+                        <p>Pending Orders</p>
+                    </div>
                 </section>
 
                 <section className='selected-tab'>
@@ -205,6 +223,7 @@ const Profile = () => {
                     {inbox && <MyInbox />}
                     {wishlist && <MyWishList />}
                     {posts && <MyPosts />}
+                    {pending && <MyPendingOrders />}
                 </section>
             </section>
 

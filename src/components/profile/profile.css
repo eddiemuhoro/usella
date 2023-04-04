@@ -322,8 +322,28 @@
   align-items: center;
   margin-bottom: 20px;
 }
+.profile-header.desktop  h3{
+  margin: 0;
+}
 .profile-header.phone{
   display: none;
+}
+
+/* CONFIRM ORDERS STYLES */
+.confirm-orders{
+
+
+  /* width: 70%; */
+}
+
+.confirm-orders button{
+  font-size: 15px;
+  padding: 5px;
+  width: 70%;
+}
+
+.right.confirmation{
+  width: 20%;
 }
 
 
@@ -385,4 +405,9 @@
       width: 100%;
       height: 100%;
     }
+    .right.confirmation{
+      width: 50%;
+      text-align: right;
+    }
+
   }
