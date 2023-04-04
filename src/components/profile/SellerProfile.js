@@ -52,19 +52,11 @@ const SellerProfile = ({name, sellerId, sellerProducts}) => {
 
   console.log(products)
 
-
-
-
   
     const handlePosts = () => {
       
         setPosts(true)
     }
-
-
- 
-    
-
 
       //FETCH FOLLOWERS
       const [followers, setFollowers] = useState([])
@@ -76,6 +68,22 @@ const SellerProfile = ({name, sellerId, sellerProducts}) => {
         )
      
       },[dispatch, sellerId])
+
+      //if user is following seller, show following button
+      const [following, setFollowing] = useState(false)
+      useEffect(()=>{
+        axios.get(`https://usella.up.railway.app/users/following/${sellerId}`)
+        .then(res => {
+          setFollowing(res.data)
+        }
+        )
+     
+      }
+      ,[dispatch, sellerId])
+
+      console.log(following)
+
+      
 
    
 
@@ -106,7 +114,7 @@ const SellerProfile = ({name, sellerId, sellerProducts}) => {
                         </div>
                         <div className='seller-followers'>
                           <p className='followers'> <strong style={{ color: 'white' }}> {followers.count}</strong> followers </p>
-                          <p className='following'><strong style={{ color: 'white' }}> 22</strong> following  </p>
+                          <p className='following'><strong style={{ color: 'white' }}> {following.count}</strong> following  </p>
                         </div>
                         <p className="profile-email">{profile.bio}</p>
                         <p className='profile-location'>{profile.location}</p>

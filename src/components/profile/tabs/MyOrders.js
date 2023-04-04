@@ -23,7 +23,7 @@ const MyOrders = () => {
         setLoading(false)
       }
       )
-    }, [dispatch])
+    }, [dispatch, user.id])
     console.log(products)
 
 
@@ -31,7 +31,9 @@ const MyOrders = () => {
   return (
     <div>
          <section className="orders ">
-          {/* {
+         {products.length === 0 && <p>No prods</p>}
+
+          {
            loading ? (
               <div className="loader">
                 <Loader />
@@ -45,10 +47,10 @@ const MyOrders = () => {
                   <section className='left'>
 
                     <div className="order-img">
-                      <img src={product.image} alt="product" />
+                      <img src={product.product.images[0]} alt="product" />
                     </div>
                     <div className="order-info">
-                      <p className="order-name">{product.name}</p>
+                      <p className="order-name">{product.product.name}</p>
                       <p className="order-price">Ksh {product.price}</p>
 
                     </div>
@@ -71,7 +73,7 @@ const MyOrders = () => {
                )
               )
             )
-          } */}
+          }
           {
              products.length === 0 && 
               <div className="no-products">
