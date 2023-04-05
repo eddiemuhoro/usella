@@ -15,7 +15,7 @@ const initialState ={
     message: ''
 }
 
-export const createproduct = createAsyncThunk('products/create',
+export const createproduct = createAsyncThunk('products/create',//type
 async(productData, thunkAPI)=>{
     try {
         return await productService.createProduct(productData)
