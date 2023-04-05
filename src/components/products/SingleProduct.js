@@ -164,6 +164,7 @@ const SingleProduct = () => {
     if (startX == null) {
       return;
     }
+    
     const deltaX = event.touches[0].clientX - startX;
     if (deltaX > 50 && currentImage > 0) {
       setCurrentImage(currentImage - 1);
