@@ -199,6 +199,18 @@ async(userId, thunkAPI) =>{
 }
 )
 
+//CANCEL ORDER MADE BY A BUYER
+export const cancelOrder = createAsyncThunk('product/pending',
+async(orderId, thunkAPI) => {
+  try {
+    return await productService.cancelOrder(orderId)
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+}
+)
+
 //get order by order id
 export const getOrderByOrderId = createAsyncThunk('products/get',
 async(orderId, thunkAPI)=>{

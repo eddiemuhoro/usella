@@ -96,6 +96,12 @@ const deleteProduct = async (productId) => {
     return response.data
   }
 
+  //CANCEL ORDERS
+  const cancelOrder = async (orderId) => {
+    const response = await axios.delete(API_URL + 'order/cancel/' + orderId)
+    return response.data
+  }
+
   //GET ORDERS BY PRODUCT ID
   const getOrdersByProduct = async (userId) => {
     const response = await axios.get(API_URL + '/order/user/' + userId)
@@ -137,6 +143,7 @@ const productService={
     getOrdersByUser,
     getOrdersByProduct,
     getPendingOrders,
+    cancelOrder,
     deleteOrder,
     updateProductQuantity
 }
