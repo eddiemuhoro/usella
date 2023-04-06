@@ -31,14 +31,11 @@ function Login() {
   //send request to backend to create a new user with name, email and password
   const handleRegister =  () => {
     const userData = {
-     
       email: userObject.email,
       password: userObject.sub,
-   
     }
     console.log(userData)
     dispatch(login(userData))
-
   }
 
 
