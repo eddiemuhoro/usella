@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom'
 import './home.css'
 const Hero = () => {
   return (
-    <div>
-        <section className='hero-landing'>
+    <div className='main'>
+      <div className="overlay"></div>
+      <video src='/shopping.mp4' autoPlay loop muted  />
+        <section className='hero-landing content'>
             <div className="hero">
                 <div className="hero-text">
                     <h1>Shop for your favorite products</h1>
