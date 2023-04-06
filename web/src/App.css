@@ -1,0 +1,73 @@
+*{
+  box-sizing: border-box;
+}
+body{
+  background: radial-gradient(circle at 24.1% 68.8%, rgb(22, 22, 22) 0%, rgb(0, 0, 0) 99.4%);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+}
+
+
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    margin: 0;
+    padding: 0;
+    color: #f5f5f5;
+}
+
+p{
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  margin: 0;
+  padding: 0;
+  color: #f5f5f5c6;
+}
+
+
+a{
+  text-decoration: none;
+  color: #f5f5f5;
+}
+a:hover{
+  color: #4b59f7;
+}
+
+input, textarea, select{
+  border-color: #000000;
+  border-bottom: 1px solid #ffffff2c;
+  background-color: #00000000;
+  color: #f5f5f5;
+}
+
+option{
+  background-color: #0b0b0b;
+  color: #f5f5f5;
+}
+
+span{
+  /* color: #4b59f7; */
+  color: #249d98;
+}
+
+button{
+  margin: 10px 0;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+
+.paypal-button-env-sandbox{
+  display: none;
+}
