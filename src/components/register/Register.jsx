@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './register.css';
 import { toast, ToastContainer } from 'react-toastify'
-import { register, reset } from '../../react-redux/features/auth/authSlice';
+import { login, register, reset } from '../../react-redux/features/auth/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import jwt_decode from 'jwt-decode';
 import axios from 'axios';
@@ -23,17 +23,17 @@ function Register() {
   const handleCallbackResponse = (response) => {
     console.log("response", response.credential)
     userObject = jwt_decode(response.credential)
-    console.log("userObject", userObject)
+    // console.log("userObject", userObject)
     setUser(userObject)
     //console log name and email
     console.log(userObject.name)
     //store userObject's name and email in local storage
     localStorage.setItem('google', JSON.stringify(userObject))
   //if phone is not inserted, handleCallbackResponse will not be called
-  if(phone){
+
 
     handleRegister()
-  }
+  
   }
 
 
@@ -72,7 +72,7 @@ function Register() {
     name: '',
     email: '',
     password: '',
-    phone: '',
+    // phone: '',
     confirmPassword: '',
   });
 
@@ -90,28 +90,52 @@ function Register() {
 
   //REGESTRATION BY GOOGLE 
   const handleRegister = () => {
-
+alert("hello")
     const userData = {
       name: userObject.given_name,
       email: userObject.email,
       password: userObject.sub,
-      phone: formData.phone,
+      // phone: formData.phone,
     }
     console.log(userData)
-    dispatch(register(userData))
+
+    //check if user is already registered. if yes, then login else register
+    //checking if user is already registered
+    axios.get(`https://usella.up.railway.app/users/check/${userObject.email}`)
+      .then(res => {
+        console.log(res.data)
+        if (res.data) {
+          //if user is already registered, then login
+          const userData = {
+     
+            email: userObject.email,
+            password: userObject.sub,
+         
+          }
+          console.log(userData)
+          dispatch(login(userData))
+          navigate('/')
+              } else {
+          //if user is not registered, then register
+          dispatch(register(userData))
+          navigate('/email')
+
+        }
+      }
+      )
   }
 
 
   console.log(phone);
 
   useEffect((dispatch) => {
-    if (isSuccess || you) {
-      toast.success(message)
-      navigate('/email')
-      window.location.reload()
-      dispatch(reset())
+    // if (isSuccess || you) {
+    //   toast.success(message)
+    //   navigate('/email')
+    //   window.location.reload()
+    //   dispatch(reset())
 
-    }
+    // }
     // if (isError) {
     //   alert('Enter valid credentials👀 ')
     //   navigate('/login')
@@ -196,7 +220,7 @@ function Register() {
             required
           />
         </div>
-
+{/* 
         <div className="form-group">
           <label htmlFor="confirmPassword">Phone</label>
           <input
@@ -208,7 +232,7 @@ function Register() {
             minLength="6"
             required
           />
-        </div>
+        </div> */}
         {
           loading ? <button type="submit" disabled>Registering...</button> : <button type="submit">Register</button>
         }
@@ -217,18 +241,7 @@ function Register() {
       <h4 style={{ margin: '20px' }}> Or</h4>
       <section>
         <h2 style={{ margin: '0 0 20px 0 ' }}>Sign up with Google</h2>
-        <div className="form-group">
-          <label htmlFor="confirmPassword">Phone</label>
-          <input
-            type="text"
-            name="phone"
-            id="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            minLength="6"
-            required
-          />
-        </div>
+      
         <div id="signInDiv"></div>
       </section>
 
