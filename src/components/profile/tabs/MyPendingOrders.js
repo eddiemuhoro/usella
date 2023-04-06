@@ -4,9 +4,11 @@ import axios from 'axios'
 import { Link } from 'react-router-dom'
 import './myOrders.css'
 import Loader from '../../loader/Loader'
-import { deleteOrder, getOrderByUser, getPendingOrders } from '../../../react-redux/features/products/productSlice'
+import { cancelOrder, deleteOrder, getOrderByUser, getPendingOrders } from '../../../react-redux/features/products/productSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import {GiCancel} from 'react-icons/gi'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const MyPendingOrders = () => {
 
   const dispatch = useDispatch()
@@ -14,6 +16,7 @@ const MyPendingOrders = () => {
 
     const [products, setProducts] = useState([])
     const [loading , setLoading] = useState(false)
+    const [update, setUpdate] = useState(false)
     //fetxh from redux store
     useEffect(() => {
       setLoading(true)
@@ -21,10 +24,17 @@ const MyPendingOrders = () => {
       .then(res => {
         setProducts(res.payload)
         setLoading(false)
+        setUpdate(false)
       }
       )
-    }, [dispatch, user.id])
+    }, [update, dispatch, user.id])
     console.log(products)
+
+    const handleOrderCancel = (id)=>{
+      dispatch(cancelOrder(id))
+      toast.success('order canceled')
+      setUpdate(true)
+    }
 
 
   
@@ -59,12 +69,12 @@ const MyPendingOrders = () => {
                     
                         <div className='confirm-orders'>
                             <button className='confirm-order-btn'>Confirm</button>
-                            <button className='cancel-order-btn' style={{background:"brown", color:'white'}}>Cancel</button>
+                            <button className='cancel-order-btn' style={{background:"brown", color:'white'}} onClick={()=>handleOrderCancel(product.id)}>Cancel</button>
                         </div>
                   </section>
 
                   <div className='order-time'>
-                    <p className="order-time"> <span>{new Date(product.createdAt).toLocaleString()}</span></p>
+                    <p className="order-time"> Order by <span>{product.product.seller_name}</span></p>
                   </div>
                 
                 </div>

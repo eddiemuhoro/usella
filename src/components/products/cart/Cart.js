@@ -54,6 +54,7 @@ const Cart = (props) => {
      .then((res)=>{
       setUpdate(true)
       props.setCartCount(true)
+
      })
   } 
 
@@ -103,11 +104,16 @@ const Cart = (props) => {
       .then(res => {
         console.log({buyer_id: user.id, buyer_email: profile.email, buyer_name: profile.name, prodict_id: item.id, quantity: item.quantity, location: profile.location})
         console.log(res)
-        toast('Order placed successfully')
-
-        setUpdate(true)
-      
+        toast.info(
+          <div>
+            Order placed. Click <Link to="/profile">here</Link> to see orders
+          </div>,
+          {
+            autoClose: false,
+          }
+        ); setUpdate(true)
       }
+
       )
     }
   )

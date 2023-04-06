@@ -16,6 +16,7 @@ import Login from './components/register/Login';
 import Register from './components/register/Register';
 import ProductDisplay from './components/products/ProductDisplay';
 import SellerProfile from './components/profile/SellerProfile';
+import { ToastContainer } from 'react-toastify';
 function App () {
   return (
     <div className="App">
@@ -33,9 +34,10 @@ function App () {
           <Route path='/seller/profile' element={<SellerProfile />} />
           <Route path='/post' element={<Post />} />
           <Route path='/cart' element={<Cart />} />
-        x  <Route path='/help' element={<Help />} />
+        <Route path='/help' element={<Help />} />
         <Route path='*' element={<>404 - Not found</>} />
       </Routes>
+      <ToastContainer />
     </div>
   );
 }

@@ -44,7 +44,6 @@ const Profile = () => {
         )
     }, [dispatch, user.id])
 
-    console.log(profile)
 
 
 
@@ -147,7 +146,7 @@ const Profile = () => {
                 <div className="profile-header">Profile</div>
                 <div className="profile-details">
                     <div className="profile-avatar">
-                        <img src={ !profile.profilePic ? 'https://www.w3schools.com/howto/img_avatar.png' : profile.profilePic} alt={user.firstName} />
+                        <img src={ !profile.profile_pic ? 'https://www.w3schools.com/howto/img_avatar.png' : profile.profile_pic} alt={user.firstName} />
                     </div>
                     <div className="profile-info">
                         <h3 className="profile-name">{profile.name}</h3>
