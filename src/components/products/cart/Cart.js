@@ -106,7 +106,7 @@ const Cart = (props) => {
         console.log(res)
         toast.info(
           <div>
-            Order placed. Click <Link to="/profile">here</Link> to see orders
+            Order placed. Click <Link to="/profile" style={{color:'black'}}>here</Link> to see orders
           </div>,
           {
             autoClose: false,
