@@ -4,7 +4,7 @@ import axios from 'axios'
 import { Link } from 'react-router-dom'
 import './myOrders.css'
 import Loader from '../../loader/Loader'
-import { cancelOrder, deleteOrder, getOrderByUser, getPendingOrders } from '../../../react-redux/features/products/productSlice'
+import { cancelOrder, confirmOrder, deleteOrder, getOrderByUser, getPendingOrders, reset } from '../../../react-redux/features/products/productSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import {GiCancel} from 'react-icons/gi'
 import { ToastContainer, toast } from 'react-toastify';
@@ -35,6 +35,29 @@ const MyPendingOrders = () => {
       toast.success('order canceled')
       setUpdate(true)
     }
+
+   const handleConfrmOrder = ({orderId, sellerId}) =>{
+    dispatch(confirmOrder({orderId, sellerId}))
+    toast.success(`sellerId: ${sellerId} orderId: ${orderId}`)
+
+   }
+
+const {  isError, message } = useSelector(state => state.auth)
+  useEffect((dispatch) => {
+    // if (isSuccess || you) {
+    //   toast.success(message)
+    //   navigate('/email')
+    //   window.location.reload()
+    //   dispatch(reset())
+
+    // }
+    if (isError) {
+      alert('Error')
+      window.location.reload()
+      dispatch(reset())
+    }
+  }, [isError])
+
 
 
   
@@ -68,7 +91,7 @@ const MyPendingOrders = () => {
                   <section className='right confirmation'>
                     
                         <div className='confirm-orders'>
-                            <button className='confirm-order-btn'>Confirm</button>
+                            <button className='confirm-order-btn' onClick={()=> handleConfrmOrder(product.id, product.product.seller_id)}>Confirm</button>
                             <button className='cancel-order-btn' style={{background:"brown", color:'white'}} onClick={()=>handleOrderCancel(product.id)}>Cancel</button>
                         </div>
                   </section>
