@@ -207,7 +207,7 @@ const SingleProduct = () => {
                 <h2 className="info-price">Ksh {products.price}</h2>
               </div>
               <div className='warning'>
-                <p style={{ color, transition: 'color 2s ease-in-out' }}>{products.quantity} items left</p>
+                <p style={{ color, transition: 'color 2s ease-in-out' }}> items left: {products.quantity}</p>
               </div>
               <div className='cart-button'>
 
@@ -341,7 +341,14 @@ const SingleProduct = () => {
             <Link key={product.id} onClick={handleReload} to={`/products/${product.id}`}>
               <div className="product">
                 <div className="product-img">
-                  <img src={product.images[0]} alt="product" />
+                {
+                !loading ? (
+                  <img src={product.images[0]} alt="product" onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}  />
+                ):
+                (
+                  <img src='https://media.istockphoto.com/id/1138824305/vector/loading-icon-on-black.jpg?s=170667a&w=0&k=20&c=5TgSExGSoy7SXYcXEKfKCfZW-qFXsTaZRHcBF99WMLM=' alt='loading' className='product-image'/>
+                )
+              }
                 </div>
                 <div className="product-info">
                   <p className="info-name">{product.name}</p>
