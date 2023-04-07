@@ -211,6 +211,18 @@ async(orderId, thunkAPI) => {
 }
 )
 
+//CONFIRM ORDER
+export const confirmOrder = createAsyncThunk('order/confirm',
+  async(orderId, sellerId, thunkAPI) => {
+    try {
+      return await productService.confirmOrder(orderId, sellerId)
+    } catch (error) {
+      const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+)
+
 //get order by order id
 export const getOrderByOrderId = createAsyncThunk('products/get',
 async(orderId, thunkAPI)=>{
@@ -311,6 +323,15 @@ export const productSlice= createSlice({
             state.message=(action.payload)
         }
         )
+
+        .addCase(confirmOrder.rejected, (state, action) => {
+          state.isLoading = false
+          state.isError = true
+          //
+          state.message = action.payload
+        }
+      )
+
 
         
         
