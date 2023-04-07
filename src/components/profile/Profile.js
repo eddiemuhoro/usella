@@ -13,6 +13,7 @@ import ProfileEditor from './EditProfile';
 import axios from 'axios';
 import { BsForward } from 'react-icons/bs';
 import MyPendingOrders from './tabs/MyPendingOrders';
+import { getOrderByUser, getPendingOrders, getProductByUser } from '../../react-redux/features/products/productSlice';
 
 const details = {
     name: 'John Doe',
@@ -87,6 +88,33 @@ const Profile = () => {
         setPosts(false)
         setPending(true)
     }
+
+    const [pendingOrders, setPendingOrders] = useState([])
+    const [myOrders , setMyOrders] = useState([])
+    const [myPosts , setMyPosts] = useState([])
+    useEffect(() => {
+        dispatch (getPendingOrders(user.id))
+        .then(res => {
+          setPendingOrders(res.payload)
+        }
+        )
+      }, [ dispatch, user.id])
+
+      //fetch my orders to set count
+        useEffect(() => {
+            dispatch(getOrderByUser(user.id))
+            .then(res => {
+                setMyOrders(res.payload)
+            })
+        }, [dispatch, user.id])
+
+            //fetch my posts to set count
+            useEffect(() => {
+                dispatch(getProductByUser(user.id))
+                .then(res => {
+                    setMyPosts(res.payload)
+                })
+            }, [dispatch, user.id])
 
     const handleLogout = () => {
         //confirm logout
@@ -199,21 +227,42 @@ const Profile = () => {
                 <section className='profile-nav'>
                     <div className={orders ? 'profile-nav-item active' : 'profile-nav-item '} onClick={handleOrders}>
                         <p>My Orders</p>
+                        <div className='count'>
+                            <p>{myOrders.length}</p>
+                        </div>
                     </div>
                     <div className={inbox ? 'profile-nav-item active' : 'profile-nav-item '} onClick={handleInbox}>
                         <p>My Inbox</p>
+                        
                     </div>
 
                     <div className={wishlist ? 'profile-nav-item active' : 'profile-nav-item'} onClick={handleWishList}>
                         <p>My Wishlist</p>
+                      
                     </div>
 
                     <div className={posts ? 'profile-nav-item active' : 'profile-nav-item'} onClick={handlePosts}>
                         <p>My Posts</p>
+                        <div className='count'>
+                            
+                               <p>{myPosts.length}</p>
+                            
+                        </div>
                     </div>
 
                     <div className={pending ? 'profile-nav-item active' : 'profile-nav-item'} onClick={handlePendingOrders}>
                         <p>Pending Orders</p>
+                        {
+                            pendingOrders.length > 0 ? ( 
+                                <div className='count'>
+                                    <p>{pendingOrders.length}</p>
+                                </div>
+                            ) : (
+                                <div style={{display:'none'}} className='count'>
+                                    <p>0</p>
+                                </div>
+                            )
+                        }
                     </div>
                 </section>
 
