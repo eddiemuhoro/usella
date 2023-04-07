@@ -196,6 +196,44 @@ const SingleProduct = () => {
                   <img src='https://media.istockphoto.com/id/1138824305/vector/loading-icon-on-black.jpg?s=170667a&w=0&k=20&c=5TgSExGSoy7SXYcXEKfKCfZW-qFXsTaZRHcBF99WMLM=' alt='loading' className='product-image'/>
                 )
               }
+             
+            </div>
+            <div className='product-content cart' >
+              <section>
+              <h1 className="info-name">{products.name}</h1>
+
+              {/* <p className="info-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.</p> */}
+              <div>
+                <h2 className="info-price">Ksh {products.price}</h2>
+              </div>
+              <div className='warning'>
+                <p style={{ color, transition: 'color 2s ease-in-out' }}>{products.quantity} items left</p>
+              </div>
+              <div className='cart-button'>
+
+                {/* CONDITIONAL RENDERING */}
+
+                {/* IF QUANTITY IS 0, DISABLE ADD TO CART BUTTON */}
+                {
+                  user ? (
+                    products.quantity === 0 ? (<button title='out of stock' disabled style={{ cursor: 'not-allowed' }}>Add to cart</button>) :
+                      (
+
+                        (cart.length === 0 || cart[0].userId !== user.id) && !update ? (
+                          <button onClick={handleCart}>Add to cart</button>
+                        ) : (
+                          <Link to='/cart' ><button>Already added to cart</button></Link>
+                        )
+
+                      )
+                  ) : (
+                    <button onClick={handleCart}>Log in to add to cart</button>
+                  )
+                }
+
+              </div>
+              </section>
+
               <section>
                 <h2>Other images</h2>
 
@@ -252,40 +290,6 @@ const SingleProduct = () => {
 
                 </div>
               </section>
-            </div>
-            <div className='product-content' >
-              <h1 className="info-name">{products.name}</h1>
-
-              {/* <p className="info-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.</p> */}
-              <div>
-                <h2 className="info-price">Ksh {products.price}</h2>
-              </div>
-              <div className='warning'>
-                <p style={{ color, transition: 'color 2s ease-in-out' }}>{products.quantity} items left</p>
-              </div>
-              <div className='cart-button'>
-
-                {/* CONDITIONAL RENDERING */}
-
-                {/* IF QUANTITY IS 0, DISABLE ADD TO CART BUTTON */}
-                {
-                  user ? (
-                    products.quantity === 0 ? (<button title='out of stock' disabled style={{ cursor: 'not-allowed' }}>Add to cart</button>) :
-                      (
-
-                        (cart.length === 0 || cart[0].userId !== user.id) && !update ? (
-                          <button onClick={handleCart}>Add to cart</button>
-                        ) : (
-                          <Link to='/cart' ><button>Already added to cart</button></Link>
-                        )
-
-                      )
-                  ) : (
-                    <button onClick={handleCart}>Log in to add to cart</button>
-                  )
-                }
-
-              </div>
 
             </div>
 
