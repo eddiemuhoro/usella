@@ -83,7 +83,7 @@ useEffect(()=>{
 
   useEffect((dispatch)=>{
     if(isSuccess){
-      toast.success(message)
+      toast.success('welcome back!')
       navigate('/')
       window.location.reload()
       dispatch(reset())

@@ -115,6 +115,7 @@ alert("hello")
           console.log(userData)
           dispatch(login(userData))
           navigate('/')
+          toast.success('welcome back!')
               } else {
           //if user is not registered, then register
           dispatch(register(userData))
