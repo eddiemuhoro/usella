@@ -66,7 +66,6 @@ const SingleProduct = () => {
       )
   }
 
-
   const [cart, setCart] = useState([])
   //fetch cart data by user id
   //   useEffect(() => {
@@ -76,8 +75,6 @@ const SingleProduct = () => {
   //     }
   //   )
   // }, [dispatch, products.id])
-
-
   const [test, setTest] = useState('ELECTRONICS')
   useEffect(() => {
     setLoading(true)
@@ -187,7 +184,7 @@ const SingleProduct = () => {
       <div className='single-product-container'>
         {
           <section className='product-info'>
-            <div>
+            <div className='single-product-image'>
               {
                 !loading ? (
                   <img src={products.images} alt="product" onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}  />
