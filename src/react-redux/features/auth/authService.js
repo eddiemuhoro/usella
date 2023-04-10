@@ -18,7 +18,6 @@ const login = async (userData)=>{
     if(response.data){
         localStorage.setItem('you', JSON.stringify(response.data));
     }
-
     return response.data;
 }
 
@@ -36,7 +35,14 @@ const updateProfile = async (id, userData)=>{
 
 //GET FOLLOWERS
 const getFollowers = async (id)=>{
-    const response = await axios.put(API_URL + 'users/followers/' + id)
+    const response = await axios.post(API_URL + 'users/followers/' + id)
+    return response.data
+}
+
+//FOLLOW USER
+const followSeller = async (followData)=>{
+    const response = await axios.put(API_URL + 'follow/', followData )
+
     return response.data
 }
 
@@ -56,7 +62,8 @@ const authService ={
     logout,
     getProfile,
     updateProfile,
-    getFollowers
+    getFollowers,
+    followSeller
 
 }
 

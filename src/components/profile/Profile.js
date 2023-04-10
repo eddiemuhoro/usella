@@ -153,15 +153,17 @@ const Profile = () => {
       };
 
       //FETCH FOLLOWERS
-      const [followers, serFollowers] = useState([])
-      useEffect(()=>{
-        dispatch(getFollowers(user.id))
-        .then(res => {
-            serFollowers(res.payload)
-            console.log(`followers: ${res.payload}`);
-        })
-     
-      },[dispatch, user.id])
+
+    const [followers, serFollowers] = useState({ });
+    useEffect(() => {
+        // dispatch(getFollowers(user.id))
+        axios.get(`https://usella.up.railway.app/users/followers/${user.id}`)
+            .then(res => {
+                serFollowers(res.data)
+                console.log(` ${res.data}`);
+            })
+
+    }, [dispatch, user.id])
 
       const currentSlideStyle = {
         transform: `translateX(-${currentSlide * 100}%)`,
@@ -202,7 +204,6 @@ const Profile = () => {
                             {slides.map((slide, index) => (
                                 <div key={index} className="slider-slide">
                                     <p>{slide.description}</p>
-
                                 </div>
                             ))}
                         </div>
@@ -244,9 +245,7 @@ const Profile = () => {
                     <div className={posts ? 'profile-nav-item active' : 'profile-nav-item'} onClick={handlePosts}>
                         <p>My Posts</p>
                         <div className='count'>
-                            
                                <p>{myPosts.length}</p>
-                            
                         </div>
                     </div>
 

@@ -7,7 +7,7 @@ import MyPosts from './tabs/MyPosts';
 import { useDispatch, useSelector } from 'react-redux';
 import { AiOutlineLogout, AiOutlineEdit, AiOutlineClose } from 'react-icons/ai';
 import { Link, useNavigate } from 'react-router-dom';
-import { getFollowers, getProfile, logout, reset } from '../../react-redux/features/auth/authSlice';
+import { followSeller, getFollowers, getProfile, logout, reset } from '../../react-redux/features/auth/authSlice';
 import Popup from 'reactjs-popup';
 import ProfileEditor from './EditProfile';
 import axios from 'axios';
@@ -47,16 +47,23 @@ const SellerProfile = ({name, sellerId, sellerProducts}) => {
         setProducts(res.payload)
         setLoading(false)
       })
-
   }, [ dispatch, sellerId])
-
   console.log(products)
 
   
     const handlePosts = () => {
-      
         setPosts(true)
     }
+
+    const followUser = ()=> {
+      alert('hellooo')
+      const followData = {
+        followerId : user.id,
+        followingId: sellerId
+      }
+      dispatch(followSeller(followData))
+    }
+
 
       //FETCH FOLLOWERS
       const [followers, setFollowers] = useState([])
@@ -66,20 +73,30 @@ const SellerProfile = ({name, sellerId, sellerProducts}) => {
           setFollowers(res.data)
         }
         )
-     
       },[dispatch, sellerId])
+
+  
+
 
       //if user is following seller, show following button
       const [following, setFollowing] = useState(false)
+      const [action, setAction] = useState(false)
+   
+      //set action to true after 2 seconds
+       
+
       useEffect(()=>{
-        axios.get(`https://usella.up.railway.app/users/following/${sellerId}`)
-        .then(res => {
-          setFollowing(res.data)
-        }
-        )
-     
+        setTimeout(()=>{
+
+          axios.get(`https://usella.up.railway.app/users/following/${sellerId}`)
+          .then(res => {
+            setFollowing(res.data)
+          }
+  
+          )
+        }, [3000])
       }
-      ,[dispatch, sellerId])
+      ,[dispatch, sellerId, action])
 
       console.log(following)
 
@@ -99,7 +116,20 @@ const SellerProfile = ({name, sellerId, sellerProducts}) => {
                         <div className='profile-header phone'>
                           <h3 className="profile-name">{profile.name}</h3>
                           <div className='seller-btn'>
-                            <button >Follower</button>
+                            
+                            {
+                            
+
+                                !followers && (
+                                  followers.followers[0].id === user.id ? (
+                                    <button  onClick={()=>{}}>Following</button>
+                                  ) : (
+                                    <button  onClick={followUser}>Follow</button>
+                                  )
+                                )
+                           
+                            }
+                         
                             <button>Message</button>
                           </div>
                         </div>
@@ -108,14 +138,22 @@ const SellerProfile = ({name, sellerId, sellerProducts}) => {
                         <div className='profile-header desktop'>
                           <h3 className="profile-name">{name}</h3>
                           <div className='seller-btn'>
-                            <button>Following</button>
+                          {/* {
+                          followers.followers[0].id === user.id ? (
+                            <button  onClick={()=>{}}>Following</button>
+                          ) : (
+                            <button  onClick={followUser}>Follow</button>
+                          )
+                        } */}
                             <button>Message</button>
                           </div>
                         </div>
                         <div className='seller-followers'>
+
                           <p className='followers'> <strong style={{ color: 'white' }}> {followers.count}</strong> followers </p>
                           <p className='following'><strong style={{ color: 'white' }}> {following.count}</strong> following  </p>
                         </div>
+                      
                         <p className="profile-email">{profile.bio}</p>
                         <p className='profile-location'>{profile.location}</p>
                       </div>

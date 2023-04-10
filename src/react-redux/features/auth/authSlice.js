@@ -85,6 +85,16 @@ export const getFollowers = createAsyncThunk('/getFollowers', async(id, thunkAPI
     }
 })
 
+export const followSeller = createAsyncThunk ('/follow', async(id, thunkAPI)=>{
+    try {
+        return await authService.followSeller(id)
+    } catch (error) {
+        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+
+        return thunkAPI.rejectWithValue(message);
+    }
+})
+
 
 
 export const authSlice = createSlice({

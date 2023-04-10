@@ -28,7 +28,7 @@ const MyOrders = () => {
       }
       )
     }, [update, dispatch, user.id])
-    console.log(products)
+ 
 
 
     const handleOrderCancel = (id)=>{

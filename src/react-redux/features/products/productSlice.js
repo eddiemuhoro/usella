@@ -211,7 +211,7 @@ async(orderId, thunkAPI) => {
 }
 )
 
-//CONFIRM ORDER
+//CONFIRM ORDER (put request)
 export const confirmOrder = createAsyncThunk('order/confirm',
   async(orderId, sellerId, thunkAPI) => {
     try {
