@@ -76,6 +76,8 @@ const SingleProduct = () => {
   //   )
   // }, [dispatch, products.id])
   const [test, setTest] = useState('ELECTRONICS')
+  const [dataFetched, setDataFetched] = useState(false);
+
   useEffect(() => {
     setLoading(true)
     dispatch(getProductById(id))
@@ -84,11 +86,10 @@ const SingleProduct = () => {
         //settest to category 
         setTest(res.payload.category)
         setLoading(false)
+        setDataFetched(true);
       }
       )
   }, [dispatch, id])
-
-  // console.log(products.images[0])
 
 
   const [category, setCategory] = useState([])
@@ -107,7 +108,9 @@ const SingleProduct = () => {
 
   const [sellerProducts , setSellerProducts] = useState([])
   useEffect(() => {
+    if(!dataFetched) return;
     setLoading(true)
+
     dispatch(getProductByUser(products.seller_id))
     .then(res => { 
       setSellerProducts(res.payload)
@@ -298,7 +301,7 @@ const SingleProduct = () => {
 
          <SellerProfile name={products.seller_name} sellerId={products.seller_id} sellerProducts={sellerProducts} />
           <div className='seller-products'>
-          {loading && <p>Please wait a sec...</p>}
+         
               {
                 sellerProducts.map(product => (
                  <ul>
