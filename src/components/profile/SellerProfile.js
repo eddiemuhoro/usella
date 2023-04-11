@@ -13,6 +13,7 @@ import ProfileEditor from './EditProfile';
 import axios from 'axios';
 import { BsForward } from 'react-icons/bs';
 import { getProductByUser } from '../../react-redux/features/products/productSlice';
+import { toast } from 'react-toastify';
 
 
 
@@ -36,7 +37,7 @@ const SellerProfile = ({name, sellerId, sellerProducts}) => {
         )
     }, [loading, dispatch, sellerId])
 
-    console.log(profile)
+    // console.log(profile)
 
     //GET SELLER'S PRODUCTS
       //fetxh from redux store
@@ -48,7 +49,7 @@ const SellerProfile = ({name, sellerId, sellerProducts}) => {
         setLoading(false)
       })
   }, [ dispatch, sellerId])
-  console.log(products)
+  // console.log(products)
 
   
     const handlePosts = () => {
@@ -56,12 +57,15 @@ const SellerProfile = ({name, sellerId, sellerProducts}) => {
     }
 
     const followUser = ()=> {
-      alert('hellooo')
       const followData = {
         followerId : user.id,
         followingId: sellerId
       }
       dispatch(followSeller(followData))
+      .then(res => {
+        toast.success(`You are now following ${name}`)        
+      }
+      )
     }
 
 
@@ -71,12 +75,10 @@ const SellerProfile = ({name, sellerId, sellerProducts}) => {
         axios.get(`https://usella.up.railway.app/users/followers/${sellerId}`)
         .then(res => {
           setFollowers(res.data)
+          console.log(res.data);
         }
         )
       },[dispatch, sellerId])
-
-  
-
 
       //if user is following seller, show following button
       const [following, setFollowing] = useState(false)
@@ -84,32 +86,22 @@ const SellerProfile = ({name, sellerId, sellerProducts}) => {
    
       //set action to true after 2 seconds
        
-
       useEffect(()=>{
-        setTimeout(()=>{
-
           axios.get(`https://usella.up.railway.app/users/following/${sellerId}`)
           .then(res => {
             setFollowing(res.data)
           }
-  
-          )
-        }, [3000])
+        )
       }
       ,[dispatch, sellerId, action])
-
       console.log(following)
 
-      
-
-   
 
     return (
         <Popup trigger={<h4>Other products posted by <span> {name}</span>  </h4>} modal nested  closeOnDocumentClick={false}>
             {(close) => (
             <div className="profile-container seller" style={{backgroundColor:'black'}}>
                   <section className='profile-info'>
-
                     <div className="profile-details seller">
                       <div className="profile-avatar seller">
                         <img src={!profile.profilePic ? 'https://www.w3schools.com/howto/img_avatar.png' : profile.profilePic} alt={user.firstName} />
@@ -117,18 +109,10 @@ const SellerProfile = ({name, sellerId, sellerProducts}) => {
                           <h3 className="profile-name">{profile.name}</h3>
                           <div className='seller-btn'>
                             
-                            {
                             
-
-                                !followers && (
-                                  followers.followers[0].id === user.id ? (
-                                    <button  onClick={()=>{}}>Following</button>
-                                  ) : (
-                                    <button  onClick={followUser}>Follow</button>
-                                  )
-                                )
-                           
-                            }
+                                <button onClick={followUser}>Follow</button>
+                             
+                      
                          
                             <button>Message</button>
                           </div>
@@ -138,13 +122,9 @@ const SellerProfile = ({name, sellerId, sellerProducts}) => {
                         <div className='profile-header desktop'>
                           <h3 className="profile-name">{name}</h3>
                           <div className='seller-btn'>
-                          {/* {
-                          followers.followers[0].id === user.id ? (
-                            <button  onClick={()=>{}}>Following</button>
-                          ) : (
+                          
                             <button  onClick={followUser}>Follow</button>
-                          )
-                        } */}
+                       
                             <button>Message</button>
                           </div>
                         </div>
