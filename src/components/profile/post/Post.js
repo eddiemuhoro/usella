@@ -142,6 +142,8 @@ const Post = () => {
                         <option value='fashion'>Fashion</option>
                         <option value='home'>Home</option>
                         <option value='sports'>Sports</option>
+                        <option value='books'>Books</option>
+                        <option value='health'>Health</option>
                         <option value='others'>Others</option>
                     </select>
                 </div>
