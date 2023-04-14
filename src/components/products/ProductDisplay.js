@@ -7,6 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import CartButton from './CartButton';
 import { BsCart3, BsHeart } from 'react-icons/bs';
 import Wishlist from '../profile/tabs/WishlistButton'
+import { IoFilterSharp } from 'react-icons/io5';
 
 const Product = ({ product }) => {
     const you = useSelector(state => state.auth.you)
@@ -215,7 +216,7 @@ const ProductDisplay = () => {
           <input type="text" placeholder="Search..." onChange={(e) => setQuery(e.target.value)} />         
         </div>
 
-        <button className="toggle-filters-button" onClick={handleToggleFilters}>Filters</button>
+         <IoFilterSharp onClick={handleToggleFilters} title='filters' style={{fontSize:'25px'}} className='toggle-filters-button' />
 
         {
           showFilters && (
