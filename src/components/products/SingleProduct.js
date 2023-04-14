@@ -137,9 +137,9 @@ const SingleProduct = () => {
 
   //habdle loading after 1 second
   const handleReload = () => {
-    setTimeout(() => {
-      window.location.reload()
-    }, 500);
+    // setTimeout(() => {
+    //   window.location.reload()
+    // }, 500);
   }
 
   const cutSellerDescription = (description) => {
@@ -202,7 +202,7 @@ const SingleProduct = () => {
               <section>
               <h1 className="info-name">{products.name}</h1>
 
-              {/* <p className="info-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.</p> */}
+              <p className="info-desc">{products.description}.</p>
               <div>
                 <h2 className="info-price">Ksh {products.price}</h2>
               </div>

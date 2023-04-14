@@ -172,6 +172,8 @@
 .product-info img{
     /* width: 200px;
     height: 200px; */
+    width: 300px;
+    height: 400px;
     object-fit: contain;
     border-radius: 10px;
 }
