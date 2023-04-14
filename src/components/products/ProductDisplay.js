@@ -60,16 +60,17 @@ const Product = ({ product }) => {
 
   return (
     <div className="product">
-      <div className="product-img">
-        
-        <img src={product.images[currentImage]} alt={product.name} onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd} />
-        <FcPrevious style={{ color: 'white' }} onClick={handlePrevImage} className='prev-button' />
-        <FcNext onClick={handleNextImage} className='next-button' />
-      </div>
       <Link key={product.id} to={`/products/${product.id}`}>
+        <div className="product-img">
+
+          <img src={product.images[currentImage]} alt={product.name} onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd} />
+         
+          
+        </div>
+
 
         <div className="product-info">
-          <p className="info-name">{product.category}</p>
+          <p className="info-name">{product.name}</p>
           <p className="info-description">{cutDescription(product.description)} </p>
         </div>
       </Link>
@@ -98,6 +99,22 @@ const Product = ({ product }) => {
         }
       </div>
 
+      <FcPrevious style={{ color: 'white' }} 
+            onClick={(e) => {
+              e.preventDefault();
+              handlePrevImage();
+            }}
+            className='prev-button'
+          />
+          <FcNext
+            onClick={(e)=>{
+              e.preventDefault();
+              handleNextImage();
+            }}
+            className='next-button'
+          />
+          
+
 
 
     </div>
@@ -108,9 +125,6 @@ const Products = ({ products, query, filteredData }) => {
   
   return (
     <div className="products">
-      {
-        products.length === 0 && ( <h2>No products found</h2>)
-      }
     
       {
         filteredData.map(product => (
@@ -238,12 +252,15 @@ const ProductDisplay = () => {
       
       <Products products={products} query={query}  filteredData={filteredData} />
       {
-        filteredData.length === 0 && (
-          <div className='no-products'>
-            <img src='https://media.tenor.com/IHdlTRsmcS4AAAAC/404.gif' alt='404' />
+        loading ? (
+          <div className='loading'>
+            <h2>Loading...</h2>
           </div>
+        ):(
+          filteredData.length === 0 && ( <h2>No products found</h2>)
         )
       }
+     
     </div>
   );
 };
