@@ -11,6 +11,7 @@ import { db } from "../../lib/init-firebase";
 import { addDoc, collection } from 'firebase/firestore'
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 
 function ProfileEditor({ dp, pNo, profBio, id, profileLocation, userName }) {
@@ -25,7 +26,8 @@ function ProfileEditor({ dp, pNo, profBio, id, profileLocation, userName }) {
   const [loading, setLoading] = useState(false);
 
 
-  console.log(pNo);
+  console.log(dp);
+  console.log(isFile)
 
   //generate a cloudinary image
 
@@ -59,59 +61,78 @@ function ProfileEditor({ dp, pNo, profBio, id, profileLocation, userName }) {
     setLoading(true)
     try {
       e.preventDefault();
+  
       let file = isFile;
-
-      //storage for images
-      const storage = getStorage();
-      var storagePath = 'products/' + file.name;;
-      const storageRef = ref(storage, storagePath);
-      const uploadTask = uploadBytesResumable(storageRef, file);
-
-      //progress of uploads
-      uploadTask.on('state_changed', (snapshot) => {
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log('Upload is ' + progress + '% done');
-      },
-        (error) => {
-          console.log(error)
+      let imageUrl = dp;
+  
+      // Check if isFile exists and is truthy
+      if (file.name !== undefined) {
+        //storage for images
+        const storage = getStorage();
+        var storagePath = 'products/' + file.name;
+  
+        const storageRef = ref(storage, storagePath);
+  
+        const uploadTask = uploadBytesResumable(storageRef, file);
+  
+        uploadTask.on('state_changed', (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log('Upload is ' + progress + '% done');
         },
-        () => {
-          //get the image url 
-          getDownloadURL(uploadTask.snapshot.ref)
-            .then((imageUrl) => {
-              console.log('file available at', imageUrl);
-              var imageUrl = imageUrl;
-              const resourceCollectionRef = collection(db, 'beauty')
-              //add values to firestore firebase
-
-              addDoc(resourceCollectionRef, { imageUrl })
-              setFile(null);
-              const profileData = {
-                bio,
-                profile_pic: imageUrl,
-                phone,
-                name,
-                location
-              }
-              console.log(profileData);
-              axios.put(`https://usella.up.railway.app/users/update/${id}`, profileData)
-              setLoading(false)
-
-              //navigate to profile page
-              // navigate('/profile')
-              // setInterval(() => {
-              //   window.location.reload()
-              // }
-              // , 1000)
-            })
-        }
-      )
-      alert('success')
+          (error) => {
+            console.log(error)
+          },
+          () => {
+            //get the image url 
+            getDownloadURL(uploadTask.snapshot.ref)
+              .then((url) => {
+                console.log('file available at', url);
+                imageUrl = url;
+                const resourceCollectionRef = collection(db, 'beauty')
+                //add values to firestore firebase
+                addDoc(resourceCollectionRef, { imageUrl })
+                setFile(null);
+  
+                const profileData = {
+                  bio,
+                  profile_pic: imageUrl,
+                  phone,
+                  name,
+                  location
+                }
+                console.log(profileData);
+                axios.put(`https://usella.up.railway.app/users/update/${id}`, profileData)
+                toast.success('Profile updated successfully')
+                console.log(profileData)
+                setLoading(false)
+              })
+          }
+        )
+      }
+  
+      const resourceCollectionRef = collection(db, 'beauty')
+      //add values to firestore firebase
+      addDoc(resourceCollectionRef, { imageUrl })
+      setFile(null);
+  
+      const profileData = {
+        bio,
+        profile_pic: imageUrl,
+        phone,
+        name,
+        location
+      }
+      console.log(profileData);
+      axios.put(`https://usella.up.railway.app/users/update/${id}`, profileData)
+      console.log(profileData)
+      setLoading(false)
+  
+      toast.success('Profile updated successfully')
     } catch (error) {
       throw error
     }
   }
-
+  
 
 
 

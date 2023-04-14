@@ -190,10 +190,12 @@ const Profile = () => {
                         <AiOutlineLogout title='logout' onClick={handleLogout} />
                     </div>
 
-                    <div className= 'edit-btn'>
-                       <ProfileEditor userName={profile.name} profileLocation={profile.location} pNo={profile.phone} profBio={profile.bio}  dp={!profile.profilePic ? 'https://www.w3schools.com/howto/img_avatar.png' : profile.profilePic}  id={profile.id} />
-                    </div> 
+                 
                 </div>
+
+                <section style={{display:'flex', justifyContent:'space-between', alignItems:'flex-end'}}>
+
+             
 
                 {
                      !profile.bio ?
@@ -220,7 +222,11 @@ const Profile = () => {
                         <p className="profile-bio">{profile.bio}</p>
                     )
                 }
+                    <div className= 'edit-btn'>
+                       <ProfileEditor userName={profile.name} profileLocation={profile.location} pNo={profile.phone} profBio={profile.bio}  dp={!profile.profile_pic ? 'https://www.w3schools.com/howto/img_avatar.png' : profile.profile_pic}  id={profile.id} />
+                    </div> 
 
+            </section>
                 
 
             </section>

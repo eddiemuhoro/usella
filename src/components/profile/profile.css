@@ -115,9 +115,7 @@
   }
 
   .edit-btn{
-    position: absolute;
-    right: 20px;
-    bottom: 20px;
+  
     font-size: 20px;
     cursor: pointer;
   }
