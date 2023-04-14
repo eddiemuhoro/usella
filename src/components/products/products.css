@@ -267,7 +267,7 @@
 
   .popup-content{
     height: 100vh;    
-    width: 90%;
+    /* width: 90%; */
     overflow: scroll;
   }
 

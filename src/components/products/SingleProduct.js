@@ -253,7 +253,7 @@ const SingleProduct = () => {
 
                           )
 
-                        } nested closeOnDocumentClick={true} modal>
+                        }  closeOnDocumentClick={true} modal>
                           {(close) => (
                             <div className='other-images popup'>
                               {
