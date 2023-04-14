@@ -82,6 +82,7 @@ const Cart = (props) => {
 
 
   //mpesa payment
+  const [postloading , setPostLoading] = useState(false)
   const handleSubmit = (quant, id) => {
   
     
@@ -92,7 +93,7 @@ const Cart = (props) => {
         console.log(item.quantity);
         console.log(item.id);
         console.log(user.id);
-
+        setPostLoading(true)
       axios.post('https://usella.up.railway.app/order/create', {
         buyer_id: user.id,
         buyer_email: profile.email,
@@ -112,6 +113,7 @@ const Cart = (props) => {
             autoClose: false,
           }
         ); setUpdate(true)
+        setPostLoading(false)
       }
 
       )
@@ -226,8 +228,16 @@ const Cart = (props) => {
               )
             }
        </form> */}
+       {
+          postloading ? (
+            <button style={{marginTop:'20px'}} className='btn btn-primary'>Loading...</button>
 
-       <button onClick={handleSubmit} style={{marginTop:'20px'}} className='btn btn-primary'>Order</button>
+          ):(
+            <button onClick={handleSubmit} style={{marginTop:'20px'}} className='btn btn-primary'>Order</button>
+          )
+       }
+
+       {/* <button onClick={handleSubmit} style={{marginTop:'20px'}} className='btn btn-primary'>Order</button> */}
 
          
         </div>
