@@ -200,8 +200,10 @@ function ProfileEditor({ dp, pNo, profBio, id, profileLocation, userName }) {
               />
 
 
-
-              <button type="submit">{loading ? 'saving...' : 'Save'}</button>
+            {
+              loading ? <div className="loader">saving</div> : ( <button type="submit">{loading ? 'saving...' : 'Save'}</button>)
+            }
+             
             </form>
             <AiOutlineClose className="close-btn" onClick={close} size={25} />
           </div>
