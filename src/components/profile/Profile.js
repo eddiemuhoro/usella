@@ -34,6 +34,7 @@ const Profile = () => {
     const [wishlist, setWishlist] = useState(false)
     const [posts, setPosts] = useState(false)
     const [profile, setProfile] = useState({})
+    const [update, setUpdate] = useState(false)
 
 //profile details
     useEffect(() => {   
@@ -41,9 +42,10 @@ const Profile = () => {
          .then(res => {
                 //array [0] because we are getting an array of objects
                 setProfile(res.payload)
+                setUpdate(false)
             }
         )
-    }, [dispatch, user.id])
+    }, [dispatch, user.id, update])
 
 
 
@@ -223,7 +225,7 @@ const Profile = () => {
                     )
                 }
                     <div className= 'edit-btn'>
-                       <ProfileEditor userName={profile.name} profileLocation={profile.location} pNo={profile.phone} profBio={profile.bio}  dp={!profile.profile_pic ? 'https://www.w3schools.com/howto/img_avatar.png' : profile.profile_pic}  id={profile.id} />
+                       <ProfileEditor setUpdate={setUpdate} userName={profile.name} profileLocation={profile.location} pNo={profile.phone} profBio={profile.bio}  dp={!profile.profile_pic ? 'https://www.w3schools.com/howto/img_avatar.png' : profile.profile_pic}  id={profile.id} />
                     </div> 
 
             </section>

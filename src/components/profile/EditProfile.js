@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 
-function ProfileEditor({ dp, pNo, profBio, id, profileLocation, userName }) {
+function ProfileEditor({ dp, pNo, profBio, id, profileLocation, userName, setUpdate }) {
   const navigate = useNavigate();
   const user = useSelector(state => state.auth.you)
   const [bio, setBio] = useState(profBio);
@@ -124,20 +124,22 @@ function ProfileEditor({ dp, pNo, profBio, id, profileLocation, userName }) {
       }
       console.log(profileData);
       axios.put(`https://usella.up.railway.app/users/update/${id}`, profileData)
-      console.log(profileData)
+      // console.log(profileData)
       setLoading(false)
-  
+      setUpdate(true)
+     
+      console.log(setUpdate);
       toast.success('Profile updated successfully')
     } catch (error) {
       throw error
     }
   }
   
-
+// console.log(setUpdate)
 
 
   return (
-    <Popup trigger={<AiOutlineEdit title='edit' />} modal nested closeOnDocumentClick={false}>
+    <Popup trigger={<AiOutlineEdit title='edit' />}  closeOnDocumentClick={true} modal>
       {(close) => (
         <div className="popup-overlay">
           <div className="popup">
