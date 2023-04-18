@@ -7,12 +7,15 @@ import { useSelector } from "react-redux";
 import {FcNext} from 'react-icons/fc'
 import './post.css'
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 const Post = () => {
   const navigate = useNavigate();
   const user = useSelector(state => state.auth.you)
   const [images, setImages] = useState([]);
   const [urls, setUrls] = useState([]);
   const [progress, setProgress] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [sending, setSending] = useState(false);
   const [post, setPost] = useState({
     name: '',
     description: '',
@@ -37,10 +40,11 @@ const Post = () => {
   };
 
   const handleUpload = () => {
+  
     const promises = [];
 
     images.map((image) => {
-
+      setLoading(true);
     const storage= getStorage();
     var storagePath = 'products/'+image.name;;
     const storageRef = ref(storage, storagePath);
@@ -50,6 +54,7 @@ const Post = () => {
      
          //progress of uploads
     uploadTask.on('state_changed', (snapshot)=>{
+      setLoading(true);
       const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
       console.log('Upload is '+ progress + '% done');
     },
@@ -60,6 +65,7 @@ const Post = () => {
       //get the image url 
       getDownloadURL(uploadTask.snapshot.ref)
       .then((urls)=>{
+        setLoading(false);
         console.log('file available at' , urls);
         var urls = urls;
         const resourceCollectionRef = collection(db, 'beauty')
@@ -73,15 +79,18 @@ const Post = () => {
     });
 
     Promise.all(promises)
-      .then(() => alert("All images uploaded"), 
+      .then(() => toast.success("Images uploaded successfully"), 
         setUrls(urls),
        
       )
       .catch((err) => console.log(err))
+
+
       
 
   };
   console.log("urlData", urls);
+  console.log(loading);
 
   //send the urls to the backend using axios
 
@@ -90,6 +99,7 @@ const Post = () => {
 
   //send urls to an axios endpoint
   const handleSend = () => {
+    setSending(true);
     console.log(`urls to be sent: ${urls}`);
     const sentData ={name:post.name,price:parseInt(post.price), description: post.description,quantity:parseInt(post.quantity), category: post.category.toUpperCase(), seller_name: user.name, seller_id: user.id, seller_email: user.email, seller_phone: user.phone || Math.floor(Math.random() * 10000000000).toString(), location: "Nairobi",images:urls}
     console.log(sentData);
@@ -102,6 +112,7 @@ const Post = () => {
       console.log(res);
       //navigate to the home page
       navigate('/products')
+      setSending(false);
     })
     .catch((err)=>{
       console.log(err);
@@ -149,7 +160,9 @@ const Post = () => {
                 </div>
                 <input type="file" multiple onChange={handleChange} />
                 <div className="product-upload-btn">
-                  <button onClick={handleUpload}>Upload</button>
+                  {
+                    loading ? <button>Uploading</button> : <button onClick={handleUpload}>Upload</button>
+                  }
                   <FcNext />
                   <button onClick={handleSend}>Send</button>
         </div>
