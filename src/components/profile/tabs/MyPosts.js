@@ -95,7 +95,7 @@ const MyPosts = () => {
         }
 
       </section>
-      <Link to='/post' style={{ textDecoration: 'underline' }}>Sell</Link>
+      <Link to='post' style={{ textDecoration: 'underline' }}>Sell</Link>
     </div>
   )
 }
