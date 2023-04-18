@@ -268,6 +268,7 @@ async(productData, thunkAPI)=>{
 export const productSlice= createSlice({
     name: 'product',
     initialState,
+    //pure functions , takes initial state and action as arguments => returns new state
     reducers: {
         reset: (state)=>initialState
     }, 
