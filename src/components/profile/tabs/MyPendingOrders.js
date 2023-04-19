@@ -36,9 +36,14 @@ const MyPendingOrders = () => {
       setUpdate(true)
     }
 
-   const handleConfrmOrder = ({orderId, sellerId}) =>{
-    dispatch(confirmOrder({orderId, sellerId}))
-    toast.success(`sellerId: ${sellerId} orderId: ${orderId}`)
+   const handleConfrmOrder = (orderId, sellerId) =>{
+    axios.put(`https://usella.up.railway.app/order/confirm/${orderId}/${sellerId}`)
+    .then(res => {
+      console.log(res.data)
+      toast.success('order confirmed')
+      setUpdate(true)
+    }
+    )
 
    }
 
