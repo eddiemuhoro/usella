@@ -262,6 +262,32 @@ async(productData, thunkAPI)=>{
   }
 )
 
+//get token
+export const getToken = createAsyncThunk('products/get',
+async(userId, thunkAPI)=>{
+  try {
+    return await productService.getToken(userId)
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+    
+  }
+)
+
+//post request with amount and order id as parameters and phone as body
+export const payWithPaystack = createAsyncThunk('products/pay',
+async({amount, orderId, phone}, thunkAPI)=>{
+  try {
+    return await productService.payWithPaystack(amount, orderId, phone)
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+    
+  }
+)
+
 
 
 //EXTRA REDUCERS

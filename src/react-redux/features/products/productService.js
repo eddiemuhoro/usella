@@ -121,6 +121,13 @@ const deleteProduct = async (productId) => {
     return response.data
   }
 
+  //GET TOKEN
+  const getToken = async () => {
+    const response = await axios.get(API_URL + 'token')
+    return response.data
+  }
+
+
 
 
   //UPDATE PRODUCT QUANTITY AFTER ORDER
@@ -129,6 +136,11 @@ const deleteProduct = async (productId) => {
     return response.data
   }
 
+//post request with amount and order id as parameters and phone as body
+ const payWithPaystack = async (amount, orderId, phone) => {
+  const response = await axios.post(API_URL + 'order/pay/' + amount + '/' + orderId, phone)
+  return response.data
+}
 
 
  
@@ -152,6 +164,8 @@ const productService={
     cancelOrder,
     confirmOrder,
     deleteOrder,
-    updateProductQuantity
+    updateProductQuantity,
+    getToken,
+    payWithPaystack
 }
 export default productService
