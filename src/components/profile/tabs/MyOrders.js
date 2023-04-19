@@ -37,8 +37,28 @@ const MyOrders = () => {
       setUpdate(true)
     }
 
+    const handleBuy= (id, amount) =>{
+
+      const  phone= '796250443'
+
+    axios.get('https://usella.up.railway.app/mpesa/token')
+    .then(res => {
+      console.log(res.data.token)
+      //route to get stk push using token and put request
+      axios.post(`https://usella.up.railway.app/order/pay/${amount}/${id}`, {phone}, {
+        headers: {
+          Authorization: `Bearer ${res.data.token}`,
+          'Content-Type': 'application/json',
+          'Accept': '*/*'
+        }
+      })    
+    }
+    )
+    }
 
 
+//wel w know
+//waiting
   
   return (
     <div>
@@ -82,6 +102,7 @@ const MyOrders = () => {
                   </div>
 
                   <div title='cancel order' className='cancel-myorder'>
+                    <button style={{fontSize:'12px', padding:'3px', marginRight:'10px'}} onClick={()=>handleBuy(product.id, product.product.price)}>Buy</button>
                     <ImCancelCircle onClick={()=>handleOrderCancel(product.id)} />
                   </div>
                 
