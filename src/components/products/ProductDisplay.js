@@ -163,6 +163,7 @@ const ProductDisplay = () => {
         setMaxPrice(max);
         // Initialize the price range to the full range
         setPriceRange([0, max]);
+        console.log(max);
       }, [products]);
 
 
@@ -227,6 +228,7 @@ const ProductDisplay = () => {
                 <option value="FASHION">FASHION</option>
                 <option value="SPORTS">SPORTS</option>
                 <option value="HEALTH">HEALTH</option>
+                <option value="HOME">HOME</option>
 
               </select>
               <input type="range" min={0} max={maxPrice} value={priceRange[0]} onChange={handlePriceRangeChange} />
@@ -243,6 +245,7 @@ const ProductDisplay = () => {
           <option value="FASHION">FASHION</option>
           <option value="SPORTS">SPORTS</option>
           <option value="HEALTH">HEALTH</option>
+          <option value="HOME">HOME</option>
 
         </select>
         <input type="range" min={0} max={maxPrice} value={priceRange[0]} onChange={handlePriceRangeChange} />
