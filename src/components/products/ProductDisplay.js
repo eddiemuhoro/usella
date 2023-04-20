@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import {GrLinkPrevious, GrLinkNext, GrPrevious, GrNext} from 'react-icons/gr';
-import {FcNext, FcPrevious} from 'react-icons/fc'
+import { GrLinkPrevious, GrLinkNext, GrPrevious, GrNext } from 'react-icons/gr';
+import { FcNext, FcPrevious } from 'react-icons/fc'
 import { useDispatch, useSelector } from 'react-redux';
 import { getProduct } from '../../react-redux/features/products/productSlice';
 import { Link, useNavigate } from 'react-router-dom';
@@ -10,8 +10,8 @@ import Wishlist from '../profile/tabs/WishlistButton'
 import { IoFilterSharp } from 'react-icons/io5';
 
 const Product = ({ product }) => {
-    const you = useSelector(state => state.auth.you)
-    const navigate = useNavigate()
+  const you = useSelector(state => state.auth.you)
+  const navigate = useNavigate()
   const [currentImage, setCurrentImage] = useState(0);
 
   const [startX, setStartX] = useState(null);
@@ -48,13 +48,13 @@ const Product = ({ product }) => {
 
   const handleLogin = () => {
     if (window.confirm('You need to login to add to wishlist'))
-     navigate('/login') 
-   }
+      navigate('/login')
+  }
 
-   const cutDescription = (description) => {
+  const cutDescription = (description) => {
     if (description.length > 50) {
       return description.substring(0, 50) + '...'
-    }else if(description.length < 50) {
+    } else if (description.length < 50) {
       return description
     }
   }
@@ -65,8 +65,8 @@ const Product = ({ product }) => {
         <div className="product-img">
 
           <img src={product.images[currentImage]} alt={product.name} onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd} />
-         
-          
+
+
         </div>
 
 
@@ -100,21 +100,21 @@ const Product = ({ product }) => {
         }
       </div>
 
-      <FcPrevious style={{ color: 'white' }} 
-            onClick={(e) => {
-              e.preventDefault();
-              handlePrevImage();
-            }}
-            className='prev-button'
-          />
-          <FcNext
-            onClick={(e)=>{
-              e.preventDefault();
-              handleNextImage();
-            }}
-            className='next-button'
-          />
-          
+      <FcPrevious style={{ color: 'white' }}
+        onClick={(e) => {
+          e.preventDefault();
+          handlePrevImage();
+        }}
+        className='prev-button'
+      />
+      <FcNext
+        onClick={(e) => {
+          e.preventDefault();
+          handleNextImage();
+        }}
+        className='next-button'
+      />
+
 
 
 
@@ -123,10 +123,10 @@ const Product = ({ product }) => {
 };
 
 const Products = ({ products, query, filteredData }) => {
-  
+
   return (
     <div className="products">
-    
+
       {
         filteredData.map(product => (
           <Product key={product.id} product={product} />
@@ -141,68 +141,68 @@ const Products = ({ products, query, filteredData }) => {
 
 
 const ProductDisplay = () => {
-    const dispach = useDispatch();
-    const [products, setProducts] = useState([]);
-    const [loading, setLoading] = useState(false);
-   
-    useEffect( () => {
-        setLoading(true)
-         dispach(getProduct())
-          .then(res => {
-            setProducts(res.payload)
-            console.log(res.payload)
-            setLoading(false)
-          }
-          )
-      }, [])
+  const dispach = useDispatch();
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-
-      useEffect(() => {
-        // Calculate the maximum price in the data
-        const max = Math.max(...products.map(item => item.price));
-        setMaxPrice(max);
-        // Initialize the price range to the full range
-        setPriceRange([0, max]);
-        console.log(max);
-      }, [products]);
-
-
-      const [query, setQuery] = useState('')
-      const [categoryFilter, setCategoryFilter] = useState('');
-      const [priceRange, setPriceRange] = useState([0, 100]);
-      const [maxPrice, setMaxPrice] = useState(0);
-
-      const filteredData = products.filter(item => {
-         // Apply the search text filter
-      if (query && !item.name.toLowerCase().includes(query.toLowerCase())) {
-        return false;
+  useEffect(() => {
+    setLoading(true)
+    dispach(getProduct())
+      .then(res => {
+        setProducts(res.payload)
+        console.log(res.payload)
+        setLoading(false)
       }
-        // Apply the category filter
-        if (categoryFilter && item.category !== categoryFilter) {
-          return false;
-        }
-
-          // Apply the price range filter
-      if (item.price < priceRange[0] || item.price > priceRange[1]) {
-        return false;
-      }
-        return true;
-      });
+      )
+  }, [])
 
 
-      const handleCategoryFilterChange = (event) => {
-        setCategoryFilter(event.target.value);
-      };
+  useEffect(() => {
+    // Calculate the maximum price in the data
+    const max = Math.max(...products.map(item => item.price));
+    setMaxPrice(max);
+    // Initialize the price range to the full range
+    setPriceRange([0, max]);
+    console.log(max);
+  }, [products]);
 
-      const handlePriceRangeChange = (event) => {
-        setPriceRange([event.target.valueAsNumber, priceRange[1]]);
-      };
-    
-      const handlePriceRangeInputChange = (event) => {
-        setPriceRange([priceRange[0], event.target.valueAsNumber]);
-      };
 
-      const [showFilters, setShowFilters] = useState(false);
+  const [query, setQuery] = useState('')
+  const [categoryFilter, setCategoryFilter] = useState('');
+  const [priceRange, setPriceRange] = useState([0, 100]);
+  const [maxPrice, setMaxPrice] = useState(0);
+
+  const filteredData = products.filter(item => {
+    // Apply the search text filter
+    if (query && !item.name.toLowerCase().includes(query.toLowerCase())) {
+      return false;
+    }
+    // Apply the category filter
+    if (categoryFilter && item.category !== categoryFilter) {
+      return false;
+    }
+
+    // Apply the price range filter
+    if (item.price < priceRange[0] || item.price > priceRange[1]) {
+      return false;
+    }
+    return true;
+  });
+
+
+  const handleCategoryFilterChange = (event) => {
+    setCategoryFilter(event.target.value);
+  };
+
+  const handlePriceRangeChange = (event) => {
+    setPriceRange([event.target.valueAsNumber, priceRange[1]]);
+  };
+
+  const handlePriceRangeInputChange = (event) => {
+    setPriceRange([priceRange[0], event.target.valueAsNumber]);
+  };
+
+  const [showFilters, setShowFilters] = useState(false);
 
   const handleToggleFilters = () => {
     setShowFilters(!showFilters);
@@ -214,10 +214,10 @@ const ProductDisplay = () => {
       <div className='products-header'>
         <h1>Products</h1>
         <div className="search-input">
-          <input type="text" placeholder="Search..." onChange={(e) => setQuery(e.target.value)} />         
+          <input type="text" placeholder="Search..." onChange={(e) => setQuery(e.target.value)} />
         </div>
 
-         <IoFilterSharp onClick={handleToggleFilters} title='filters' style={{fontSize:'25px'}} className='toggle-filters-button' />
+        <IoFilterSharp onClick={handleToggleFilters} title='filters' style={{ fontSize: '25px' }} className='toggle-filters-button' />
 
         {
           showFilters && (
@@ -239,32 +239,32 @@ const ProductDisplay = () => {
         }
 
         <div className='filters-desktop'>
-        <select value={categoryFilter} onChange={handleCategoryFilterChange}>
-          <option value="">All categories</option>
-          <option value="ELECTRONICS">ELECTRONICS</option>
-          <option value="FASHION">FASHION</option>
-          <option value="SPORTS">SPORTS</option>
-          <option value="HEALTH">HEALTH</option>
-          <option value="HOME">HOME</option>
+          <select value={categoryFilter} onChange={handleCategoryFilterChange}>
+            <option value="">All categories</option>
+            <option value="ELECTRONICS">ELECTRONICS</option>
+            <option value="FASHION">FASHION</option>
+            <option value="SPORTS">SPORTS</option>
+            <option value="HEALTH">HEALTH</option>
+            <option value="HOME">HOME</option>
 
-        </select>
-        <input type="range" min={0} max={maxPrice} value={priceRange[0]} onChange={handlePriceRangeChange} />
-        <input type="range" min={0} max={maxPrice} value={priceRange[1]} onChange={handlePriceRangeInputChange} />
-        <p>Price range: {priceRange[0]} - {priceRange[1]}</p>
-  </div>
+          </select>
+          <input type="range" min={0} max={maxPrice} value={priceRange[0]} onChange={handlePriceRangeChange} />
+          <input type="range" min={0} max={maxPrice} value={priceRange[1]} onChange={handlePriceRangeInputChange} />
+          <p>Price range: {priceRange[0]} - {priceRange[1]}</p>
+        </div>
       </div>
-      
-      <Products products={products} query={query}  filteredData={filteredData} />
+
+      <Products products={products} query={query} filteredData={filteredData} />
       {
         loading ? (
           <div className='loading'>
             <h2>Loading...</h2>
           </div>
-        ):(
-          filteredData.length === 0 && ( <h2>No products found</h2>)
+        ) : (
+          filteredData.length === 0 && (<h2>No products found</h2>)
         )
       }
-     
+
     </div>
   );
 };
