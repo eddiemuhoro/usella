@@ -102,7 +102,12 @@ function ProfileEditor({ dp, pNo, profBio, id, profileLocation, userName, setUpd
                 }
                 console.log(profileData);
                 axios.put(`https://usella.up.railway.app/users/update/${id}`, profileData)
-                toast.success('Profile updated successfully')
+                .then(res => {
+                  toast.success('Profile updated successfully')
+                })
+                .catch(err => {
+                  toast.error('network error, try again later')
+                })
                 console.log(profileData)
                 setLoading(false)
               })
