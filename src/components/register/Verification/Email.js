@@ -3,6 +3,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import './email.css';
+import apiUrl from '../../../react-redux/myApi';
 
 const Email = () => {
   const navigate = useNavigate()
@@ -14,7 +15,7 @@ if(!google){
     <p>hello</p>
   )
 }
-const API_URL = 'https://usella.up.railway.app/';
+const API_URL = apiUrl;
 // send a put request to the backend by passing the email and code as params
 const handleVerify = async (e) => {
   e.preventDefault();
