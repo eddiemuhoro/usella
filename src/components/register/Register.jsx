@@ -160,10 +160,10 @@ alert("hello")
         name,
         email,
         password,
-        phone,
       }
       console.log(userData)
       dispatch(register(userData))
+      navigate('/email')
       setLoading(true)
     }
     //send data to backend

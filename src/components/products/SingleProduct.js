@@ -14,6 +14,8 @@ import CartButton from './CartButton';
 import './products.css'
 
 
+
+
 const SingleProduct = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -187,17 +189,15 @@ const SingleProduct = () => {
       <div className='single-product-container'>
         {
           <section className='product-info'>
+
             <div className='single-product-image'>
-              {
-                !loading ? (
-                  <img src={products.images} alt="product" onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}  />
-                ):
-                (
-                  <img src='https://media.istockphoto.com/id/1138824305/vector/loading-icon-on-black.jpg?s=170667a&w=0&k=20&c=5TgSExGSoy7SXYcXEKfKCfZW-qFXsTaZRHcBF99WMLM=' alt='loading' className='product-image'/>
-                )
-              }
-             
+              {products && products.images ? (
+                <img src={products.images[0]} alt="product" onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd} />
+              ) : (
+                <img src='https://media.istockphoto.com/id/1138824305/vector/loading-icon-on-black.jpg?s=170667a&w=0&k=20&c=5TgSExGSoy7SXYcXEKfKCfZW-qFXsTaZRHcBF99WMLM=' alt='loading' className='product-image' />
+              )}
             </div>
+
             <div className='product-content cart' >
               <section>
               <h1 className="info-name">{products.name}</h1>
