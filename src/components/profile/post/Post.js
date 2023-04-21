@@ -8,6 +8,7 @@ import {FcNext} from 'react-icons/fc'
 import './post.css'
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import apiUrl from "../../../react-redux/myApi";
 const Post = () => {
   const navigate = useNavigate();
   const user = useSelector(state => state.auth.you)
@@ -103,7 +104,7 @@ const Post = () => {
     console.log(`urls to be sent: ${urls}`);
     const sentData ={name:post.name,price:parseInt(post.price), description: post.description,quantity:parseInt(post.quantity), category: post.category.toUpperCase(), seller_name: user.name, seller_id: user.id, seller_email: user.email, seller_phone: user.phone || Math.floor(Math.random() * 10000000000).toString(), location: "Nairobi",images:urls}
     console.log(sentData);
-    axios.post('https://usella.up.railway.app/product/send', 
+    axios.post(apiUrl+'product/send', 
         //CONTENT TYPE IS IMPORTANT
       
         sentData

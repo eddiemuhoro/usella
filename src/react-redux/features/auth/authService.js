@@ -1,6 +1,7 @@
 import axios from 'axios'
+import apiUrl from '../../myApi';
 
-const API_URL = 'https://usella.up.railway.app/';
+const API_URL = apiUrl;
 
 const register = async(userData)=>{
     const response = await axios.post(API_URL + 'register', userData)
