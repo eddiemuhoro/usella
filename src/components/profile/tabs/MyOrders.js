@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import {GiCancel} from 'react-icons/gi'
 import {ImCancelCircle} from 'react-icons/im'
 import { toast } from 'react-toastify'
+import apiUrl from '../../../react-redux/myApi'
 const MyOrders = () => {
 
   const dispatch = useDispatch()
@@ -45,7 +46,7 @@ const MyOrders = () => {
     .then(res => {
       console.log(res.data.token)
       //route to get stk push using token and put request
-      axios.post(`https://usella.up.railway.app/order/pay/${amount}/${id}`, {phone}, {
+      axios.post(`${apiUrl}order/pay/${amount}/${id}`, {phone}, {
         headers: {
           Authorization: `Bearer ${res.data.token}`,
           'Content-Type': 'application/json',

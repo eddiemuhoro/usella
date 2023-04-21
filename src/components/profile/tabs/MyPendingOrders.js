@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import {GiCancel} from 'react-icons/gi'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import apiUrl from '../../../react-redux/myApi'
 const MyPendingOrders = () => {
 
   const dispatch = useDispatch()
@@ -37,7 +38,7 @@ const MyPendingOrders = () => {
     }
 
    const handleConfrmOrder = (orderId, sellerId) =>{
-    axios.put(`https://usella.up.railway.app/order/confirm/${orderId}/${sellerId}`)
+    axios.put(`${apiUrl}order/confirm/${orderId}/${sellerId}`)
     .then(res => {
       console.log(res.data)
       toast.success('order confirmed')

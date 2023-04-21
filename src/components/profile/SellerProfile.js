@@ -14,6 +14,7 @@ import axios from 'axios';
 import { BsForward } from 'react-icons/bs';
 import { getProductByUser } from '../../react-redux/features/products/productSlice';
 import { toast } from 'react-toastify';
+import apiUrl from '../../react-redux/myApi';
 
 
 
@@ -72,7 +73,7 @@ const SellerProfile = ({name, sellerId, sellerProducts}) => {
       //FETCH FOLLOWERS
       const [followers, setFollowers] = useState([])
       useEffect(()=>{
-        axios.get(`https://usella.up.railway.app/users/followers/${sellerId}`)
+        axios.get(`${apiUrl}/users/followers/${sellerId}`)
         .then(res => {
           setFollowers(res.data)
           console.log(res.data);
@@ -87,7 +88,7 @@ const SellerProfile = ({name, sellerId, sellerProducts}) => {
       //set action to true after 2 seconds
        
       useEffect(()=>{
-          axios.get(`https://usella.up.railway.app/users/following/${sellerId}`)
+          axios.get(`${apiUrl}/users/following/${sellerId}`)
           .then(res => {
             setFollowing(res.data)
           }

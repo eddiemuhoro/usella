@@ -14,6 +14,7 @@ import axios from 'axios';
 import { BsForward } from 'react-icons/bs';
 import MyPendingOrders from './tabs/MyPendingOrders';
 import { getOrderByUser, getPendingOrders, getProductByUser } from '../../react-redux/features/products/productSlice';
+import apiUrl from '../../react-redux/myApi';
 
 const details = {
     name: 'John Doe',
@@ -159,7 +160,7 @@ const Profile = () => {
     const [followers, serFollowers] = useState({ });
     useEffect(() => {
         // dispatch(getFollowers(user.id))
-        axios.get(`https://usella.up.railway.app/users/followers/${user.id}`)
+        axios.get(`${apiUrl}users/followers/${user.id}`)
             .then(res => {
                 serFollowers(res.data)
                 console.log(` ${res.data}`);

@@ -12,6 +12,7 @@ import { addDoc, collection } from 'firebase/firestore'
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import apiUrl from "../../react-redux/myApi";
 
 
 function ProfileEditor({ dp, pNo, profBio, id, profileLocation, userName, setUpdate }) {
@@ -101,13 +102,16 @@ function ProfileEditor({ dp, pNo, profBio, id, profileLocation, userName, setUpd
                   location
                 }
                 console.log(profileData);
-                axios.put(`https://usella.up.railway.app/users/update/${id}`, profileData)
+                axios.put(`${apiUrl}users/update/${id}`, profileData)
                 .then(res => {
+                  // Move the success toast inside the then block
                   toast.success('Profile updated successfully')
                 })
                 .catch(err => {
-                  toast.error('network error, try again later')
-                })
+                  // Display error toast if API call fails
+                  toast.error('Network error, try again later')
+                });
+              
                 console.log(profileData)
                 setLoading(false)
               })
@@ -128,7 +132,7 @@ function ProfileEditor({ dp, pNo, profBio, id, profileLocation, userName, setUpd
         location
       }
       console.log(profileData);
-      axios.put(`https://usella.up.railway.app/users/update/${id}`, profileData)
+      axios.put(`${apiUrl}users/update/${id}`, profileData)
       // console.log(profileData)
       setLoading(false)
       setUpdate(true)
