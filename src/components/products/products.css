@@ -144,6 +144,17 @@
     height: 100%;
 }
 
+.fade-in-out {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+  }
+  
+  .fade-in-out.active {
+    opacity: 1;
+  }
+  
+
+
 /* nth child of the class above */
 .product-info{
     display: flex;  

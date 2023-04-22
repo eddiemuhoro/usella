@@ -153,33 +153,34 @@ const SingleProduct = () => {
   }
 
 
-  //SWIPE THROUGH IMAGES
-  const [currentImage, setCurrentImage] = useState(0);
+  //image corousel that automatically changes image after 5 seconds
+  const [index, setIndex] = useState(0);
+  const length = products.images && products.images.length;
 
-  const [startX, setStartX] = useState(null);
-
-  const handleTouchStart = (event) => {
-    setStartX(event.touches[0].clientX);
-  };
-
-  const handleTouchMove = (event) => {
-    if (startX == null) {
-      return;
+  useEffect(() => {
+    const lastIndex = length - 1;
+    if (index < 0) {
+      setIndex(lastIndex);
     }
-    
-    const deltaX = event.touches[0].clientX - startX;
-    if (deltaX > 50 && currentImage > 0) {
-      setCurrentImage(currentImage - 1);
-      setStartX(null);
-    } else if (deltaX < -50 && currentImage < products.images.length - 1) {
-      setCurrentImage(currentImage + 1);
-      setStartX(null);
-    }
-  };
 
-  const handleTouchEnd = () => {
-    setStartX(null);
-  };
+    if (index > lastIndex) {
+      setIndex(0);
+    }
+      
+  }, [index, length]);
+
+  useEffect(() => {
+    let slider = setInterval(() => {
+      setIndex(index + 1);
+    }, 3000);
+    return () => {
+      clearInterval(slider);
+    };
+  }, [index]);
+
+
+
+
 
 
 
@@ -192,7 +193,7 @@ const SingleProduct = () => {
 
             <div className='single-product-image'>
               {products && products.images ? (
-                <img src={products.images[0]} alt="product" onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd} />
+                <img src={products.images[index]} alt="product"  />
               ) : (
                 <img src='https://media.istockphoto.com/id/1138824305/vector/loading-icon-on-black.jpg?s=170667a&w=0&k=20&c=5TgSExGSoy7SXYcXEKfKCfZW-qFXsTaZRHcBF99WMLM=' alt='loading' className='product-image' />
               )}
@@ -290,10 +291,7 @@ const SingleProduct = () => {
 
                 </div>
               </section>
-
             </div>
-
-
           </section>
         }
 
@@ -343,7 +341,7 @@ const SingleProduct = () => {
                 <div className="product-img">
                 {
                 !loading ? (
-                  <img src={product.images[0]} alt="product" onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}  />
+                  <img src={product.images[0]} alt="product" />
                 ):
                 (
                   <img src='https://media.istockphoto.com/id/1138824305/vector/loading-icon-on-black.jpg?s=170667a&w=0&k=20&c=5TgSExGSoy7SXYcXEKfKCfZW-qFXsTaZRHcBF99WMLM=' alt='loading' className='product-image'/>
