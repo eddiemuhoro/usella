@@ -18,6 +18,8 @@ import apiUrl from "../../react-redux/myApi";
 function ProfileEditor({ dp, pNo, profBio, id, profileLocation, userName, setUpdate }) {
   const navigate = useNavigate();
   const user = useSelector(state => state.auth.you)
+  //state is an object that holds data in component. it has
+  //a set state method that can be used to update the state and re-render the component with the new data
   const [bio, setBio] = useState(profBio);
   const [location, setLocation] = useState(profileLocation)
   const [name, setName] = useState(userName)
