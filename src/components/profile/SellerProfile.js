@@ -157,7 +157,7 @@ const SellerProfile = ({name, sellerId, sellerProducts}) => {
                       !sellerProducts ? (
                         <div className="no-products">
                           <h1>You have no products</h1>
-                          <Link to='/post' style={{ textDecoration: 'underline' }}>Add a product</Link>
+                          {/* <Link to='/post' style={{ textDecoration: 'underline' }}>Add a product</Link> */}
                         </div>
                       ) : (
 
