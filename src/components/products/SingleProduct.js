@@ -35,8 +35,8 @@ const SingleProduct = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setColor(getRandomColor()); // set the color to a random color
-    }, 5000); // call the function every 1000ms (1 second)
+      setColor(getRandomColor()); 
+    }, 5000); 
 
     return () => clearInterval(interval); // cleanup function to clear the interval when the component unmounts
   }, []);
@@ -51,8 +51,9 @@ const SingleProduct = () => {
   }
 
   //fetch clicked product'
-  const [products, setclickedProduct] = useState([])
 
+
+  //ADDING PRODUCT TO CART USING BUYER & PRODUCT ID
   const handleCart = () => {
 
     const cartData = {
@@ -68,18 +69,16 @@ const SingleProduct = () => {
       )
   }
 
+
+
   const [cart, setCart] = useState([])
-  //fetch cart data by user id
-  //   useEffect(() => {
-  //     dispatch(getCart(products.id))
-  //     .then(res => {
-  //       setCart(res.payload)
-  //     }
-  //   )
-  // }, [dispatch, products.id])
+
   const [test, setTest] = useState('ELECTRONICS')
   const [dataFetched, setDataFetched] = useState(false);
 
+
+  // FETCH CLICKED PRODUCT BY ID IN PARAMS
+  const [products, setclickedProduct] = useState([])  
   useEffect(() => {
     setLoading(true)
     dispatch(getProductById(id))
@@ -94,11 +93,14 @@ const SingleProduct = () => {
   }, [dispatch, id])
 
 
+
+  //FETCH PRODUCTS BY CATEGORY from clicked product
   const [category, setCategory] = useState([])
-  //fetch product by category after fetching product
   useEffect(() => {
     setLoading(true)
-    dispatch(getProductByCategory(test))
+    products.category && (
+    dispatch(getProductByCategory(products.category))
+    )
       .then(res => {
         //set data to category after 2 seconds
         setCategory(res.payload)
@@ -108,27 +110,24 @@ const SingleProduct = () => {
   }, [dispatch, test])
 
 
-  const [sellerProducts , setSellerProducts] = useState([])
+
+  //FETCH PRODUCTS BY SELLER ID from clicked product
+  const [sellerProducts, setSellerProducts] = useState([])
   useEffect(() => {
-    if(!dataFetched) return;
+    if (!dataFetched) return;
     setLoading(true)
 
     dispatch(getProductByUser(products.seller_id))
-    .then(res => { 
-      setSellerProducts(res.payload)
-      console.log(res.payload);
-      setLoading(false)
-    })
-    // const fetchProducts = async () => {
-    //   const { data } = await axios.get(`http://localhost:9000/products/seller/${seller}`)
-    //   setProducts(data)
-    // }
-    // fetchProducts()
+      .then(res => {
+        setSellerProducts(res.payload)
+        console.log(res.payload);
+        setLoading(false)
+      })
   }, [dispatch, products.seller_id])
 
 
 
-
+//cut description
   const cutDescription = (description) => {
     if (description.length > 50) {
       return description.substring(0, 50) + '...'
@@ -137,12 +136,6 @@ const SingleProduct = () => {
     }
   }
 
-  //habdle loading after 1 second
-  const handleReload = () => {
-    // setTimeout(() => {
-    //   window.location.reload()
-    // }, 500);
-  }
 
   const cutSellerDescription = (description) => {
     if (description.length > 30) {
@@ -154,31 +147,18 @@ const SingleProduct = () => {
 
 
   //image corousel that automatically changes image after 5 seconds
-  const [index, setIndex] = useState(0);
-  const length = products.images && products.images.length;
 
+  const [currentImage, setCurrentImage] = useState(0)
   useEffect(() => {
-    const lastIndex = length - 1;
-    if (index < 0) {
-      setIndex(lastIndex);
-    }
-
-    if (index > lastIndex) {
-      setIndex(0);
-    }
-      
-  }, [index, length]);
-
-  useEffect(() => {
-    let slider = setInterval(() => {
-      setIndex(index + 1);
-    }, 3000);
-    return () => {
-      clearInterval(slider);
-    };
-  }, [index]);
-
-
+    
+    const interval = setInterval(() => {
+      products.images && (
+      setCurrentImage(currentImage => (currentImage + 1) % products.images.length)
+      )
+    }, 3000)
+    
+    return () => clearInterval(interval)
+  }, [products.images])
 
 
 
@@ -190,49 +170,69 @@ const SingleProduct = () => {
       <div className='single-product-container'>
         {
           <section className='product-info'>
+            {
+              products.images && (
+                <div className='single-product-image'>
+                
+                  <div style={{
+                    display: 'flex',
+                    width: `${products.images.length}00%`,
+                    transform: `translateX(-${currentImage * (100 / products.images.length)}%)`,
+                    transition: 'transform 0.5s ease-in-out',
+                    height:'100%'
+                  }}>
+                    { products.images.map((image, index) => (
+                      <img key={index} src={image} alt={`image${index}`} style={{ height: '100%', width: `${100 / products.images.length}%`, objectFit: "contain" }} />
+                    ))}
+                  </div>
+           
+              </div>
+              )
+            }
 
-            <div className='single-product-image'>
-              {products && products.images ? (
-                <img src={products.images[index]} alt="product"  />
-              ) : (
-                <img src='https://media.istockphoto.com/id/1138824305/vector/loading-icon-on-black.jpg?s=170667a&w=0&k=20&c=5TgSExGSoy7SXYcXEKfKCfZW-qFXsTaZRHcBF99WMLM=' alt='loading' className='product-image' />
-              )}
-            </div>
+           
 
             <div className='product-content cart' >
               <section>
-              <h1 className="info-name">{products.name}</h1>
 
-              <p className="info-desc">{products.description}.</p>
-              <div>
-                <h2 className="info-price">Ksh {products.price}</h2>
-              </div>
-              <div className='warning'>
-                <p style={{ color, transition: 'color 2s ease-in-out' }}> items left: {products.quantity}</p>
-              </div>
-              <div className='cart-button'>
+             
 
-                {/* CONDITIONAL RENDERING */}
+                  <div className='heading'>
+                    <h1 className="info-name">{products.name}</h1>
+                    <h2>Ksh {products.price}</h2>
+                  </div>
+                  
+                  <div>
+                    <p className="">bkdsc scsd svhcs vshvhk</p>
+                  </div>
+              
 
-                {/* IF QUANTITY IS 0, DISABLE ADD TO CART BUTTON */}
-                {
-                  user ? (
-                    products.quantity === 0 ? (<button title='out of stock' disabled style={{ cursor: 'not-allowed' }}>Add to cart</button>) :
-                      (
+                <div className='warning'>
+                  <p style={{ color, transition: 'color 2s ease-in-out' }}> items left: {products.quantity}</p>
+                </div>
+                <div className='cart-button'>
 
-                        (cart.length === 0 || cart[0].userId !== user.id) && !update ? (
-                          <button onClick={handleCart}>Add to cart</button>
-                        ) : (
-                          <Link to='/cart' ><button>Already added to cart</button></Link>
+                  {/* CONDITIONAL RENDERING */}
+
+                  {/* IF QUANTITY IS 0, DISABLE ADD TO CART BUTTON */}
+                  {
+                    user ? (
+                      products.quantity === 0 ? (<button title='out of stock' disabled style={{ cursor: 'not-allowed' }}>Add to cart</button>) :
+                        (
+
+                          (cart.length === 0 || cart[0].userId !== user.id) && !update ? (
+                            <button onClick={handleCart}>Add to cart</button>
+                          ) : (
+                            <Link to='/cart' ><button>Already added to cart</button></Link>
+                          )
+
                         )
+                    ) : (
+                      <button onClick={handleCart}>Log in to add to cart</button>
+                    )
+                  }
 
-                      )
-                  ) : (
-                    <button onClick={handleCart}>Log in to add to cart</button>
-                  )
-                }
-
-              </div>
+                </div>
               </section>
 
               <section>
@@ -244,30 +244,30 @@ const SingleProduct = () => {
                     products.images.slice(0, 2).map((image, index) => (
                       <div className='image'>
                         <Popup trigger={
-                          !loading ?( 
-                          <img src={image} alt="product"
-                            className={`product-image ${index === expandedIndex ? 'expanded' : ''}`}
-                            onClick={() => handleImageClick(index)}
-                          />):(
-                           
-                            <img src='https://media.istockphoto.com/id/1138824305/vector/loading-icon-on-black.jpg?s=170667a&w=0&k=20&c=5TgSExGSoy7SXYcXEKfKCfZW-qFXsTaZRHcBF99WMLM=' alt='loading'  className={`product-image`}/>
+                          !loading ? (
+                            <img src={image} alt="product"
+                              className={`product-image ${index === expandedIndex ? 'expanded' : ''}`}
+                              onClick={() => handleImageClick(index)}
+                            />) : (
+
+                            <img src='https://media.istockphoto.com/id/1138824305/vector/loading-icon-on-black.jpg?s=170667a&w=0&k=20&c=5TgSExGSoy7SXYcXEKfKCfZW-qFXsTaZRHcBF99WMLM=' alt='loading' className={`product-image`} />
 
                           )
 
-                        }  closeOnDocumentClick={true} modal>
+                        } closeOnDocumentClick={true} modal>
                           {(close) => (
                             <div className='other-images popup'>
                               {
                                 products.images.map((image, index) => (
                                   <div className='image-popup'>
                                     {
-                                      !loading ?(
+                                      !loading ? (
                                         <img src={image} alt="product"
                                           className={`product-image ${index === expandedIndex ? 'expanded' : ''}`}
                                           onClick={() => handleImageClick(index)}
                                         />
-                                      ):(
-                                        <img src='https://media.istockphoto.com/id/1138824305/vector/loading-icon-on-black.jpg?s=170667a&w=0&k=20&c=5TgSExGSoy7SXYcXEKfKCfZW-qFXsTaZRHcBF99WMLM=' alt='loading'  className={`product-image`}/>
+                                      ) : (
+                                        <img src='https://media.istockphoto.com/id/1138824305/vector/loading-icon-on-black.jpg?s=170667a&w=0&k=20&c=5TgSExGSoy7SXYcXEKfKCfZW-qFXsTaZRHcBF99WMLM=' alt='loading' className={`product-image`} />
                                       )
                                     }
                                   </div>
@@ -282,12 +282,12 @@ const SingleProduct = () => {
                       </div>
                     ))
                   }
-                  {products.images   && (
+                  {products.images && (
                     products.images.length > 2 &&
-                      <div className="extra-images-label" >
-                        +{products.images.length - 2}
-                      </div>
-                    )}
+                    <div className="extra-images-label" >
+                      +{products.images.length - 2}
+                    </div>
+                  )}
 
                 </div>
               </section>
@@ -297,20 +297,20 @@ const SingleProduct = () => {
 
         <section className='seller-info'>
 
-         <SellerProfile name={products.seller_name} sellerId={products.seller_id} sellerProducts={sellerProducts} />
+          <SellerProfile name={products.seller_name} sellerId={products.seller_id} sellerProducts={sellerProducts} />
           <div className='seller-products'>
-         
-              {
-                sellerProducts.map(product => (
-                 <ul>
-                    <li>
-                      <Link key={product.id} onClick={handleReload} to={`/products/${product.id}`}>
-                        <p><span style={{textDecoration:'underline'}}>{product.name}</span> {cutSellerDescription(product.description)}</p>
-                      </Link>
-                    </li>
-                 </ul>
-                ))
-              }
+
+            {
+              sellerProducts.map(product => (
+                <ul>
+                  <li>
+                    <Link key={product.id}  to={`/products/${product.id}`}>
+                      <p><span style={{ textDecoration: 'underline' }}>{product.name}</span> {cutSellerDescription(product.description)}</p>
+                    </Link>
+                  </li>
+                </ul>
+              ))
+            }
           </div>
           <div className='favorite'>
             {/* DISPLAY WISHLISsT ID */}
@@ -336,17 +336,17 @@ const SingleProduct = () => {
         {loading && <p>Please wait a sec...</p>}
         {
           category.map(product => (
-            <Link key={product.id} onClick={handleReload} to={`/products/${product.id}`}>
+            <Link key={product.id}  to={`/products/${product.id}`}>
               <div className="product">
                 <div className="product-img">
-                {
-                !loading ? (
-                  <img src={product.images[0]} alt="product" />
-                ):
-                (
-                  <img src='https://media.istockphoto.com/id/1138824305/vector/loading-icon-on-black.jpg?s=170667a&w=0&k=20&c=5TgSExGSoy7SXYcXEKfKCfZW-qFXsTaZRHcBF99WMLM=' alt='loading' className='product-image'/>
-                )
-              }
+                  {
+                    !loading ? (
+                      <img src={product.images[0]} alt="product" />
+                    ) :
+                      (
+                        <img src='https://media.istockphoto.com/id/1138824305/vector/loading-icon-on-black.jpg?s=170667a&w=0&k=20&c=5TgSExGSoy7SXYcXEKfKCfZW-qFXsTaZRHcBF99WMLM=' alt='loading' className='product-image' />
+                      )
+                  }
                 </div>
                 <div className="product-info">
                   <p className="info-name">{product.name}</p>
