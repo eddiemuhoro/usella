@@ -165,7 +165,10 @@ const Post = () => {
                     loading ? <button>Uploading</button> : <button onClick={handleUpload}>Upload</button>
                   }
                   <FcNext />
-                  <button onClick={handleSend}>Send</button>
+                  {
+                    sending ? <button>Posting, wait a sec</button> :  <button onClick={handleSend}>Send</button>
+                  }
+                 
         </div>
         <h3>selected images</h3>
         <section className="selected-image">
