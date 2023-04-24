@@ -179,30 +179,31 @@ const SingleProduct = () => {
 //BUY DIRECTLY
 const [buying, setBuying] = useState(false)
   const handleBuy = () => {
-    setBuying(true)
-    profile &&(
-    axios.post(apiUrl+'order/create', {
-      buyer_id: user.id,
-      buyer_email: profile.email,
-      buyer_name: profile.name,
-      product_id: products.id,
-      quantity: products.quantity,
-      location: 'Nakuru',
-    })
-    )
-    .then(res => {
-      console.log(res)
-      toast.info(
-        <div>
-          Order placed. Click <Link to="/profile" style={{color:'black'}}>here</Link> to see orders
-        </div>,
-        {
-          autoClose: false,
-        }
-      ); 
-      setBuying(false)
-      }
-    )
+    // setBuying(true)
+    // profile &&(
+    // axios.post(apiUrl+'order/create', {
+    //   buyer_id: user.id,
+    //   buyer_email: profile.email,
+    //   buyer_name: profile.name,
+    //   product_id: products.id,
+    //   quantity: products.quantity,
+    //   location: 'Nakuru',
+    // })
+    // )
+    // .then(res => {
+    //   console.log(res)
+    //   toast.info(
+    //     <div>
+    //       Order placed. Click <Link to="/profile" style={{color:'black'}}>here</Link> to see orders
+    //     </div>,
+    //     {
+    //       autoClose: false,
+    //     }
+    //   ); 
+    //   setBuying(false)
+    //   }
+    // )
+    toast.warn('please wait as our developers fix this feature')
   }
 
 
@@ -233,13 +234,8 @@ const [buying, setBuying] = useState(false)
               )
             }
 
-           
-
             <div className='product-content cart' >
               <section>
-
-             
-
                   <div className='heading'>
                     <h1 className="info-name">{products.name}</h1>
                     <h2>Ksh {products.price}</h2>
@@ -343,8 +339,10 @@ const [buying, setBuying] = useState(false)
           </section>
         }
 
-        <section className='seller-info'>
 
+
+
+        <section className='seller-info'>
           <SellerProfile name={products.seller_name} sellerId={products.seller_id} sellerProducts={sellerProducts} />
           <div className='seller-products'>
 
