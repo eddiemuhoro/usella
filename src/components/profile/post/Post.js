@@ -87,16 +87,9 @@ const Post = () => {
       .catch((err) => console.log(err))
 
 
-      
-
   };
   console.log("urlData", urls);
   console.log(loading);
-
-  //send the urls to the backend using axios
-
-
-  // axios.post('http://localhost:9000/products/test', {name: 'kimm',price:99, description: 'nice',category: 'electronics',images:urls})
 
   //send urls to an axios endpoint
   const handleSend = () => {
