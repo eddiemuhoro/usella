@@ -94,8 +94,15 @@ const MyPosts = () => {
           )
         }
 
+{
+             products.length === 0 && 
+              <div className="no-products">
+                <h1>You have no posts</h1>
+                <Link  to='post' style={{textDecoration:'underline'}}>Sell</Link>
+              </div>
+          }
+
       </section>
-      <Link to='post' style={{ textDecoration: 'underline' }}>Sell</Link>
     </div>
   )
 }

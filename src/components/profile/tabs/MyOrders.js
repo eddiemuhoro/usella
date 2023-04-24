@@ -64,7 +64,6 @@ const MyOrders = () => {
   return (
     <div>
          <section className="orders ">
-         {products.length === 0 && <p>No prods</p>}
 
           {
            loading ? (
