@@ -10,6 +10,7 @@ import './cart.css'
 import Paypal from './Paypal'
 import { getProfile } from '../../../react-redux/features/auth/authSlice'
 import { toast } from 'react-toastify'
+import apiUrl from '../../../react-redux/myApi'
 const Cart = (props) => {
   const navigate = useNavigate()
   const [phone , setPhone] = useState('')
@@ -87,14 +88,7 @@ const Cart = (props) => {
   
     
       items.map(item => {
-        console.log(profile.name);
-        console.log(profile.email);
-        console.log(profile.location);
-        console.log(item.quantity);
-        console.log(item.id);
-        console.log(user.id);
-        setPostLoading(true)
-      axios.post('https://usella.up.railway.app/order/create', {
+      axios.post(apiUrl+'order/create', {
         buyer_id: user.id,
         buyer_email: profile.email,
         buyer_name: profile.name,
@@ -119,22 +113,6 @@ const Cart = (props) => {
       )
     }
   )
-
-    // //set setCheckout to true FOR 10 seconds then set it to false
-    // setCheckout(true)
-    // setTimeout(() => {
-    //   setCheckout(false)
-    // }, 60000);
-
-  
-
-      // setTimeout(() => {
-      //   items.map (item => {
-      //     dispatch(deleteCart(item.productId))
-      //   }
-      //   )
-      // }, 5000);
-
    
   }
 
