@@ -145,6 +145,12 @@
     height: 100%;
 }
 
+.buttons{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 
 .sliding-image{
     height: 500px;
@@ -325,7 +331,15 @@
         place-items: center;
     ;
     }
-  
+
+@media screen and (min-width: 1200px){
+    .products{
+        grid-template-columns: repeat(5, 1fr);
+    }
+    .product-content.cart{
+        width: 30%;
+    }
+}
 
 @media screen and (max-width: 1200px){
     .products{

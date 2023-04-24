@@ -12,6 +12,8 @@ import SellerProfile from '../profile/SellerProfile';
 import Wishlist from '../profile/tabs/WishlistButton';
 import CartButton from './CartButton';
 import './products.css'
+import apiUrl from '../../react-redux/myApi';
+import { getProfile } from '../../react-redux/features/auth/authSlice';
 
 
 
@@ -160,7 +162,48 @@ const SingleProduct = () => {
     return () => clearInterval(interval)
   }, [products.images])
 
+  //GET PROFILE OF BUYER
+  const [profile, setProfile] = useState([])
+  useEffect(() => {
+    setLoading(true)
+    dispatch(getProfile(user.id))
 
+      .then(res => {
+        setProfile(res.payload)
+        setLoading(false)
+      }
+      )
+  }, [dispatch, user.id])
+
+
+//BUY DIRECTLY
+const [buying, setBuying] = useState(false)
+  const handleBuy = () => {
+    setBuying(true)
+    profile &&(
+    axios.post(apiUrl+'order/create', {
+      buyer_id: user.id,
+      buyer_email: profile.email,
+      buyer_name: profile.name,
+      product_id: products.id,
+      quantity: products.quantity,
+      location: 'Nakuru',
+    })
+    )
+    .then(res => {
+      console.log(res)
+      toast.info(
+        <div>
+          Order placed. Click <Link to="/profile" style={{color:'black'}}>here</Link> to see orders
+        </div>,
+        {
+          autoClose: false,
+        }
+      ); 
+      setBuying(false)
+      }
+    )
+  }
 
 
 
@@ -210,29 +253,34 @@ const SingleProduct = () => {
                 <div className='warning'>
                   <p style={{ color, transition: 'color 2s ease-in-out' }}> items left: {products.quantity}</p>
                 </div>
-                <div className='cart-button'>
+                <section className='buttons'>
 
-                  {/* CONDITIONAL RENDERING */}
+                    <div className='cart-button'>
 
-                  {/* IF QUANTITY IS 0, DISABLE ADD TO CART BUTTON */}
-                  {
-                    user ? (
-                      products.quantity === 0 ? (<button title='out of stock' disabled style={{ cursor: 'not-allowed' }}>Add to cart</button>) :
-                        (
+                      {
+                        user ? (
+                          products.quantity === 0 ? (<button title='out of stock' disabled style={{ cursor: 'not-allowed' }}>Add to cart</button>) :
+                            (
 
-                          (cart.length === 0 || cart[0].userId !== user.id) && !update ? (
-                            <button onClick={handleCart}>Add to cart</button>
-                          ) : (
-                            <Link to='/cart' ><button>Already added to cart</button></Link>
-                          )
+                              (cart.length === 0 || cart[0].userId !== user.id) && !update ? (
+                                <button onClick={handleCart}>Add to cart</button>
+                              ) : (
+                                <Link to='/cart' ><button>Already added to cart</button></Link>
+                              )
 
+                            )
+                        ) : (
+                          <button onClick={handleCart}>Log in to add to cart</button>
                         )
-                    ) : (
-                      <button onClick={handleCart}>Log in to add to cart</button>
-                    )
-                  }
+                      }
 
-                </div>
+
+                    </div>
+                    <div className='buy-button'>
+                      <button onClick={handleBuy}>Buy Now</button>
+                    </div>
+                </section>
+
               </section>
 
               <section>
