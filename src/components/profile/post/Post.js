@@ -185,17 +185,6 @@ const Post = () => {
         </section>
       </section>
       <br />
-      {/* <input type="file" multiple onChange={handleChange} />
-      <button onClick={handleUpload}>Upload</button>
-      <button onClick={handleSend}>Send</button> */}
-      <br />
-      {/* {urls.map((url, i) => (
-        <div key={i}>
-          <a href={url} target="_blank">
-            {url}
-          </a>
-        </div>
-      ))} */}
       <br />
     
     </div>
