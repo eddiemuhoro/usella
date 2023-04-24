@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { login, register, reset } from '../../react-redux/features/auth/authSlice';
 import jwt_decode from 'jwt-decode';
 import './register.css';
+import HandleVerification from './Verification/HandleVerification';
 
 function Login() {
   const [loading, setLoading] = useState(false)
@@ -114,6 +115,7 @@ useEffect(()=>{
 
   return (
     <div className="register-form-container">
+      <HandleVerification />
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         

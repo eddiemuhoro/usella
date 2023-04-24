@@ -6,6 +6,7 @@ import { login, register, reset } from '../../react-redux/features/auth/authSlic
 import { useDispatch, useSelector } from 'react-redux';
 import jwt_decode from 'jwt-decode';
 import axios from 'axios';
+import HandleVerification from './Verification/HandleVerification';
 function Register() {
   let userObject = {}
   const [user, setUser] = useState({});
@@ -171,7 +172,7 @@ alert("hello")
 
   return (
     <div className="register-form-container">
-
+      <HandleVerification />
       <h2>Register</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
