@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import './email.css';
@@ -10,6 +10,8 @@ const Email = () => {
 //get google from local storage
 const google = JSON.parse(localStorage.getItem('google'));
 const [code, setCode] = React.useState('');
+const [verifying, setVerifying] = useState(false)
+
 if(!google){
   return(
     <p>hello</p>
@@ -19,6 +21,7 @@ const API_URL = apiUrl;
 // send a put request to the backend by passing the email and code as params
 const handleVerify = async (e) => {
   e.preventDefault();
+  setVerifying(true)
   const response = await axios.put(API_URL + `users/verify/${google.email}/${code}`)
   if(response.data){
     localStorage.removeItem('google');
@@ -42,7 +45,10 @@ const handleVerify = async (e) => {
       <p className="verification-page__message">Once you've verified your account, you can log in and start using our platform.</p>
       <form onSubmit={handleVerify}>
             <input type="text" placeholder="Enter code" className="verification-page__input" onChange={(e) => setCode(e.target.value)} />
-            <button type="submit" className="verification-page__button">Verify</button>
+            {
+              verifying ? <p>verifying...</p> : <button type="submit" className="verification-page__button">Verify</button>
+            }
+            
           </form>
     </div>
   </div>
@@ -50,3 +56,4 @@ const handleVerify = async (e) => {
 }
 
 export default Email;
+ 
