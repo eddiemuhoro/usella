@@ -237,25 +237,42 @@ const Profile = () => {
                 <section className='profile-nav'>
                     <div className={orders ? 'profile-nav-item active' : 'profile-nav-item '} onClick={handleOrders}>
                         <p>My Orders</p>
-                        <div className='count'>
-                            <p>{myOrders.length}</p>
-                        </div>
+                      
+                        {
+                            myOrders.length > 0 ? ( 
+                                <div className='count'>
+                                    <p>{myOrders.length}</p>
+                                </div>
+                            ) : (
+                                <div style={{display:'none'}} className='count'>
+                                    <p>0</p>
+                                </div>
+                            )
+                        }
                     </div>
-                    <div className={inbox ? 'profile-nav-item active' : 'profile-nav-item '} onClick={handleInbox}>
+                    {/* <div className={inbox ? 'profile-nav-item active' : 'profile-nav-item '} onClick={handleInbox}>
                         <p>My Inbox</p>
                         
-                    </div>
+                    </div> */}
 
-                    <div className={wishlist ? 'profile-nav-item active' : 'profile-nav-item'} onClick={handleWishList}>
+                    {/* <div className={wishlist ? 'profile-nav-item active' : 'profile-nav-item'} onClick={handleWishList}>
                         <p>My Wishlist</p>
                       
-                    </div>
+                    </div> */}
 
                     <div className={posts ? 'profile-nav-item active' : 'profile-nav-item'} onClick={handlePosts}>
                         <p>My Posts</p>
-                        <div className='count'>
-                               <p>{myPosts.length}</p>
-                        </div>
+                        {
+                            myPosts.length > 0 ? ( 
+                                <div className='count'>
+                                    <p>{myPosts.length}</p>
+                                </div>
+                            ) : (
+                                <div style={{display:'none'}} className='count'>
+                                    <p>0</p>
+                                </div>
+                            )
+                        }
                     </div>
 
                     <div className={pending ? 'profile-nav-item active' : 'profile-nav-item'} onClick={handlePendingOrders}>
