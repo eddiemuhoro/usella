@@ -61,7 +61,6 @@ function ProfileEditor({ dp, pNo, profBio, id, profileLocation, userName, setUpd
       // Make the phone vibrate for 500 milliseconds
       navigator.vibrate(500);
     }
-    setLoading(true)
     try {
       e.preventDefault();
   
@@ -70,6 +69,7 @@ function ProfileEditor({ dp, pNo, profBio, id, profileLocation, userName, setUpd
   
       // Check if isFile exists and is truthy
       if (file.name !== undefined) {
+        setLoading(true)
         //storage for images
         const storage = getStorage();
         var storagePath = 'products/' + file.name;
@@ -108,14 +108,13 @@ function ProfileEditor({ dp, pNo, profBio, id, profileLocation, userName, setUpd
                 .then(res => {
                   // Move the success toast inside the then block
                   toast.success('Profile updated successfully')
+                  setLoading(false)
                 })
                 .catch(err => {
                   // Display error toast if API call fails
-                  toast.error('Network error, try again later')
+                  toast.error('Network error, refresh the page and try again')
                 });
-              
-                console.log(profileData)
-                setLoading(false)
+                           
               })
           }
         )
@@ -134,16 +133,20 @@ function ProfileEditor({ dp, pNo, profBio, id, profileLocation, userName, setUpd
         location
       }
       console.log(profileData);
+      setLoading(true)
       axios.put(`${apiUrl}users/update/${id}`, profileData)
+      .then(res => {
+        setLoading(false)
+        setUpdate(true)
+        toast.success('Profile updated successfully')
+      }
+      )
       // console.log(profileData)
-      setLoading(false)
-      setUpdate(true)
      
-      console.log(setUpdate);
-      toast.success('Profile updated successfully')
     } catch (error) {
-      throw error
+      toast.error('Network error, refresh the page and try again')
     }
+   
   }
   
 // console.log(setUpdate)
@@ -197,7 +200,7 @@ function ProfileEditor({ dp, pNo, profBio, id, profileLocation, userName, setUpd
                 type="text"
                 id="location"
                 name="location"
-                defaultValue={location}
+                defaultValue={profileLocation}
                 onChange={handleLocationChange}
               />
 
@@ -214,7 +217,7 @@ function ProfileEditor({ dp, pNo, profBio, id, profileLocation, userName, setUpd
 
 
             {
-              loading ? <div className="loader">saving</div> : ( <button type="submit">{loading ? 'saving...' : 'Save'}</button>)
+               ( <button type="submit">{loading ? 'saving...' : 'Save'}</button>)
             }
              
             </form>
