@@ -26,22 +26,21 @@ const SellerProfile = ({name, sellerId, sellerProducts}) => {
     const [posts, setPosts] = useState(false)
     const [profile, setProfile] = useState({})
     const [loading, setLoading] = useState(false)
+    const [update, setUpdate] = useState(false)
     
 //profile details
     useEffect(() => {   
        dispatch(getProfile(sellerId))
          .then(res => {
-                //array [0] because we are getting an array of objects
                 setProfile(res.payload)
                 setLoading(true)
             }
         )
     }, [loading, dispatch, sellerId])
 
-    // console.log(profile)
 
-    //GET SELLER'S PRODUCTS
-      //fetxh from redux store
+    //GET SELLER PRODUCTS
+
   useEffect(() => {
     setLoading(true)
     dispatch(getProductByUser(sellerId))
@@ -50,7 +49,6 @@ const SellerProfile = ({name, sellerId, sellerProducts}) => {
         setLoading(false)
       })
   }, [ dispatch, sellerId])
-  // console.log(products)
 
   
     const handlePosts = () => {
@@ -64,31 +62,35 @@ const SellerProfile = ({name, sellerId, sellerProducts}) => {
       }
       dispatch(followSeller(followData))
       .then(res => {
-        toast.success(`You are now following ${name}`)        
+        toast.success(`You are now following ${name}`)  
+        setUpdate(!update)      
       }
       )
+      .catch(error => {
+        toast.error('already following')
+      })
     }
 
 
       //FETCH FOLLOWERS
       const [followers, setFollowers] = useState([])
       useEffect(()=>{
-        axios.get(`${apiUrl}/users/followers/${sellerId}`)
+        axios.get(`${apiUrl}users/followers/${sellerId}`)
         .then(res => {
           setFollowers(res.data)
           console.log(res.data);
         }
         )
-      },[dispatch, sellerId])
+      },[dispatch, sellerId,loading])
 
       //if user is following seller, show following button
       const [following, setFollowing] = useState(false)
       const [action, setAction] = useState(false)
-   
+
       //set action to true after 2 seconds
        
       useEffect(()=>{
-          axios.get(`${apiUrl}/users/following/${sellerId}`)
+          axios.get(`${apiUrl}users/following/${sellerId}`)
           .then(res => {
             setFollowing(res.data)
           }
@@ -107,21 +109,18 @@ const SellerProfile = ({name, sellerId, sellerProducts}) => {
                       <div className="profile-avatar seller">
                         <img src={!profile.profilePic ? 'https://www.w3schools.com/howto/img_avatar.png' : profile.profilePic} alt={user.firstName} />
                         <div className='profile-header phone'>
-                          <h3 className="profile-name">{profile.name}</h3>
+                          <h3 className="profile-name" style={{marginRight:'20px'}} >{name}</h3>
                           <div className='seller-btn'>
-                            
-                            
+
                                 <button onClick={followUser}>Follow</button>
-                             
-                      
-                         
+
                             <button>Message</button>
                           </div>
                         </div>
                       </div>
                       <div className="profile-info">
                         <div className='profile-header desktop'>
-                          <h3 className="profile-name">{name}</h3>
+                          <h3 className="profile-name" style={{marginRight:'20px'}}>{name}</h3>
                           <div className='seller-btn'>
                           
                             <button  onClick={followUser}>Follow</button>
