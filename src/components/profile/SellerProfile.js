@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import MyOrders from './tabs/MyOrders';
 import './profile.css';
 import MyInbox from './tabs/MyInbox';
@@ -195,4 +195,4 @@ const SellerProfile = ({name, sellerId, sellerProducts}) => {
     );
 };
 
-export default SellerProfile;
+export default memo(SellerProfile)
