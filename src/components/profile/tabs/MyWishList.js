@@ -16,27 +16,27 @@ const MyWishList = () => {
   const [update, setUpdate] = useState(false)
   
   useEffect(() => {
-    setLoading(true)
-    const fetchWishlist = async () => {
-      const { data } = await axios.get(`https://odd-slip-ant.cyclic.app/products/wishlist/user/${user.id}`)
-      setItems(data)
-      setLoading(false)
-      //set update to false after fetching wishlist
-      setUpdate(false)
-    }
-    fetchWishlist()
+    // setLoading(true)
+    // const fetchWishlist = async () => {
+    //   const { data } = await axios.get(`https://odd-slip-ant.cyclic.app/products/wishlist/user/${user.id}`)
+    //   setItems(data)
+    //   setLoading(false)
+    //   //set update to false after fetching wishlist
+    //   setUpdate(false)
+    // }
+    // fetchWishlist()
   }, [update, user.id])
 
   const handleRemoveFavorite = async (id) => {
-    await axios.delete(`https://odd-slip-ant.cyclic.app/products/wishlist/${id}`)
-    .then(res => {
-      console.log(res)
-      console.log(res.data)
-      alert('removed from wishlist')
-      //set update to true after removing from wishlist
-      setUpdate(true)
-    }
-    )
+    // await axios.delete(`https://odd-slip-ant.cyclic.app/products/wishlist/${id}`)
+    // .then(res => {
+    //   console.log(res)
+    //   console.log(res.data)
+    //   alert('removed from wishlist')
+    //   //set update to true after removing from wishlist
+    //   setUpdate(true)
+    // }
+    // )
   }
 
 
