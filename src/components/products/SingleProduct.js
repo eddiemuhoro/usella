@@ -10,7 +10,7 @@ import { addToCart, getCart, getProductByCategory, getProductById, getProductByU
 import Loader from '../loader/Loader';
 import SellerProfile from '../profile/SellerProfile';
 import Wishlist from '../profile/tabs/WishlistButton';
-import CartButton from './CartButton';
+import CartButton from './cart/CartButton';
 import './products.css'
 import apiUrl from '../../react-redux/myApi';
 import { getProfile } from '../../react-redux/features/auth/authSlice';
@@ -75,9 +75,9 @@ const SingleProduct = () => {
 
   const [cart, setCart] = useState([])
 
-  const [test, setTest] = useState('ELECTRONICS')
+ 
   const [dataFetched, setDataFetched] = useState(false);
-
+  const [test, setTest] = useState('ELECTRONICS')
 
   // FETCH CLICKED PRODUCT BY ID IN PARAMS
   const [products, setclickedProduct] = useState([])  
@@ -95,13 +95,12 @@ const SingleProduct = () => {
   }, [dispatch, id])
 
 
-
   //FETCH PRODUCTS BY CATEGORY from clicked product
   const [category, setCategory] = useState([])
   useEffect(() => {
     setLoading(true)
-    products.category && (
-    dispatch(getProductByCategory(products.category))
+    products && (
+    dispatch(getProductByCategory(test))
     )
       .then(res => {
         //set data to category after 2 seconds
@@ -240,7 +239,7 @@ const [buying, setBuying] = useState(false)
                     <h1 className="info-name">{products.name}</h1>
                     <h2>Ksh {products.price}</h2>
                   </div>
-                  
+
                   <div>
                     <p className="">bkdsc scsd svhcs vshvhk</p>
                   </div>
@@ -380,7 +379,7 @@ const [buying, setBuying] = useState(false)
       <section className="products">
 
         {loading && <p>Please wait a sec...</p>}
-        {
+        { 
           category.map(product => (
             <Link key={product.id}  to={`/products/${product.id}`}>
               <div className="product">

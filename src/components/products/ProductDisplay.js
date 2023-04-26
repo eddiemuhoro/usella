@@ -4,7 +4,7 @@ import { FcNext, FcPrevious } from 'react-icons/fc'
 import { useDispatch, useSelector } from 'react-redux';
 import { getProduct } from '../../react-redux/features/products/productSlice';
 import { Link, useNavigate } from 'react-router-dom';
-import CartButton from './CartButton';
+import CartButton from './cart/CartButton';
 import { BsCart3, BsHeart } from 'react-icons/bs';
 import Wishlist from '../profile/tabs/WishlistButton'
 import { IoFilterSharp } from 'react-icons/io5';
@@ -79,7 +79,8 @@ const Product = ({ product }) => {
         <p className="info-price">Ksh {product.price.toLocaleString('en-US')}</p>
         {
           you ? (
-            <CartButton productId={product.id} name={product.name} price={product.price} description={product.description} image={product.image} />
+            <BsCart3  />
+            // <CartButton productId={product.id} name={product.name} price={product.price} description={product.description} image={product.image} />
           ) : (
             <BsCart3 onClick={handleLogin} />
           )
@@ -92,7 +93,8 @@ const Product = ({ product }) => {
         {/* DISPLAY WISHLIST ID */}
         {
           you ? (
-            <Wishlist productId={product.id} name={product.name} price={product.price} description={product.description} image={product.image} />
+            <BsHeart />
+            // <Wishlist productId={product.id} name={product.name} price={product.price} description={product.description} image={product.image} />
           ) : (
             <BsHeart onClick={handleLogin} />
           )

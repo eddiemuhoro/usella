@@ -76,7 +76,7 @@ const Cart = (props) => {
       return item;
     });
     setItems(updatedItems);
-    axios.put(`https://odd-slip-ant.cyclic.app/products/cart/${itemId}`, {quantity: newQuantity})
+    // axios.put(`https://odd-slip-ant.cyclic.app/products/cart/${itemId}`, {quantity: newQuantity})
   };
   const totalPrice = items.reduce((total, item) => total + item.price * item.quantity, 0);
   const [checkout, setCheckout] = useState(false)
