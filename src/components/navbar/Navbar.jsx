@@ -5,13 +5,15 @@ import {AiOutlineShoppingCart} from 'react-icons/ai';
 import {AiOutlineMenu} from 'react-icons/ai';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import { useDispatch, useSelector } from "react-redux";
-import { logout, reset } from "../../react-redux/features/auth/authSlice";
+import { getProfile, logout, reset } from "../../react-redux/features/auth/authSlice";
 import {CgProfile } from 'react-icons/cg';
 import {FiHelpCircle} from 'react-icons/fi';
 import { getCartByUser } from "../../react-redux/features/products/productSlice";
 import Cart from "../products/cart/Cart";
+  //import name from constants
+import ProfileDetails from "../constants";
 function Navbar() {
-  const you = useSelector((state) => state.auth.you);
+  const user = useSelector((state) => state.auth.you);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [click, setClick] = useState(false);
@@ -20,11 +22,21 @@ function Navbar() {
   const [update, setUpdate] = useState(false)
   const [isChecked, setIsChecked] = useState(false);
 
+
+  const [profile, setProfile] = useState([])
   const handleCheckboxChange = (newCheckedValue) => {
     setIsChecked(newCheckedValue);
   };
 
 
+ 
+
+// spile profile name to get first name
+// let firstName = '';
+// if (profile && name) {
+//   const nameArray = name.split(' ');
+//   firstName = nameArray[0];
+// }
 
 
   const onLogout = ()=>{
@@ -34,6 +46,8 @@ function Navbar() {
     navigate('/login')
     window.location.reload()
 }
+
+
 
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
@@ -69,7 +83,7 @@ function Navbar() {
           </li>
           
             {
-              you ? (
+              user ? (
                 <li className="nav-item">
               <NavLink to="/cart" className="nav-links" onClick={closeMobileMenu}>
                   <AiOutlineShoppingCart />
@@ -86,10 +100,10 @@ function Navbar() {
             }
             
           {
-            you ? (
+            user ? (
               <li className="nav-item">
                 <NavLink to='/profile' onClick={closeMobileMenu}  className="nav-links" >
-                  <CgProfile style={{marginRight:'9px'}} />{you.name}
+                  <CgProfile style={{marginRight:'9px'}} />{<ProfileDetails />}
                 </NavLink>
               </li>
             ):
@@ -102,7 +116,7 @@ function Navbar() {
             )
           }
           {
-            you ? (
+            user ? (
               ' '
             ):
             (
