@@ -399,14 +399,7 @@ const [buying, setBuying] = useState(false)
                 </div>
                 <div className="product-btns">
                   <p className="info-price">Ksh {product.price}</p>
-                  {
-                    user ? (
-                      <CartButton productId={product.id} name={product.name} price={product.price} description={product.description} image={product.image} />
-                    ) : (
-                      <BsCart3 />
-                    )
-
-                  }
+                  
                 </div>
                 <div className='favorite'>
                   {/* DISPLAY WISHLIST ID */}
