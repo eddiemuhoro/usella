@@ -47,6 +47,13 @@ const followSeller = async (followData)=>{
     return response.data
 }
 
+//UNFOLLOW USER
+const unfollowSeller = async (followData)=>{
+    const response = await axios.put(API_URL + 'unfollow/', followData )
+
+    return response.data
+}
+
 
 
 const logout = ()=>{
@@ -64,7 +71,8 @@ const authService ={
     getProfile,
     updateProfile,
     getFollowers,
-    followSeller
+    followSeller,
+    unfollowSeller
 
 }
 
