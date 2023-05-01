@@ -38,5 +38,3 @@ const CartButton = ({productId, name, price, description,  image}) => {
     </div>
   )
 }
-
-export default CartButton
