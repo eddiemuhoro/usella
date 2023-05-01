@@ -29,7 +29,7 @@ function Register() {
     //console log name and email
     console.log(userObject.name)
     //store userObject's name and email in local storage
-    localStorage.setItem('google', JSON.stringify(userObject))
+    // localStorage.setItem('google', JSON.stringify(userObject))
   //if phone is not inserted, handleCallbackResponse will not be called
 
 

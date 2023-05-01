@@ -22,7 +22,7 @@ function Login() {
       //console log name and email
       console.log(userObject.name)
       //store userObject's name and email in local storage
-      localStorage.setItem('google', JSON.stringify(userObject))
+      // localStorage.setItem('google', JSON.stringify(userObject))
 
       //send request to backend to create a new user with name, email and password
       handleRegister()
