@@ -7,7 +7,7 @@ import MyPosts from './tabs/MyPosts';
 import { useDispatch, useSelector } from 'react-redux';
 import { AiOutlineLogout, AiOutlineEdit, AiOutlineClose } from 'react-icons/ai';
 import { Link, useNavigate } from 'react-router-dom';
-import { followSeller, getFollowers, getProfile, logout, reset } from '../../react-redux/features/auth/authSlice';
+import { followSeller, getFollowers, getProfile, logout, reset, unfollowSeller } from '../../react-redux/features/auth/authSlice';
 import Popup from 'reactjs-popup';
 import ProfileEditor from './EditProfile';
 import axios from 'axios';
@@ -27,6 +27,8 @@ const SellerProfile = ({name, sellerId, sellerProducts}) => {
     const [profile, setProfile] = useState({})
     const [loading, setLoading] = useState(false)
     const [update, setUpdate] = useState(false)
+    const userId = user.id
+    let isFollowing = false
     
 //profile details
     useEffect(() => {   
@@ -37,7 +39,6 @@ const SellerProfile = ({name, sellerId, sellerProducts}) => {
             }
         )
     }, [loading, dispatch, sellerId])
-
 
     //GET SELLER PRODUCTS
 
@@ -71,6 +72,22 @@ const SellerProfile = ({name, sellerId, sellerProducts}) => {
       })
     }
 
+    const unFollow = ()=> {
+      const followData = {
+        followerId : user.id,
+        followingId: sellerId
+      }
+      dispatch(unfollowSeller(followData))
+      .then(res => {
+        toast.success(`unfollowed ${name}`)  
+        setUpdate(!update)      
+      }
+      )
+      .catch(error => {
+        toast.error('already following')
+      })
+    }
+
 
       //FETCH FOLLOWERS
       const [followers, setFollowers] = useState([])
@@ -81,7 +98,16 @@ const SellerProfile = ({name, sellerId, sellerProducts}) => {
           console.log(res.data);
         }
         )
-      },[dispatch, sellerId,loading])
+      },[dispatch, sellerId,loading, isFollowing,update])
+
+ //a function to check if user is following seller
+
+ if (followers.followers) {
+  isFollowing = followers.followers.some(follower => follower.id === userId)
+
+
+ }
+ console.log(isFollowing);
 
       //if user is following seller, show following button
       const [following, setFollowing] = useState(false)
@@ -97,7 +123,7 @@ const SellerProfile = ({name, sellerId, sellerProducts}) => {
         )
       }
       ,[dispatch, sellerId, action])
-      console.log(following)
+      // console.log(following)
 
 
     return (
@@ -122,8 +148,16 @@ const SellerProfile = ({name, sellerId, sellerProducts}) => {
                         <div className='profile-header desktop'>
                           <h3 className="profile-name" style={{marginRight:'20px'}}>{name}</h3>
                           <div className='seller-btn'>
+
+                          {
+                            isFollowing ? (
+                              <button onClick={unFollow}>Unfollow</button>
+                            ) : (
+                              <button onClick={followUser}>Follow</button>
+                            )
+                          }
                           
-                            <button  onClick={followUser}>Follow</button>
+                            {/* <button  onClick={followUser}>Follow</button> */}
                        
                             <button>Message</button>
                           </div>
@@ -155,14 +189,14 @@ const SellerProfile = ({name, sellerId, sellerProducts}) => {
                     {
                       !sellerProducts ? (
                         <div className="no-products">
-                          <h1>You have no products</h1>
+                          <h1>{name} has no products yet</h1>
                           {/* <Link to='/post' style={{ textDecoration: 'underline' }}>Add a product</Link> */}
                         </div>
                       ) : (
 
                         sellerProducts.map(product => (
                           <div className="product" style={{ height: '300px' }}>
-
+                            <Link key={product.id} to={`/products/${product.id}`} onClick={close}  >
                             <div className="product-img">
                               {loading ? (<img src={product.images[0]} alt="product" />
                               ) : (<img src='https://media.istockphoto.com/id/1138824305/vector/loading-icon-on-black.jpg?s=170667a&w=0&k=20&c=5TgSExGSoy7SXYcXEKfKCfZW-qFXsTaZRHcBF99WMLM=' alt='loading' className='product-image' />
@@ -173,6 +207,7 @@ const SellerProfile = ({name, sellerId, sellerProducts}) => {
                               {/* <p className="info-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.</p> */}
 
                             </div>
+                            </Link>
                             <div className="product-btns">
                               <p className="info-price">${product.price}</p>
                             </div>
