@@ -86,7 +86,7 @@ const Cart = (props) => {
   const [postloading , setPostLoading] = useState(false)
   const handleSubmit = (quant, id) => {
   
-    
+    setPostLoading(true)
       items.map(item => {
       axios.post(apiUrl+'order/create', {
         buyer_id: user.id,
@@ -208,7 +208,7 @@ const Cart = (props) => {
        </form> */}
        {
           postloading ? (
-            <button style={{marginTop:'20px'}} className='btn btn-primary'>Loading...</button>
+            <button disabled style={{marginTop:'20px'}} className='btn btn-primary'>Loading...</button>
 
           ):(
             <button onClick={handleSubmit} style={{marginTop:'20px'}} className='btn btn-primary'>Order</button>
