@@ -127,7 +127,7 @@ const SellerProfile = ({name, sellerId, sellerProducts}) => {
 
 
     return (
-        <Popup trigger={<h4>Other products posted by <span> {name}</span>  </h4>} modal nested  closeOnDocumentClick={false}>
+        <Popup trigger={<h4>Other products posted by <span style={{cursor:'pointer'}}> {name}</span>  </h4>} modal nested  closeOnDocumentClick={false}>
             {(close) => (
             <div className="profile-container seller" style={{backgroundColor:'black'}}>
                   <section className='profile-info'>
