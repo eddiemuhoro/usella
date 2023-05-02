@@ -141,7 +141,10 @@ function ProfileEditor({ dp, pNo, profBio, id, profileLocation, userName, setUpd
         toast.success('Profile updated successfully')
       }
       )
-      // console.log(profileData)
+      .catch(err => {
+        // Display error toast if API call fails
+        toast.error('Network error, refresh the page and try again')
+      });
      
     } catch (error) {
       toast.error('Network error, refresh the page and try again')
