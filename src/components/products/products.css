@@ -29,22 +29,22 @@
 /* Base styles for the slider */
 .my-slider {
     width: 200px;
-    height: 10px;
+   height: 10px;
     border-radius: 5px;
-    background-color: #ddd;
+  
     margin: 0 20px;
   }
   
   /* Styles for the slider thumb */
   .my-thumb {
-    width: 20px;
-    height: 20px;
+    width: 15px;
+    height: 15px;
     border-radius: 50%;
     background-color: #8f8833;
-    cursor: pointer;
+    cursor: grab;
     outline: none;
     border: none;
-    top: -4px;
+    top: -5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     -webkit-transition: box-shadow 0.2s ease-in-out;
     transition: box-shadow 0.2s ease-in-out;
@@ -52,8 +52,15 @@
   
   /* Styles for the slider track */
   .my-track {
-    height: 100%;
-    background-color: #f1f1f1;
+    height: 4px;
+   
+    background-color: #8f8833;
+    border-radius: 5px;
+  }
+
+  .my-track-2, .my-track-0{
+    height: 4px;
+    background-color: #727271;
     border-radius: 5px;
   }
 
@@ -381,6 +388,12 @@
     }
    
 }
+
+@media (min-width: 900px) {
+    .filters.mobile{
+        display: none;
+    }
+}
     
 @media screen and (max-width: 900px){
     .products{
@@ -389,6 +402,7 @@
     .filters-desktop{
         display: none;
     }
+  
     .products-header{
         display: flex;
         align-items: center;
@@ -457,7 +471,4 @@
         width: 80%;
         margin: 0 auto;
     }
-    
-   
-   
 }
