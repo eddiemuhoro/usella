@@ -8,6 +8,7 @@ import CartButton from './cart/CartButton';
 import { BsCart3, BsHeart } from 'react-icons/bs';
 import Wishlist from '../profile/tabs/WishlistButton'
 import { IoFilterSharp } from 'react-icons/io5';
+import ReactSlider from 'react-slider'
 
 const Product = ({ product }) => {
   const you = useSelector(state => state.auth.you)
@@ -171,8 +172,10 @@ const ProductDisplay = () => {
 
   const [query, setQuery] = useState('')
   const [categoryFilter, setCategoryFilter] = useState('');
-  const [priceRange, setPriceRange] = useState([0, 100]);
   const [maxPrice, setMaxPrice] = useState(0);
+  const [priceRange, setPriceRange] = useState([0, maxPrice]);
+
+  
 
   const filteredData = products.filter(item => {
     // Apply the search text filter
@@ -223,7 +226,7 @@ const ProductDisplay = () => {
 
         {
           showFilters && (
-            <div className="filters">
+            <div className="filters mobile">
               <select value={categoryFilter} onChange={handleCategoryFilterChange}>
                 <option value="">All categories</option>
                 <option value="ELECTRONICS">ELECTRONICS</option>
@@ -233,8 +236,14 @@ const ProductDisplay = () => {
                 <option value="HOME">HOME</option>
 
               </select>
-              <input type="range" min={0} max={maxPrice} value={priceRange[0]} onChange={handlePriceRangeChange} />
-              <input type="range" min={0} max={maxPrice} value={priceRange[1]} onChange={handlePriceRangeInputChange} />
+              <div className='slider-container'>
+            
+            <ReactSlider
+             className="my-slider"
+             thumbClassName="my-thumb"
+             trackClassName="my-track"
+            min={0} max={maxPrice} value={priceRange} onChange={setPriceRange} />
+            </div>
               <p>Price range: {priceRange[0]} - {priceRange[1]}</p>
             </div>
           )
@@ -250,8 +259,17 @@ const ProductDisplay = () => {
             <option value="HOME">HOME</option>
 
           </select>
-          <input type="range" min={0} max={maxPrice} value={priceRange[0]} onChange={handlePriceRangeChange} />
+          {/* <input type="range" min={0} max={maxPrice} value={priceRange[0]} onChange={handlePriceRangeChange} />
           <input type="range" min={0} max={maxPrice} value={priceRange[1]} onChange={handlePriceRangeInputChange} />
+          <p>Price range: {priceRange[0]} - {priceRange[1]}</p> */}
+          <div className='slider-container'>
+            
+          <ReactSlider
+           className="my-slider"
+           thumbClassName="my-thumb"
+           trackClassName="my-track"
+          min={0} max={maxPrice} value={priceRange} onChange={setPriceRange} />
+          </div>
           <p>Price range: {priceRange[0]} - {priceRange[1]}</p>
         </div>
       </div>

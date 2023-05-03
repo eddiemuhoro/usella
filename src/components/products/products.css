@@ -21,7 +21,41 @@
     width: 100%;
     display: flex;
     align-items: center;
+    
 }
+
+
+
+/* Base styles for the slider */
+.my-slider {
+    width: 200px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: #ddd;
+    margin: 0 20px;
+  }
+  
+  /* Styles for the slider thumb */
+  .my-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #8f8833;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    top: -4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    -webkit-transition: box-shadow 0.2s ease-in-out;
+    transition: box-shadow 0.2s ease-in-out;
+  }
+  
+  /* Styles for the slider track */
+  .my-track {
+    height: 100%;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+  }
 
 
 .search-input{
