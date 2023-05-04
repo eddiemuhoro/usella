@@ -34,7 +34,8 @@ const MyPendingOrders = () => {
     const handleOrderCancel = (id)=>{
       dispatch(cancelOrder(id))
       toast.success('order canceled')
-      setUpdate(true)
+      const newOrders = products.filter((product)=> product.id !== id)
+      setProducts(newOrders)
     }
 
    const handleConfrmOrder = (orderId, sellerId) =>{
