@@ -35,7 +35,9 @@ const MyOrders = () => {
     const handleOrderCancel = (id)=>{
       dispatch(cancelOrder(id))
       toast.success('order canceled')
-      setUpdate(true)
+      const newOrders = products.filter((order)=> order.id !== id)
+      setProducts(newOrders)
+      // setUpdate(true)
     }
 
     const handleBuy= (id, amount) =>{
